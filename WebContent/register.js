@@ -7,24 +7,34 @@ $(document).ready(function(){
 		let password = $("#password").val();
 		let name = $("#name").val();
 		let lastName = $("#lastName").val();
-		let role = "customer";
-		let tel = $("#tel").val();
-		let city = $("#city").val();
-		let email = $("#email").val();
-		let date = $("#date").val();
+		let male = $("#male:checked").val();
+		let confirm_password = $("#confirm-password").val();
+		let pol;
+		if(male){
+			pol = "True";
+			alert("Musko");
+		}else {
+			pol = "False";
+			alert("Zensko");
+		}
+		if (password === confirm_password){
+					$.post({
+						url : "rest/register",
+						data : JSON.stringify({username,name,lastName,pol,password}),
+						contentType: "application/json",
+						success : function(){
+							alert("You are registred");
+							window.location = "./index.html";
+						},
+						error : function(){
+							alert("Username already exists.");
+						}
+					});
+		} else {
+			alert("Passwords do not match" + pol);
+		}
+	
 
-		$.post({
-			url : "rest/register",
-			data : JSON.stringify({username,password,name,lastName,role,tel,city,email,date}),
-			contentType: "application/json",
-			success : function(){
-				alert("You are registred.");
-				window.location = "./index.html";
-			},
-			error : function(){
-				alert("Username already exists.");
-			}
-		});
 
 
 	});

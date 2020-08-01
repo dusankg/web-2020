@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin page</title>
+	  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+	
+	  <!-- Custom styles for this template -->
+	  <link href="css/shop-homepage.css" rel="stylesheet">
+  
+   	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+	<script type="text/javascript" src="adminPage.js"></script>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Airbnb</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a id = "aHrefHome" class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id = "aHrefOffer" class="nav-link" href="sviApartmani.html">Offer</a>
+          </li>
+          <li class="nav-item">
+            <a id = "aHrefAdminPage" class="nav-link" href="adminPage.html">Admin page</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <br> <br> <br>
+ <h1>Admin page</h1>
+ 
+ <button id="showApartments" class="button"> Apartments </button>
+ <button id="showUsers" class="button"> Users </button>
+ <button id="showSadrzaji" class="button"> Sadrzaji </button>
+ <button id="showRezervacije" class="button"> Rezervacije </button>
+ <button id="showKomentari" class="button"> Komentari </button>
+
+
+ <div id = "divApartmani">
+ 	<br>
+ 	<h3>Apartments</h3> 
+ 	
+ 	<div id="prikazApartmana" style="width: 700px; float: left;">
+	 	<table id = "tablePrikazApartmana">
+			<tr align='center'>
+				<td>id</td>
+				<td>Type</td>
+				<td>Owner</td>
+				<td>Price</td>
+				<td>Rooms</td>
+				<td>Guests</td>
+				<td>Address</td>
+			</tr>
+			<tr align='center'>
+				<td>1</td>
+				<td>Kuca</td>
+				<td>Dusan</td>
+				<td>1000e</td>
+				<td>3</td>
+				<td>8</td>
+				<td>Ulica 1000 rupa</td>
+				<td> <button id='obrisiAp1'> Delete </button></td>
+			</tr>
+		</table>
+ 	</div>
+ 	
+ 	<div id = 'izmenaApartmana' style="margin-left: 620px;">
+ 		Edit apartment
+ 		<br>
+ 		<table>
+			<tbody>
+				<tr>
+					<td> ID </td>
+					<td> <input disabled id = 'editApartmentID'> </td>
+				</tr>
+				<tr>
+					<td> Host </td>
+					<td> <input disabled id = 'editApartmentHost'> </td>
+				</tr>
+				<tr>
+					<td> Type </td>
+					<td> <input id = 'editApartmentType'> </td>
+				</tr>
+				<tr>
+					<td> Rooms </td>
+					<td> <input type = 'number' id = 'editApartmentRooms'>  </td>
+				</tr>
+				<tr>
+					<td>Guests</td>
+					<td> <input type = 'number' id = 'editApartmentGuests'> </td>
+				</tr>
+				<tr>
+					<td>Price</td>
+					<td> <input type = 'number' id = 'editApartmentPrice'> </td>
+				</tr>
+				<tr>
+					<td> Enter time </td>
+					<td><input type = 'time' id = 'editApartmentEnterTime'> </td>
+				</tr>
+				<tr>
+					<td> Leave time </td>
+					<td> <input type = 'time' id = 'editApartmentLeaveTim'> </td>
+				</tr>
+				<tr>
+					<td></td>
+					<td> <button id='editApartment'> Confirm </button></td>
+				</tr>
+			</tbody>
+		</table>
+ 	</div>
+ </div>
+ 
+ <div id = "divUsers">
+ 	<br>
+ 	<h3>Users</h3>
+ 	
+	<div id="prikazKorisnika">
+ 	<table id = "tablePrikazKorisnika">
+		<tr align='center'>
+			<td>ID</td>
+			<td>Username</td>
+			<td>Name</td>
+			<td>Last name</td>
+			<td>Gender</td>
+		</tr>
+	</table>	
+	</div>
+ </div>
+ 
+ 
+ <div id='divSadrzaji'>
+ <br>
+ <h3>Sadrzaji</h3>
+ 	<div id="divPrikazSadrzaja" style="width: 300px; float: left;">
+	 	<table id = "tablePrikazSadrzaja">
+			<tr align='center'>
+				<td>ID</td>
+				<td>Name</td>
+			</tr>
+		</table>	
+	</div>
+	
+	 <div id="divEditSadrzaja" style="width: 300px; float: left;">
+	 	Edit sadrzaja
+	 	<table id = "tableEditSadrzaja">
+			<tr>
+				<td>ID</td>
+				<td> <input disabled id = 'editSadrzajaID'> </td>
+			</tr>
+			<tr>
+				<td>Name</td>
+				<td> <input id = 'editSadrzajaName'></td>
+			</tr>
+			<tr>
+				<td> <button id = 'editSadrzaja'> Edit </button></td>
+			</tr>
+		</table>	
+	</div>
+	
+	 <div id="divNoviSadrzaj" style="width: 300px; float: left;">
+	 	New sadrzaj
+	 	<table id = "tableNewSadrzaj">
+			<tr>
+				<td>Name</td>
+				<td> <input id = 'newSadrzajName'></td>
+			</tr>
+			<tr>
+				<td> <button id = 'createSadrzaj'> Create </button></td>
+			</tr>
+		</table>	
+	</div>
+	
+ </div>
+ 
+ 
+ 
+ <div id='divRezervacije'>
+ <br>
+ <h3>Rezervacije</h3>
+ 	<table id='tablePrikazRezervacije'>
+
+		<tr>
+			<td>Apartman</td>
+			<td>Pocetni datum</td>
+			<td>Broj nocenja</td>
+			<td>Ukupna cena</td>
+			<td>Poruka</td>
+			<td>Gost</td>
+			<td>Status</td>
+		</tr>
+
+	</table>
+ </div> 
+ 
+ <div id='divKomentari'>
+ <br>
+ <h3>Komentari</h3>
+ 	<table id='tablePrikazKomentara'>
+
+		<tr>
+			<td>Gost</td>
+			<td>Apartman</td>
+			<td>Text</td>
+			<td>Ocena</td>
+		</tr>
+
+	</table>
+ </div>  
+ 
+ 
+ 
+ 
+ 
+</body>
+</html>

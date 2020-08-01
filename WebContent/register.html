@@ -74,6 +74,19 @@
 						</div>
 					</td>
 				</tr>
+								<tr>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Confirm Password*
+									: </<span></span>
+							</div>
+							<input type="password" required class="form-control"
+								placeholder="e.g. password1" id="confirm-password"
+								aria-label="e.g. pass1" aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
 				<tr>
 
 					<td>
@@ -100,61 +113,18 @@
 								aria-label="e.g. lastName1" aria-describedby="basic-addon1">
 						</div></td>
 				</tr>
+				
 				<tr>
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text" id="basic-addon1">Role : </<span></span>
-						</div>
-						<div id="divRole">
-							<label id="labelCustomer">Customer</label>
-						</div>
-					</div>
+					<div class="btn-group" data-toggle="buttons">
+					  <label class="btn btn-primary active">
+					    <input type="radio" name="options" id="male" checked> Male
+					  </label>
+					  <label class="btn btn-primary">
+					    <input type="radio" name="options" id="female"> Female
+					  </label>
+					</div>	
 				</tr>
-				<tr>
-					<td><div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">Tel* :
-									</<span></span>
-							</div>
-							<input type="text" required class="form-control"
-								placeholder="e.g. +38164/000-0000" id="tel"
-								aria-label="e.g. +38164/000-0000"
-								aria-describedby="basic-addon1">
-						</div></td>
-				</tr>
-				<tr>
-					<td><div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">Email* :
-									</<span></span>
-							</div>
-							<input type="email" required class="form-control"
-								placeholder="e.g. user@gmail.com" id="email"
-								aria-label="e.g. user@gmail.com" aria-describedby="basic-addon1">
-						</div></td>
-				</tr>
-				<tr>
-					<td><div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">City* :
-									</<span></span>
-							</div>
-							<input type="text" required class="form-control"
-								placeholder="e.g. Kragujevac" id="city"
-								aria-label="e.g. Kragujevac" aria-describedby="basic-addon1">
-						</div></td>
-				</tr>
-				<tr>
-					<td><div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">Date* :
-									</<span></span>
-							</div>
-							<input type="date" required min="2019-01-01" max="2019-12-31"
-								class="form-control" id="date" placeholder="e.g. mm/dd/2019"
-								aria-label="e.g. Kragujevac" aria-describedby="basic-addon1">
-						</div></td>
-				</tr>
+				
 				<tr>
 					<td><input type="submit" class="btn btn-secondary"
 						id="submitRegister" value="Register" name=""></td>

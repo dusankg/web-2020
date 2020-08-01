@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Svi apartmani</title>
+
+	  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+	
+	  <!-- Custom styles for this template -->
+	  <link href="css/shop-homepage.css" rel="stylesheet">
+  
+   	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="sviApartmani.js"></script>
+
+</head>
+
+<body>
+<h1> All active apartments </h1>
+
+			<div id="offer" style="width: 700px; float: left;">
+	
+
+			 	<div id="prikazApartmana">
+				 	<table id = "tablePrikazApartmana">
+						<tr align='center'>
+							<td>id</td>
+							<td>Type</td>
+							<td>Owner</td>
+							<td>Price</td>
+							<td>Rooms</td>
+							<td>Guests</td>
+							<td>Address</td>
+						</tr>
+						<tr align='center'>
+							<td>1</td>
+							<td>Kuca</td>
+							<td>Dusan</td>
+							<td>1000e</td>
+							<td>3</td>
+							<td>8</td>
+							<td>Ulica 1000 rupa</td>
+							<td> <button id='obrisiAp1'> Details </button></td>
+						</tr>
+					</table>
+			 	</div>
+			</div>
+			
+			<div style="margin-left: 620px;">
+			Details and comments </br></br>
+
+			<table id="tableDetails">
+				<tr>
+					<td>Apartment id:</td>
+					<td><input type="text" disabled id="txtIdApartmana"> </td>
+				</tr>
+				<tr>
+					<td>Entering time:</td>
+					<td><input type="text" disabled id="txtVremePrijave"> </td>
+				</tr>
+				<tr>
+					<td>Exit time: </td>
+					<td><input type="text" disabled id="txtVremeOdjave"></td>
+				</tr>
+				<tr>
+					<td>Host: </td>
+					<td><input type="text" disabled id="txtDomacin"></td>
+				</tr>
+				<tr>
+					<td>Sadrzaj: </td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<table id="tableSadrzaj"> </table>							
+					</td>
+				</tr>
+				<tr>
+					<td>Slike: </td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<table id="tableSlike"> </table>							
+					</td>
+				</tr>	
+				<tr>
+					<td>Komentari: </td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<table id="tableKomentari"> </table>							
+					</td>
+				</tr>					
+			</table>
+
+
+			</div>
+				
+</body>
+</html>
