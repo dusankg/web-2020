@@ -8,8 +8,8 @@ function dodajVrstuApartman(){
 			" <td>2</td> " +
 			" <td>5</td> " +
  			" <td>Ulica 700 rupa</td> " +
-			" <td> <button id='obrisiAp1'> Delete </button></td>" +
-			" <td> <button id='editAp1'> Edit </button></td> </tr>; ";
+			" <td> <button id='obrisiAp1' class='btn-delete'> Delete </button></td>" +
+			" <td> <button id='editAp1' class= 'btn-edit' >  Edit </button></td> </tr>; ";
 	$("#tablePrikazApartmana").append(c);
 }
 
@@ -34,35 +34,35 @@ function initShowButtons(){
 		$("#divUsers").show();
 		$("#divApartmani").hide();
 		$("#divSadrzaji").hide();
-		$("#divRezervacije").hide();	
+		$("#divRezervacije").hide();
 		$("#divKomentari").hide();
 	});
 	$("#showApartments").click( function(){
 		$("#divUsers").hide();
 		$("#divApartmani").show();
 		$("#divSadrzaji").hide();
-		$("#divRezervacije").hide();	
+		$("#divRezervacije").hide();
 		$("#divKomentari").hide();
 	});	
 	$("#showSadrzaji").click( function(){
 		$("#divUsers").hide();
 		$("#divApartmani").hide();
 		$("#divSadrzaji").show();
-		$("#divRezervacije").hide();	
+		$("#divRezervacije").hide();
 		$("#divKomentari").hide();
 	});	
 	$("#showRezervacije").click( function(){
 		$("#divUsers").hide();
 		$("#divApartmani").hide();
 		$("#divSadrzaji").hide();
-		$("#divRezervacije").show();	
+		$("#divRezervacije").show();
 		$("#divKomentari").hide();	
 	});	
 	$("#showKomentari").click( function(){
 		$("#divUsers").hide();
 		$("#divApartmani").hide();
 		$("#divSadrzaji").hide();
-		$("#divRezervacije").hide();	
+		$("#divRezervacije").hide();
 		$("#divKomentari").show();	
 	});	
 	}

@@ -1,20 +1,49 @@
 <!DOCTYPE html>
 <html>
 <style>
-.button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
+  .table-main {
+    border-collapse: collapse;
+    width: 70%;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  .btn-delete{
+    background: white;
+    color: red;
+    border: none;
+  }
+  .btn-delete:hover {
+    background-color: red;
+    color: white;
+  }
+
+  .btn-edit{
+    background: white;
+    color: orange;
+    border: none;
+  }
+  .btn-edit:hover {
+    background-color: orange;
+    color: white;
+  }
+
+  .btn-add{
+    background: white;
+    color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+  }
+  .btn-add:hover {
+    background-color: #4CAF50;
+    color: white;
+  }
+  tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
 <head>
 <meta charset="ISO-8859-1">
-<title>Admin page</title>
+<title>Airbnb admin</title>
 	  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
 	
@@ -53,20 +82,20 @@
   </nav>
   
   <br> <br> <br>
- <h1>Admin page</h1>
+ <h1>Airbnb admin</h1>
  
- <button id="showApartments" class="button"> Apartments </button>
- <button id="showUsers" class="button"> Users </button>
- <button id="showSadrzaji" class="button"> Sadrzaji </button>
- <button id="showRezervacije" class="button"> Rezervacije </button>
- <button id="showKomentari" class="button"> Komentari </button>
+ <button id="showApartments" class="btn-add"> Apartments </button>
+ <button id="showUsers" class="btn-add"> Users </button>
+ <button id="showSadrzaji" class="btn-add"> Sadrzaji </button>
+ <button id="showRezervacije" class="btn-add"> Rezervacije </button>
+ <button id="showKomentari" class="btn-add"> Komentari </button>
 
 
  <div id = "divApartmani">
  	<br>
- 	<h3>Apartments</h3> 
  	
- 	<div id="prikazApartmana" style="width: 700px; float: left;">
+ 	<div id="prikazApartmana" style="width: 700px; float: left;"  align='center'>
+ 	<h3>Apartments</h3> 
 	 	<table id = "tablePrikazApartmana">
 			<tr align='center'>
 				<td>id</td>
@@ -85,7 +114,7 @@
 				<td>3</td>
 				<td>8</td>
 				<td>Ulica 1000 rupa</td>
-				<td> <button id='obrisiAp1'> Delete </button></td>
+				<td> <button id='obrisiAp1' class="btn-delete"> Delete </button></td>
 			</tr>
 		</table>
  	</div>
@@ -178,7 +207,7 @@
 				<td> <input id = 'editSadrzajaName'></td>
 			</tr>
 			<tr>
-				<td> <button id = 'editSadrzaja'> Edit </button></td>
+				<td> <button id = 'editSadrzaja' class='btn-edit'> Edit </button></td>
 			</tr>
 		</table>	
 	</div>
@@ -191,7 +220,7 @@
 				<td> <input id = 'newSadrzajName'></td>
 			</tr>
 			<tr>
-				<td> <button id = 'createSadrzaj'> Create </button></td>
+				<td> <button id = 'createSadrzaj' class='btn-add'> Create </button></td>
 			</tr>
 		</table>	
 	</div>

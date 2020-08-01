@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+	  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+	
+	  <!-- Custom styles for this template -->
+	  <link href="css/shop-homepage.css" rel="stylesheet">
+  
+   	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+	<script type="text/javascript" src="guestPage.js"></script>
+	
+</head>
+<body>
+<br>
+<h3>Airbnb guest</h3>
+ <button id="showOffer" class="btn-add"> Offer </button>
+ <button id="showRezervacije" class="btn-add"> My rezervacije </button>
+ <button id="showSviGosti" class="btn-add"> All users </button>
+ <button id="showMyAccount" class="btn-add"> My account </button>
+
+<div id='divOffer'>
+ Div offer
+</div>
+
+<div id = 'divRezervacije'>
+ <button id="showKreirane" class="btn-add"> Kreirane </button>
+ <button id="showPrihvacene" class="btn-add"> Prihvacene </button>
+ <button id="showOdbijene" class="btn-add"> Odbijene </button>
+<br>
+ <div id='divKomentar' align='center'>
+ <br>
+ 	<h4>Komentar</h4>
+ 	<table>
+		<tbody>
+		<tr>
+			<td>ID</td>
+			<td> <input id='idApartmanaZaKomentar' disabled></td>
+		</tr>
+		<tr>
+			<td>Ocena</td>
+			<td> <input id='idOcenaZaKomentar' type='number'></td>
+		</tr>
+		<tr>
+			<td>Komentar</td>
+			<td> <input id='textKomentara' type='text'></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td> <button id='btnPosaljiKomentar'> Posalji</button></td>
+		</tr>
+		</tbody>
+</table>
+ </div>
+ <div id='divKreirane'>
+  <h4>Kreirane</h4>
+ 	 	<table id = "tablePrikazKreirane">
+			<tr align='center'>
+				<td>id</td>
+				<td>Apartman</td>
+				<td>Pocetni datum</td>
+				<td>Broj nocenja</td>
+				<td>Ukupna cena</td>
+				<td>Poruka</td>
+				<td>Status</td>
+			</tr>
+		</table>
+	</div>
+	
+ <div id='divPrihvacene'>
+  		<h4>Prihvacene</h4>
+ 	 	<table id = "tablePrikazPrihvacene">
+			<tr align='center'>
+				<td>id</td>
+				<td>Apartman</td>
+				<td>Pocetni datum</td>
+				<td>Broj nocenja</td>
+				<td>Ukupna cena</td>
+				<td>Poruka</td>
+				<td>Status</td>
+			</tr>
+		</table>
+	</div>
+	
+ <div id='divOdbijene'>
+  		<h4>Odbijene</h4>
+ 	 	<table id = "tablePrikazOdbijene">
+			<tr align='center'>
+				<td>id</td>
+				<td>Apartman</td>
+				<td>Pocetni datum</td>
+				<td>Broj nocenja</td>
+				<td>Ukupna cena</td>
+				<td>Poruka</td>
+				<td>Status</td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+
+
+<div id='divSviGosti'>
+ 	<br>
+ 	<h3>All users</h3>
+ 	
+	<div id="prikazKorisnika">
+ 	<table id = "tablePrikazKorisnika">
+		<tr align='center'>
+			<td>ID</td>
+			<td>Username</td>
+			<td>Name</td>
+			<td>Last name</td>
+			<td>Gender</td>
+		</tr>
+	</table>	
+	</div>
+</div>
+
+<div id='divMyAccount'>
+<br>
+ <table>
+ 				<tr></tr>
+				<tr>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Username*
+									: </<span></span>
+							</div>
+							<input type="text" required class="form-control"
+								placeholder="e.g. username1" id="username"
+								aria-label="e.g. username1" aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Password*
+									: </<span></span>
+							</div>
+							<input type="password" required class="form-control"
+								placeholder="e.g. password1" id="password"
+								aria-label="e.g. pass1" aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+								<tr>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Confirm Password*
+									: </<span></span>
+							</div>
+							<input type="password" required class="form-control"
+								placeholder="e.g. password1" id="confirm-password"
+								aria-label="e.g. pass1" aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Name* :
+									</<span></span>
+							</div>
+							<input type="text" required class="form-control"
+								placeholder="e.g. name1" id="name" aria-label="e.g. name1"
+								aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+
+					<td><div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Last
+									Name* : </<span></span>
+							</div>
+							<input type="text" required class="form-control"
+								placeholder="e.g. lastName1" id="lastName"
+								aria-label="e.g. lastName1" aria-describedby="basic-addon1">
+						</div></td>
+				</tr>
+				
+				<tr>
+					<div class="btn-group" data-toggle="buttons">
+					  <label class="btn btn-primary active">
+					    <input type="radio" name="options" id="male" checked> Male
+					  </label>
+					  <label class="btn btn-primary">
+					    <input type="radio" name="options" id="female"> Female
+					  </label>
+					</div>	
+				</tr>
+				
+				<tr>
+					<td><input type="submit" class="btn btn-secondary"
+						id="submitEdit" value="Edit" name=""></td>
+				</tr>
+			</table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -14,7 +14,7 @@ $(document).ready(function (){
 		let username = $("<input type='text' id = 'usernameLogin'>");
 		let password = $("<input type='password' id = 'passwordLogin'>");
 
-		$("#formPrijava").append("<h1 id = 'h1Login'>Login</h1><hr>");
+		$("#formPrijava").append("<br><h1 id = 'h1Login'>Login</h1><hr>");
 		$("#formPrijava").append("<label id = 'labelUsername'>Username : </label>");
 		$("#formPrijava").append("<input type='text' placeholder='e.g. username1' id = 'inputUsername'><br>");
 		$("#formPrijava").append("<label id = 'labelPassword'>Password : </label>");
@@ -51,7 +51,7 @@ $(document).ready(function (){
 			success : function(message){
 				console.log(message[0]);
 				if(message[0] === "Administrator"){
-					window.location = "./indexAdmin.html";
+					window.location = "./adminPage.html";
 				}
 				else if(message[0]==="Customer"){
 					window.location = "./indexCustomer.html";
