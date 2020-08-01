@@ -28,26 +28,7 @@
     background-color: orange;
     color: white;
   }
-  
-  .btn-nav{
-    background: none;
-    color: white;
-    border: none;
-  }
-  .btn-nav:hover {
-    background-color: orange;
-    color: white;
-  }
-  .btn-logout{
-    background: none;
-    color: white;
-    border: none;
-  }
-  .btn-logout:hover {
-    background-color: red;
-    color: white;
-  }
-  
+
   .btn-add{
     background: white;
     color: #4CAF50;
@@ -62,7 +43,7 @@
 </style>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Airbnb host</title>
 
 	  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
@@ -73,70 +54,169 @@
    	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	
-	<script type="text/javascript" src="guestPage.js"></script>
+	<script type="text/javascript" src="hostPage.js"></script>
 	
 </head>
 <body>
+
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="">Airbnb Guest</a>
+      <a class="navbar-brand" href="#">Airbnb</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-          	<button id = "showOffer" class='btn-nav'> Offer </button>
+          <li class="nav-item active">
+            <a id = "aHrefHome" class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
           <li class="nav-item">
-          	<button id = "showRezervacije" class='btn-nav'> Moje rezervacije</button>
+            <a id = "aHrefOffer" class="nav-link" href="sviApartmani.html">Offer</a>
           </li>
           <li class="nav-item">
-          	<button id = "showMyAccount" class='btn-nav'> My account</button>
-          </li>
-		  <li class="nav-item">
-          	<button id = "showMyAccount" class='btn-logout'> Logout</button>
+            <a id = "aHrefAdminPage" class="nav-link" href="adminPage.html">Admin page</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
+<br>  
+<br> 
 <br>
+<h3>Airbnb host</h3>
+ <button id="showApartmani" class="btn-add"> Apartmani </button>
+ <button id="showRezervacije" class="btn-add"> Rezervacije </button>
+ <button id="showKomentari" class="btn-add"> Komentari </button>
+ <button id="showGosti" class="btn-add"> Gosti </button>
+ <button id="showDodajApartman" class="btn-add"> Dodaj apartman </button>
+ <button id="showMyAccount" class="btn-add"> My account </button>
+
+<div id='divApartmani'>
 <br>
-<br>
-<div id='divOffer'>
- Div offer
+ 	
+ 	<div id="prikazApartmana" style="width: 700px; float: left;"  align='center'>
+ 	<h3>Apartments</h3> 
+	 	<table id = "tablePrikazApartmana">
+			<tr align='center'>
+				<td>id</td>
+				<td>Type</td>
+				<td>Owner</td>
+				<td>Price</td>
+				<td>Rooms</td>
+				<td>Guests</td>
+				<td>Address</td>
+			</tr>
+			<tr align='center'>
+				<td>1</td>
+				<td>Kuca</td>
+				<td>Dusan</td>
+				<td>1000e</td>
+				<td>3</td>
+				<td>8</td>
+				<td>Ulica 1000 rupa</td>
+				<td> <button id='obrisiAp1' class="btn-delete"> Edit </button></td>
+				<td> <button id='obrisiAp1' class="btn-delete"> Delete </button></td>
+			</tr>
+		</table>
+ 	</div>
+ 	
+ 	<div id = 'izmenaApartmana' style="margin-left: 620px;">
+ 		Edit apartment
+ 		<br>
+ 		<table>
+			<tbody>
+				<tr>
+					<td> ID </td>
+					<td> <input disabled id = 'editApartmentID'> </td>
+				</tr>
+				<tr>
+					<td> Host </td>
+					<td> <input disabled id = 'editApartmentHost'> </td>
+				</tr>
+				<tr>
+					<td> Type </td>
+					<td> <input id = 'editApartmentType'> </td>
+				</tr>
+				<tr>
+					<td> Rooms </td>
+					<td> <input type = 'number' id = 'editApartmentRooms'>  </td>
+				</tr>
+				<tr>
+					<td>Guests</td>
+					<td> <input type = 'number' id = 'editApartmentGuests'> </td>
+				</tr>
+				<tr>
+					<td>Price</td>
+					<td> <input type = 'number' id = 'editApartmentPrice'> </td>
+				</tr>
+				<tr>
+					<td> Enter time </td>
+					<td><input type = 'time' id = 'editApartmentEnterTime'> </td>
+				</tr>
+				<tr>
+					<td> Leave time </td>
+					<td> <input type = 'time' id = 'editApartmentLeaveTim'> </td>
+				</tr>
+				<tr>
+					<td></td>
+					<td> <button id='editApartment'> Confirm </button></td>
+				</tr>
+			</tbody>
+		</table>
+ 	</div>
 </div>
 
-<div id = 'divRezervacije' align='center'>
+<div id='divDodavanjeApartmana'>
+		<br>
+ 		<h4>New apartment</h4>
+ 		<br>
+ 		<table>
+			<tbody>
+				<tr>
+					<td> Host </td>
+					<td> <input disabled id = 'editApartmentHost'> </td>
+				</tr>
+				<tr>
+					<td> Type </td>
+					<td> <input id = 'editApartmentType'> </td>
+				</tr>
+				<tr>
+					<td> Rooms </td>
+					<td> <input type = 'number' id = 'editApartmentRooms'>  </td>
+				</tr>
+				<tr>
+					<td>Guests</td>
+					<td> <input type = 'number' id = 'editApartmentGuests'> </td>
+				</tr>
+				<tr>
+					<td>Price</td>
+					<td> <input type = 'number' id = 'editApartmentPrice'> </td>
+				</tr>
+				<tr>
+					<td> Enter time </td>
+					<td><input type = 'time' id = 'editApartmentEnterTime'> </td>
+				</tr>
+				<tr>
+					<td> Leave time </td>
+					<td> <input type = 'time' id = 'editApartmentLeaveTim'> </td>
+				</tr>
+				<tr>
+					<td></td>
+					<td> <button id='editApartment'> Confirm </button></td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+
+<div id = 'divRezervacije'>
  <button id="showKreirane" class="btn-edit"> Kreirane </button>
- <button id="showPrihvacene" class="btn-add"> Prihvacene </button>
- <button id="showOdbijene" class="btn-delete"> Odbijene </button>
+ <button id="showPrihvacene" class="btn-edit"> Prihvacene </button>
+ <button id="showOdbijene" class="btn-edit"> Odbijene </button>
 <br>
- <div id='divKomentar' align='center'>
- <br>
- 	<h4>Komentar</h4>
- 	<table>
-		<tbody>
-		<tr>
-			<td>ID</td>
-			<td> <input id='idApartmanaZaKomentar' disabled></td>
-		</tr>
-		<tr>
-			<td>Ocena</td>
-			<td> <input id='idOcenaZaKomentar' type='number'></td>
-		</tr>
-		<tr>
-			<td>Komentar</td>
-			<td> <input id='textKomentara' type='text'></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td> <button id='btnPosaljiKomentar'> Posalji</button></td>
-		</tr>
-		</tbody>
-</table>
- </div>
+
  <div id='divKreirane'>
   <h4>Kreirane</h4>
  	 	<table id = "tablePrikazKreirane">
@@ -184,8 +264,22 @@
 
 </div>
 
+<div id='divKomentari'>
+ <br>
+ <h3>Komentari</h3>
+ 	<table id='tablePrikazKomentara'>
 
-<div id='divSviGosti'>
+		<tr>
+			<td>Gost</td>
+			<td>Apartman</td>
+			<td>Text</td>
+			<td>Ocena</td>
+		</tr>
+
+	</table>
+ </div>  
+
+<div id='divGosti'>
  	<br>
  	<h3>All users</h3>
  	
@@ -202,7 +296,7 @@
 	</div>
 </div>
 
-<div id='divMyAccount' align='center'>
+<div id='divMyAccount'>
 <br>
  <table>
  				<tr></tr>
