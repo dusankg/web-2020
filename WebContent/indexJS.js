@@ -20,7 +20,7 @@ $(document).ready(function (){
 		$("#formPrijava").append("<label id = 'labelPassword'>Password : </label>");
 		$("#formPrijava").append("<input type='password' placeholder='e.g. password1' id = 'inputPassword'><br><br>");
 		$("#formPrijava").append("<label id = 'labelRole'>Role : </label>");
-		$("#formPrijava").append("<select class = 'mdb-select md-form' id = 'roleLogin'><option>Administrator</option><option>Customer</option><option>Seller</option></select><br> <br>");
+		$("#formPrijava").append("<select class = 'mdb-select md-form' id = 'roleLogin'><option>Guest</option><option>Host</option><option>Admin</option></select><br> <br>");
 
 		$("#h1Login").css("font-family","Indie Flower");
 		$("#labelUsername").css("font-family","Indie Flower");
@@ -43,20 +43,28 @@ $(document).ready(function (){
 		let urlLogin = "rest/login/";
 		urlLogin+=usernamePrijava+","+passwordPrijava+","+rolePrijava;
 		console.log(urlLogin);
-
+		
+		/*if(rolePrijava === "Admin"){
+			window.location = "adminPage.html";
+		}
+		else if(rolePrijava ==="Guest"){
+			window.location = "./guestPage.html";
+		}else {
+			window.location = "./hostPage.html";
+		}*/
 
 		$.get({
 			url : urlLogin,
 			contentType : "application/json",
 			success : function(message){
 				console.log(message[0]);
-				if(message[0] === "Administrator"){
+				if(message[0] === "Admin"){
 					window.location = "./adminPage.html";
 				}
-				else if(message[0]==="Customer"){
-					window.location = "./indexCustomer.html";
+				else if(message[0]==="Guest"){
+					window.location = "./guestPage.html";
 				}else {
-					window.location = "./indexSeller.html";
+					window.location = "./hostPage.html";
 				}
 				alert("You are logged!");
 			},

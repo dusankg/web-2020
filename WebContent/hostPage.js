@@ -1,8 +1,9 @@
-
 function initHide(){
 	$("#divRezervacije").hide();
 	$("#divMyAccount").hide();
-	$("#divSviGosti").hide();
+	$("#divGosti").hide();
+	$("#divKomentari").hide();
+	$("#divDodavanjeApartmana").hide();
 	
 	$("#divPrihvacene").hide();
 	$("#divOdbijene").hide();
@@ -11,37 +12,56 @@ function initShowButtons(){
 	initHide();
 	// glavni
 	{
-		$("#showOffer").click( function(){
-			$("#divOffer").show();
+		$("#showApartmani").click( function(){
+			$("#divApartmani").show();
 			$("#divRezervacije").hide();
 			$("#divMyAccount").hide();
-			$("#divSviGosti").hide();
+			$("#divGosti").hide();
+			$("#divKomentari").hide();
+			$("#divDodavanjeApartmana").hide();
 		});	
 		$("#showRezervacije").click( function(){
-			$("#divOffer").hide();
+			$("#divApartmani").hide();
 			$("#divRezervacije").show();
 			$("#divMyAccount").hide();
-			$("#divSviGosti").hide();
-		});	
-		$("#aHrefRezervacije").click( function(){
-			$("#divOffer").hide();
-			$("#divRezervacije").show();
-			$("#divMyAccount").hide();
-			$("#divSviGosti").hide();
+			$("#divGosti").hide();
+			$("#divKomentari").hide();
+			$("#divDodavanjeApartmana").hide();
 		});	
 		$("#showMyAccount").click( function(){
-			$("#divOffer").hide();
+			$("#divApartmani").hide();
 			$("#divRezervacije").hide();
 			$("#divMyAccount").show();
-			$("#divSviGosti").hide();
+			$("#divGosti").hide();
+			$("#divKomentari").hide();
+			$("#divDodavanjeApartmana").hide();
 		});	
-		$("#showSviGosti").click( function(){
-			$("#divOffer").hide();
+		$("#showGosti").click( function(){
+			$("#divApartmani").hide();
 			$("#divRezervacije").hide();
 			$("#divMyAccount").hide();
-			$("#divSviGosti").show();
+			$("#divGosti").show();
+			$("#divKomentari").hide();
+			$("#divDodavanjeApartmana").hide();
 		});	
-	}	
+		$("#showKomentari").click( function(){
+			$("#divApartmani").hide();
+			$("#divRezervacije").hide();
+			$("#divMyAccount").hide();
+			$("#divGosti").hide();
+			$("#divKomentari").show();
+			$("#divDodavanjeApartmana").hide();
+		});	
+		$("#showDodajApartman").click( function(){
+			$("#divApartmani").hide();
+			$("#divRezervacije").hide();
+			$("#divMyAccount").hide();
+			$("#divGosti").hide();
+			$("#divKomentari").hide();
+			$("#divDodavanjeApartmana").show();
+		});	
+
+	}
 	// rezervacije
 	{
 		$("#showKreirane").click( function(){
