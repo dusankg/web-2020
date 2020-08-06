@@ -10,16 +10,19 @@ public class Comment {
 	
 	private int grade;
 	
+	private boolean visible;
+	
 	public Comment() {
 		
 	}
 
-	public Comment(User guest, Apartment apartment, String text, int grade) {
+	public Comment(User guest, Apartment apartment, String text, int grade, boolean visible) {
 		super();
 		this.guest = guest;
 		this.apartment = apartment;
 		this.text = text;
 		this.grade = grade;
+		this.visible = visible;
 	}
 
 	public User getGuest() {
@@ -52,6 +55,14 @@ public class Comment {
 
 	public void setGrade(int grade) {
 		this.grade = grade;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 	
 	

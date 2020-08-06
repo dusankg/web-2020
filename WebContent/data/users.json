@@ -1,0 +1,24 @@
+[
+	{
+		"username": "admin",
+		"password": "123",
+		"firstName": "Novak",
+		"lastName": "Novakovic",
+		"male": true,
+		"role": "Admin",
+		"myApartments": [],
+		"rentedApartments": [],
+		"reservationList": []
+	},
+	{
+		"username": "user1",
+		"password": "123",
+		"firstName": "Milic",
+		"lastName": "Milic",
+		"male": true,
+		"role": "Guest",
+		"myApartments": [],
+		"rentedApartments": [],
+		"reservationList": []
+	}
+]
