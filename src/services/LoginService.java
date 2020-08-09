@@ -1,5 +1,7 @@
 package services;
 
+import java.util.ArrayList;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Apartment;
+import beans.Reservation;
 import beans.User;
 import dao.UserDAO;
 
@@ -62,4 +66,31 @@ public class LoginService {
 		request.getSession().invalidate();
 	}
 	
+	@POST
+	@Path("/register")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User registration(User user, @Context HttpServletRequest request) {
+		
+		System.out.println(user);
+		// Dodavanje svih atributa da ne bi bili null
+		user.setRole("Guest");
+		user.setMyApartments(new ArrayList<Apartment>());
+		user.setRentedApartments(new ArrayList<Apartment>());
+		user.setReservationList(new ArrayList<Reservation>());
+		System.out.println(user);
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
+		
+		if(userDAO.findUser(user.getUsername()) != null) {
+			return user;
+		}
+		
+		userDAO.addUser(user);
+		
+		String contextPath = ctx.getRealPath("");
+		userDAO.saveUsers(contextPath);
+		
+		return user;
+	}
 }

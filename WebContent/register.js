@@ -5,22 +5,22 @@ $(document).ready(function(){
 
 		let username = $("#username").val();
 		let password = $("#password").val();
-		let name = $("#name").val();
+		let firstName = $("#name").val();
 		let lastName = $("#lastName").val();
 		let male = $("#male:checked").val();
 		let confirm_password = $("#confirm-password").val();
-		let pol;
+		let gender;
 		if(male){
-			pol = "True";
+			gender = "True";
 			alert("Musko");
 		}else {
-			pol = "False";
+			gender = "False";
 			alert("Zensko");
 		}
 		if (password === confirm_password){
 					$.post({
 						url : "rest/register",
-						data : JSON.stringify({username,name,lastName,pol,password}),
+						data : JSON.stringify({username, password, firstName, lastName, gender}),
 						contentType: "application/json",
 						success : function(){
 							alert("You are registred");

@@ -12,7 +12,8 @@ public class User {
 	
 	private String lastName;
 	
-	private boolean male;
+	// true if male, false if female
+	private boolean gender;
 	
 	private String role;
 	
@@ -26,14 +27,14 @@ public class User {
 		
 	}
 
-	public User(String username, String password, String firstName, String lastName, boolean male, String role,
+	public User(String username, String password, String firstName, String lastName, boolean gender, String role,
 			List<Apartment> myApartments, List<Apartment> rentedApartments, List<Reservation> reservationList) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.male = male;
+		this.gender = gender;
 		this.role = role;
 		this.myApartments = myApartments;
 		this.rentedApartments = rentedApartments;
@@ -72,12 +73,12 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public boolean isMale() {
-		return male;
+	public boolean isGender() {
+		return gender;
 	}
 
-	public void setMale(boolean male) {
-		this.male = male;
+	public void setGender(boolean gender) {
+		this.gender = gender;
 	}
 
 	public String getRole() {
@@ -110,6 +111,13 @@ public class User {
 
 	public void setReservationList(List<Reservation> reservationList) {
 		this.reservationList = reservationList;
+	}
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", gender=" + gender + ", role=" + role + ", myApartments=" + myApartments
+				+ ", rentedApartments=" + rentedApartments + ", reservationList=" + reservationList + "]";
 	}
 	
 	

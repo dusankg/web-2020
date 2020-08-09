@@ -1,24 +1,25 @@
-[
-	{
+{
+	"admin": {
 		"username": "admin",
 		"password": "123",
 		"firstName": "Novak",
 		"lastName": "Novakovic",
-		"male": true,
+		"gender": true,
 		"role": "Admin",
 		"myApartments": [],
 		"rentedApartments": [],
 		"reservationList": []
+		
 	},
-	{
+	"user1": {
 		"username": "user1",
 		"password": "123",
 		"firstName": "Milic",
 		"lastName": "Milic",
-		"male": true,
+		"gender": true,
 		"role": "Guest",
 		"myApartments": [],
 		"rentedApartments": [],
 		"reservationList": []
 	}
-]
+}
