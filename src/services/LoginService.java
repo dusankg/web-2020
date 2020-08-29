@@ -93,4 +93,17 @@ public class LoginService {
 		
 		return user;
 	}
+	
+	@GET
+	@Path("/loggedIn")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User getLoggedInUser(@Context HttpServletRequest request) {
+		User loggedUser = (User) request.getSession().getAttribute("user");
+	
+		if(loggedUser == null) {
+			return null;
+		} else {
+			return loggedUser;
+		}
+	}
 }

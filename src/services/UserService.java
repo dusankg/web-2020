@@ -66,6 +66,8 @@ public class UserService {
 		
 	}
 	
+	// TODO: Dodati pregled svih korisnika koji su izvrsili rezervaciju za moje apartmane
+	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
