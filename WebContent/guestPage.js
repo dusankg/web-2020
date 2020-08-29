@@ -34,6 +34,7 @@ function initShowButtons(){
 			$("#divRezervacije").hide();
 			$("#divMyAccount").show();
 			$("#divSviGosti").hide();
+			getLoggedUserData();
 		});	
 		$("#showSviGosti").click( function(){
 			$("#divOffer").hide();
@@ -59,6 +60,40 @@ function initShowButtons(){
 			$("#divPrihvacene").hide();
 			$("#divOdbijene").show();
 		});	
+	}
+	
+	// izmena podataka o korisniku
+	{
+		$("#submitEdit").click(function(){
+			let username = $('input#username').val();
+			let password = $('input#password').val();
+			let firstName = $('input#name').val();
+			let lastName = $('input#lastName').val();
+			let gender;
+			if ($('input#male:checked').val()){
+				gender = true;
+			} else {
+				gender = false;
+			}
+			console.log(gender);
+			let data = {
+				username: username,
+				password: password,
+				firstName: firstName,
+				lastName: lastName,
+				gender: gender
+			};
+			$.ajax({
+				type: "PUT",
+				url: 'rest/user',
+				data: JSON.stringify(data),
+				contentType: 'application/json',
+				success: function() {
+					initHide();
+				}
+			})
+		});
+		
 	}
 }
 
@@ -86,6 +121,25 @@ function dodajVrstuPrihvacene(){
  			" <td> Prihvacena </td> " +
 			" <td> <button id='obrisiAp1' class='btn-delete'> Dodaj komentar </button></td> </tr>; ";
 	$("#tablePrikazPrihvacene").append(c);
+}
+
+function getLoggedUserData(){
+	$.get({
+		type: "GET",
+		url: 'rest/loggedIn',
+		success: function(user) {
+			console.log(user);
+			$('input#username').val(user.username);
+			$('input#password').val(user.password);
+			$('input#name').val(user.firstName);
+			$('input#lastName').val(user.lastName);
+			if(user.gender == true){
+				$('input#male').prop("checked", true);
+			} else {
+				$('input#female').prop("checked", true);
+			}
+		}
+	})
 }
 
 $(document).ready(function (){
