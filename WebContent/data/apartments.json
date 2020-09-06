@@ -1,0 +1,20 @@
+{
+	"soba1": {
+		"id": "soba1",
+		"type": "soba",
+		"numberOfRooms": 2,
+		"numberOfGuests": 2,
+		"location": {},
+		"dates": [],
+		"availableDates": [],
+		"host": {},
+		"comments": [],
+		"images": [],
+		"pricePerNight": 50,
+		"checkInTime": 2,
+		"checkOutTime": 10,
+		"status": "aktivan",
+		"amenities": [],
+		"reservations": []
+	}
+}

@@ -94,6 +94,7 @@ public class LoginService {
 		return user;
 	}
 	
+	/**Vraca objekat ulogovanog korisnika.*/
 	@GET
 	@Path("/loggedIn")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Apartment {
+	
+	private String id;
 
 	private String type;
 	
@@ -39,10 +41,11 @@ public class Apartment {
 		
 	}
 
-	public Apartment(String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
+	public Apartment(String id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
 			List<Date> availableDates, User host, List<Comment> comments, List<String> images, double pricePerNight,
 			int checkInTime, int checkOutTime, String status, List<Amenity> amenities, List<Reservation> reservations) {
 		super();
+		this.id = id;
 		this.type = type;
 		this.numberOfRooms = numberOfRooms;
 		this.numberOfGuests = numberOfGuests;
@@ -58,6 +61,14 @@ public class Apartment {
 		this.status = status;
 		this.amenities = amenities;
 		this.reservations = reservations;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getType() {
