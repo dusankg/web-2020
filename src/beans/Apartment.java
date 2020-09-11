@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Apartment {
 	
-	private String id;
+	private Integer id;
 
 	private String type;
 	
@@ -19,7 +19,7 @@ public class Apartment {
 	
 	private List<Date> availableDates;
 	
-	private User host;
+	private String host;
 	
 	private List<Comment> comments;
 	
@@ -41,8 +41,8 @@ public class Apartment {
 		
 	}
 
-	public Apartment(String id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
-			List<Date> availableDates, User host, List<Comment> comments, List<String> images, double pricePerNight,
+	public Apartment(Integer id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
+			List<Date> availableDates, String host, List<Comment> comments, List<String> images, double pricePerNight,
 			int checkInTime, int checkOutTime, String status, List<Amenity> amenities, List<Reservation> reservations) {
 		super();
 		this.id = id;
@@ -63,11 +63,11 @@ public class Apartment {
 		this.reservations = reservations;
 	}
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -119,11 +119,11 @@ public class Apartment {
 		this.availableDates = availableDates;
 	}
 
-	public User getHost() {
+	public String getHost() {
 		return host;
 	}
 
-	public void setHost(User host) {
+	public void setHost(String host) {
 		this.host = host;
 	}
 

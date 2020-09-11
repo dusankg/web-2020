@@ -14,24 +14,24 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-import beans.Apartment;
+import beans.Reservation;
 
-public class ApartmentDAO {
+public class ReservationDAO {
 
-	private Map<Integer, Apartment> apartments = new HashMap<>();
+	private Map<Long, Reservation> reservations = new HashMap<>();
 	
-	public ApartmentDAO() {
+	public ReservationDAO() {
 		
 	}
 	
-	public ApartmentDAO(String contextPath) {
-		loadApartments(contextPath);
+	public ReservationDAO(String contextPath) {
+		loadReservations(contextPath);
 	}
 	
-	public void loadApartments(String path) {
+	public void loadReservations(String path) {
 		BufferedReader in = null;
 		try {
-			File file = new File(path + "/data/apartments.json");
+			File file = new File(path + "/data/reservations.json");
 			in = new BufferedReader(new FileReader(file));
 			String line;
 			StringBuilder sb = new StringBuilder();
@@ -39,7 +39,7 @@ public class ApartmentDAO {
 				sb.append(line);
 			}
 			ObjectMapper mapper = new ObjectMapper();
-			this.apartments = mapper.readValue(sb.toString(), new TypeReference<Map<Integer, Apartment>>(){});
+			this.reservations = mapper.readValue(sb.toString(),  new TypeReference<Map<Long, Reservation>>(){});
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -48,49 +48,43 @@ public class ApartmentDAO {
 					in.close();
 				} catch (Exception e) {}
 			}
-		}
+		} 
+	
 	}
 	
-	public void saveApartments(String path) {
+	public void saveReservations(String path) {
 		BufferedWriter out = null;
 		try {
-			File file = new File(path + "/data/apartments.json");
+			File file = new File(path + "/data/reservations.json");
 			out = new BufferedWriter(new FileWriter(file));
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-			String content = writer.writeValueAsString(this.apartments);
+			String content = writer.writeValueAsString(this.reservations);
 			out.write(content);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (out != null) {
-				try {
+			try {
+				if (out != null) {
 					out.close();
-				} catch (Exception e) {
-					
 				}
-			}
+			} catch (Exception e) {}
 		}
 	}
 	
-	public Apartment addApartment (Apartment apartment) {
-		apartments.put(apartment.getId(), apartment);
-		return apartment;
+	public Reservation findReservation(Long id) {
+		return this.reservations.get(id);
 	}
 	
-	public Apartment findApartment(Integer id) {
-		return apartments.containsKey(id) ? apartments.get(id) : null;
+	public Collection<Reservation> findAllReservations() {
+		return this.reservations.values();
 	}
 	
-	public Collection<Apartment> findAllApartments() {
-		return apartments.values();
+	public Reservation updateReservation(Reservation reservation) {
+		return this.reservations.replace(reservation.getId(), reservation);
 	}
 	
-	public Apartment updateApartment(Apartment apartment) {
-		return apartments.put(apartment.getId(), apartment);
-	}
-	
-	public Apartment removeApartment(Apartment apartment) {
-		return apartments.remove(apartment.getId());
+	public Reservation addReservation(Reservation reservation) {
+		return this.reservations.put(reservation.getId(), reservation);
 	}
 }

@@ -82,7 +82,9 @@ public class LoginService {
 		
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		
+		// Ne smogu postojati 2 korisnika sa istim username
 		if(userDAO.findUser(user.getUsername()) != null) {
+			// Ovde bi verovatno trebalo vratiti nesto drugo, ali kako?
 			return user;
 		}
 		

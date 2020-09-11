@@ -1,0 +1,22 @@
+{
+	"1": {
+		"id": 1,
+		"apartment": 1,
+		"startDate": null,
+		"numberOfNights": 3,
+		"price": 2000,
+		"reservationMessage": "Nemoj da bude poslednja ekskurzija!",
+		"guest": "user1",
+		"status": "Created"
+	},
+	"2": {
+		"id": 2,
+		"apartment": 1,
+		"startDate": null,
+		"numberOfNights": 2,
+		"price": 4500,
+		"reservationMessage": "Mala soba 3 sa 3, curo...",
+		"guest": "zena",
+		"status": "Created"
+	}
+}

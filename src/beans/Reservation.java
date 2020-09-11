@@ -4,7 +4,9 @@ import java.util.Date;
 
 public class Reservation {
 
-	private Apartment apartment;
+	private Long id;
+	
+	private Integer apartment;
 	
 	private Date startDate;
 	
@@ -14,7 +16,7 @@ public class Reservation {
 	
 	private String reservationMessage;
 	
-	private User guest;
+	private String guest;
 	
 	private String status;
 	
@@ -22,9 +24,10 @@ public class Reservation {
 		
 	}
 
-	public Reservation(Apartment apartment, Date startDate, int numberOfNights, double price, String reservationMessage,
-			User guest, String status) {
+	public Reservation(Long id, Integer apartment, Date startDate, int numberOfNights, double price, String reservationMessage,
+			String guest, String status) {
 		super();
+		this.id = id;
 		this.apartment = apartment;
 		this.startDate = startDate;
 		this.numberOfNights = numberOfNights;
@@ -33,12 +36,20 @@ public class Reservation {
 		this.guest = guest;
 		this.status = status;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 
-	public Apartment getApartment() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Integer getApartment() {
 		return apartment;
 	}
 
-	public void setApartment(Apartment apartment) {
+	public void setApartment(Integer apartment) {
 		this.apartment = apartment;
 	}
 
@@ -74,11 +85,11 @@ public class Reservation {
 		this.reservationMessage = reservationMessage;
 	}
 
-	public User getGuest() {
+	public String getGuest() {
 		return guest;
 	}
 
-	public void setGuest(User guest) {
+	public void setGuest(String guest) {
 		this.guest = guest;
 	}
 

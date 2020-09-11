@@ -1,13 +1,13 @@
 {
-	"soba1": {
-		"id": "soba1",
+	"1": {
+		"id": 1,
 		"type": "soba",
 		"numberOfRooms": 2,
 		"numberOfGuests": 2,
 		"location": {},
 		"dates": [],
 		"availableDates": [],
-		"host": {},
+		"host": "domacin",
 		"comments": [],
 		"images": [],
 		"pricePerNight": 50,

@@ -28,13 +28,15 @@ public class ApartmentService {
 	@Context
 	ServletContext ctx;
 
+	private String contextPath;
+	
 	public ApartmentService() {
 
 	}
 
 	@PostConstruct
 	public void init() {
-		String contextPath = ctx.getRealPath("");
+		this.contextPath = ctx.getRealPath("");
 
 		ApartmentDAO apartmentDAO = new ApartmentDAO(contextPath);
 
@@ -46,7 +48,7 @@ public class ApartmentService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment getApartment(@PathParam("id") String id) {
+	public Apartment getApartment(@PathParam("id") Integer id) {
 
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		Apartment apartment = apartmentDAO.findApartment(id);
@@ -103,7 +105,7 @@ public class ApartmentService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Apartment> getMyActiveApartments(@Context HttpServletRequest request) {
 		
-		User loggedUser = (User) request.getAttribute("user");
+		User loggedUser = (User) request.getSession().getAttribute("user");
 		if(!loggedUser.getRole().equals("Host")) {
 			return null;
 		} 
@@ -113,7 +115,7 @@ public class ApartmentService {
 		
 		List<Apartment> activeApartments = new ArrayList<>();
 		for (Apartment apartment : allApartments) {
-			if (apartment.getHost().equals(loggedUser)) {
+			if (apartment.getHost().equals(loggedUser.getUsername())) {
 				if (apartment.getStatus().equals("aktivan"))
 					activeApartments.add(apartment);
 			}
@@ -139,7 +141,7 @@ public class ApartmentService {
 		
 		List<Apartment> inactiveApartments = new ArrayList<>();
 		for (Apartment apartment : allApartments) {
-			if (apartment.getHost().equals(loggedUser)) {
+			if (apartment.getHost().equals(loggedUser.getUsername())) {
 				if (!apartment.getStatus().equals("aktivan"))
 					inactiveApartments.add(apartment);
 			}
@@ -163,16 +165,22 @@ public class ApartmentService {
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		
 		if(loggedUser.getRole().equals("Host")) {
-			if (!apartment.getHost().equals(loggedUser)) {
+			if (!apartment.getHost().equals(loggedUser.getUsername())) {
 				return null;
 			}
 		}
 		
-		return apartmentDAO.updateApartment(apartment);
+		// ap je apartman pre izmene
+		Apartment ap = apartmentDAO.updateApartment(apartment);
+		apartmentDAO.saveApartments(contextPath);
+		return ap;
 		
 	}
 	
 	// Pregled svih apartmana za administratore
+	@GET
+	@Path("/all")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Apartment> getAllApartments() {
 		
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -204,21 +212,31 @@ public class ApartmentService {
 			return null; 
 		}
 
-		// Videti da li cemo automatski generisati id-jeve ili cemo ih unositi iz fronta
-		// Samo za probu harkdkodovano
-		apartment.setId("2");
-		apartment.setHost(loggedUser);
+		// Id koji dodajemo generisemo na backendu, inkrementujemo za 1 u odnosu na maksimalni od svih postojecih id-jeva
+		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
+		Integer maxId = 1;
+		Collection<Apartment> apartments = apartmentDAO.findAllApartments();
+		for (Apartment a : apartments) {
+			if (a.getId() > maxId)
+				maxId = a.getId();
+		}
+		apartment.setId(++maxId);
+		
+		apartment.setHost(loggedUser.getUsername());
 		apartment.setStatus("neaktivan");
 
+		apartmentDAO.addApartment(apartment);
+		apartmentDAO.saveApartments(contextPath);
+		
 		return apartment;
 	}
 	
-	// BRISANJE TREBA DA BUDE LOGICKO PROVERITI STA TO TACNO ZNACI
+	// TODO: BRISANJE TREBA DA BUDE LOGICKO 
 	// Brisanje apartmana
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment deleteApartment(@PathParam("id") String id, @Context HttpServletRequest request) {
+	public Apartment deleteApartment(@PathParam("id") Integer id, @Context HttpServletRequest request) {
 		
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		Apartment apartment = apartmentDAO.findApartment(id);
@@ -226,7 +244,7 @@ public class ApartmentService {
 		User user = (User) request.getSession().getAttribute("user");
 		
 		if(user.getRole().equals("Host")) {
-			if (!apartment.getHost().equals(user)) {
+			if (!apartment.getHost().equals(user.getUsername())) {
 				return null;
 			} else {
 				return apartmentDAO.removeApartment(apartment);
@@ -238,8 +256,9 @@ public class ApartmentService {
 		} else {
 			return apartmentDAO.removeApartment(apartment);
 		}
-		
-		
+			
 	}
+	
+	// TODO: Pregled datuma za koje je izabrani apartman dostupan
 	
 }
