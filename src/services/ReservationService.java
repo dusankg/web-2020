@@ -210,8 +210,8 @@ public class ReservationService {
 	public List<Reservation> getAllReservations(@Context HttpServletRequest request) {
 		
 		User user = (User) request.getSession().getAttribute("user");
-		if (!user.getRole().equals("Admin"))
-			return null; // forbidden
+		//if (!user.getRole().equals("Admin"))
+		//	return null; // forbidden
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		Collection<Reservation> reservations = reservationDAO.findAllReservations();

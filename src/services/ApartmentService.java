@@ -205,8 +205,8 @@ public class ApartmentService {
 			return null;
 		}
 
-
-
+		// TODO: stavi da host bude ulogovani korisnik
+		System.out.println("Dodavanje apartmana za : " + apartment.getHost());
 		// Id koji dodajemo generisemo na backendu, inkrementujemo za 1 u odnosu na maksimalni od svih postojecih id-jeva
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		Integer maxId = 1;

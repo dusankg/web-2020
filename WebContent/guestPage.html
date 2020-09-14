@@ -4,6 +4,8 @@
   .table-main {
     border-collapse: collapse;
     width: 70%;
+    vertical-align: top;
+    align: top;
   }
   th, td {
     text-align: left;
@@ -101,7 +103,7 @@
           </li>
           <li><div class="vl"></div></li>
 		  <li class="nav-item">
-          	<button id = "showMyAccount" class='btn-logout'> Logout</button>
+          	<button id = "logout" class='btn-logout'> Logout</button>
           </li>
         </ul>
       </div>
@@ -112,35 +114,26 @@
 <br>
 
 <div id='divOffer' align="center">
-	<h3>Apartments</h3> 
-	<br/>
-	 	<table id = "tablePrikazApartmana" width = "50%">
-			<tr align='center'>
-				<td>id</td>
-				<td>Type</td>
-				<td>Host</td>
-				<td>Price</td>
-				<td>Rooms</td>
-				<td>Guests</td>
-				<td>Address</td>
-			</tr>
-			<tr align='center'>
-				<td>1</td>
-				<td>Kuca</td>
-				<td>Dusan</td>
-				<td>1000e</td>
-				<td>3</td>
-				<td>8</td>
-				<td>Ulica 1000 rupa</td>
-				<td> <button id='komentariAp1' class="btn-edit"> Comments </button></td>
-				<td> <button id='bookAp1' class="btn-add"> Book </button></td>
-				
-			</tr>
-		</table>
-</div>
-
-<div id="detalji" style="margin-left: 620px;">
-			Details and comments </br></br>
+<table style="float:top">
+	<tbody>
+		<tr valign="top">
+			<td>
+				<h3>Apartments</h3> 
+				<br/>
+			 	<table id = "tablePrikazApartmana" width = "50%">
+					<tr align='center'>
+						<td>id</td>
+						<td>Type</td>
+						<td>Host</td>
+						<td>Price</td>
+						<td>Rooms</td>
+						<td>Guests</td>
+						<td>Address</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+			<h5>Details and comments </h5></br>
 
 			<table id="tableDetails">
 				<tr>
@@ -190,9 +183,19 @@
 					</td>
 				</tr>					
 			</table>
-			<button class="btn-delete"> Back </button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
 
-			</div>
+
+
+
+<div id="detalji" style="margin-left: 620px;" hidden>
+
+
+</div>
 
 
 <div id = 'divRezervacije' align='center'>
@@ -268,7 +271,7 @@
 			</tr>
 		</table>
 </div>
-
+</div>
 
 <div id='divSviGosti'>
  	<br>
@@ -298,8 +301,8 @@
 								<span class="input-group-text" id="basic-addon1">Username*
 									: </<span></span>
 							</div>
-							<input type="text" required class="form-control"
-								placeholder="e.g. username1" id="username"
+							<input disabled type="text" required class="form-control"
+								id="username"
 								aria-label="e.g. username1" aria-describedby="basic-addon1">
 						</div>
 					</td>
