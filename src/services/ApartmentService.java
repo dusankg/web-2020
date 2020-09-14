@@ -205,12 +205,7 @@ public class ApartmentService {
 			return null;
 		}
 
-		User loggedUser = (User) request.getSession().getAttribute("user");
-	
-		 // Samo domacini mogu dodavati apartmane 
-		if (!loggedUser.getRole().equals("Host")){ 
-			return null; 
-		}
+
 
 		// Id koji dodajemo generisemo na backendu, inkrementujemo za 1 u odnosu na maksimalni od svih postojecih id-jeva
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -222,7 +217,7 @@ public class ApartmentService {
 		}
 		apartment.setId(++maxId);
 		
-		apartment.setHost(loggedUser.getUsername());
+		apartment.setHost("hhh");
 		apartment.setStatus("neaktivan");
 
 		apartmentDAO.addApartment(apartment);

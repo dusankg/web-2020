@@ -102,7 +102,7 @@ function dodajVrstuPrihvacene(){
 			" <td> 12.12.2012. </td> " +
 			" <td> 5 </td> " +
 			" <td> 2000e </td> " +
-			" <td> Zelim da mi za te pare peru noge </td> " +
+			" <td> Zelim da mi za te pare peru patofne </td> " +
  			" <td> Prihvacena </td> " +
 			" <td> <button id='obrisiAp1' class='btn-delete'> Dodaj komentar </button></td> </tr>; ";
 	$("#tablePrikazPrihvacene").append(c);
@@ -113,5 +113,51 @@ $(document).ready(function (){
 	
 	dodajVrstuKreirane();
 	dodajVrstuPrihvacene();
+	
+	$("#confirmNewApartment").click(function(event) {
+				
+				console.log("Pokretanje funcije za dodavanje apartmana");
+				alert("Dodavanjeeee");
+				event.preventDefault();
+				
+				var type = $("#newApartmentType");
+				var rooms = $("#newApartmentRooms");
+				var guests = $("#newApartmentGuests");
+				var price = $("#newApartmentPrice");
+				var checkInTime= $("#newApartmentEnterTime");
+				var checkOutTime = $("#newApartmentLeaveTim");
+
+				var oglas = new Object();
+				oglas.id = 1;
+				oglas.type = type.val();
+				oglas.numberOfRooms = rooms.val();
+				oglas.numberOfGuests = guests.val();
+				oglas.host = "biloKojiSvakakoSeMenja";
+				
+				oglas.pricePerNight = price.val();
+				oglas.checkInTime = 1;
+				oglas.checkOutTime = 2;
+				
+				// Ovako treba za type i slike
+				//oglas.imeKategorije=$("#cat").find(":selected").text();
+				//oglas.image = $("#img-upload").attr('src');
+				$.post({
+					url : 'rest/apartment',
+					data : JSON.stringify(oglas),
+					contentType : 'application/json',
+					success : function(data) {
+						alert("Uspesno dodat apartman");
+					},
+					error : function(data) {
+						alert("Apartman nije uspesno dodat");
+					}
+				});
+				
+			});
+	
+	
+	
+	
+	
 	
 });

@@ -58,17 +58,20 @@
     background-color: #4CAF50;
     color: white;
   }
+  .vl {
+  border-left: 2px solid orange;
+  height: 30px;
+  }
   tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Airbnb guest</title>
 
 	  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
 	
 	  <!-- Custom styles for this template -->
-	  <link href="css/shop-homepage.css" rel="stylesheet">
   
    	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -88,12 +91,15 @@
           <li class="nav-item">
           	<button id = "showOffer" class='btn-nav'> Offer </button>
           </li>
+          <li><div class="vl"></div></li>
           <li class="nav-item">
-          	<button id = "showRezervacije" class='btn-nav'> Moje rezervacije</button>
+          	<button id = "showRezervacije" class='btn-nav'> My reservations</button>
           </li>
+          <li><div class="vl"></div></li>
           <li class="nav-item">
           	<button id = "showMyAccount" class='btn-nav'> My account</button>
           </li>
+          <li><div class="vl"></div></li>
 		  <li class="nav-item">
           	<button id = "showMyAccount" class='btn-logout'> Logout</button>
           </li>
@@ -104,9 +110,90 @@
 <br>
 <br>
 <br>
-<div id='divOffer'>
- Div offer
+
+<div id='divOffer' align="center">
+	<h3>Apartments</h3> 
+	<br/>
+	 	<table id = "tablePrikazApartmana" width = "50%">
+			<tr align='center'>
+				<td>id</td>
+				<td>Type</td>
+				<td>Host</td>
+				<td>Price</td>
+				<td>Rooms</td>
+				<td>Guests</td>
+				<td>Address</td>
+			</tr>
+			<tr align='center'>
+				<td>1</td>
+				<td>Kuca</td>
+				<td>Dusan</td>
+				<td>1000e</td>
+				<td>3</td>
+				<td>8</td>
+				<td>Ulica 1000 rupa</td>
+				<td> <button id='komentariAp1' class="btn-edit"> Comments </button></td>
+				<td> <button id='bookAp1' class="btn-add"> Book </button></td>
+				
+			</tr>
+		</table>
 </div>
+
+<div id="detalji" style="margin-left: 620px;">
+			Details and comments </br></br>
+
+			<table id="tableDetails">
+				<tr>
+					<td>Apartment id:</td>
+					<td><input type="text" disabled id="txtIdApartmana"> </td>
+				</tr>
+				<tr>
+					<td>Entering time:</td>
+					<td><input type="text" disabled id="txtVremePrijave"> </td>
+				</tr>
+				<tr>
+					<td>Exit time: </td>
+					<td><input type="text" disabled id="txtVremeOdjave"></td>
+				</tr>
+				<tr>
+					<td>Host: </td>
+					<td><input type="text" disabled id="txtDomacin"></td>
+				</tr>
+				<tr>
+					<td>Sadrzaj: </td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<table id="tableSadrzaj"> </table>							
+					</td>
+				</tr>
+				<tr>
+					<td>Slike: </td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<table id="tableSlike"> </table>							
+					</td>
+				</tr>	
+				<tr>
+					<td>Komentari: </td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<table id="tableKomentari"> </table>							
+					</td>
+				</tr>					
+			</table>
+			<button class="btn-delete"> Back </button>
+
+			</div>
+
 
 <div id = 'divRezervacije' align='center'>
  <button id="showKreirane" class="btn-edit"> Kreirane </button>
@@ -180,8 +267,6 @@
 				<td>Status</td>
 			</tr>
 		</table>
-	</div>
-
 </div>
 
 
@@ -289,20 +374,6 @@
 				</tr>
 			</table>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

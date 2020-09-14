@@ -1,3 +1,16 @@
+function dodajApartmanTr(apartman){
+	let c = "<tr align='center'> " +
+			" <td>" + apartman.id + "</td> " +
+			" <td>" + apartman.type + "</td> " +
+			" <td>" + apartman.host + "</td> " +
+			" <td>" + apartman.pricePerNight + "</td> " +
+			" <td>" + apartman.numberOfRooms + "</td> " +
+			" <td>" + apartman.numberOfGuests + "</td> " +
+ 			" <td>" + apartman.location + "</td> " +
+			" <td> <button id='showComments" + apartman.id + "' class='btn-edit'> Comments </button></td>" +
+			" <td> <button id='bookApartment" + apartman.id + "' class= 'btn-add' >  Book </button></td> </tr>; ";
+	$("#tablePrikazApartmana").append(c);
+}
 
 function initHide(){
 	$("#divRezervacije").hide();
@@ -75,7 +88,6 @@ function initShowButtons(){
 			} else {
 				gender = false;
 			}
-			console.log(gender);
 			let data = {
 				username: username,
 				password: password,
@@ -142,10 +154,28 @@ function getLoggedUserData(){
 	})
 }
 
-$(document).ready(function (){
-	initShowButtons();
+	// dobavljanje svih aktivnih oglasa za prikaz
+	$(document).ready(function (){
+		initShowButtons();
+		
+		dodajVrstuKreirane();
+		dodajVrstuPrihvacene();
 	
-	dodajVrstuKreirane();
-	dodajVrstuPrihvacene();
+		$.ajax({
 	
-});
+			type: "GET",
+			url: 'rest/apartment/active',
+			contentType: 'application/json',
+			success: function(oglasi) {
+		    	for(let apartman of oglasi) {
+					dodajApartmanTR(apartman);
+					 	$( "#detalji" +oglas.uuid).click(function() {
+							alert(oglas.uuid);
+					 
+						});
+					}
+			}
+		});
+			
+	});
+	
