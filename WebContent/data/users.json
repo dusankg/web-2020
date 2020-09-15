@@ -20,17 +20,7 @@
 		"role": "Guest",
 		"myApartments": [],
 		"rentedApartments": [],
-		"reservationList": [
-			{
-				"id": 1,
-				"apartment": 1,
-				"startDate": null,
-				"numberOfNights": 3,
-				"price": 2000,
-				"reservationMessage": "Nemoj da bude poslednja ekskurzija!",
-				"guest": "user1"
-			}
-		]
+		"reservationList": [1]
 	},
     "zena": {
         "username": "zena",
@@ -41,7 +31,7 @@
         "role": "Guest",
         "myApartments": [],
         "rentedApartments": [],
-        "reservationList": []
+        "reservationList": [2]
     },
     "domacin": {
         "username": "domacin",
@@ -50,26 +40,7 @@
         "lastName": "Domacinski",
         "gender": true,
         "role": "Host",
-        "myApartments": [
-        	{
-				"id": 1,
-				"type": "soba",
-				"numberOfRooms": 2,
-				"numberOfGuests": 2,
-				"location": {},
-				"dates": [],
-				"availableDates": [],
-				"host": "domacin",
-				"comments": [],
-				"images": [],
-				"pricePerNight": 50,
-				"checkInTime": 2,
-				"checkOutTime": 10,
-				"status": "aktivan",
-				"amenities": [],
-				"reservations": []
-			}
-        ],
+        "myApartments": [1],
         "rentedApartments": [],
         "reservationList": []
     }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Reservation {
 
-	private Long id;
+	private Integer id;
 	
 	private Integer apartment;
 	
@@ -24,7 +24,7 @@ public class Reservation {
 		
 	}
 
-	public Reservation(Long id, Integer apartment, Date startDate, int numberOfNights, double price, String reservationMessage,
+	public Reservation(Integer id, Integer apartment, Date startDate, int numberOfNights, double price, String reservationMessage,
 			String guest, String status) {
 		super();
 		this.id = id;
@@ -37,11 +37,11 @@ public class Reservation {
 		this.status = status;
 	}
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -99,6 +99,13 @@ public class Reservation {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Reservation [id=" + id + ", apartment=" + apartment + ", startDate=" + startDate + ", numberOfNights="
+				+ numberOfNights + ", price=" + price + ", reservationMessage=" + reservationMessage + ", guest="
+				+ guest + ", status=" + status + "]";
 	}
 	
 	

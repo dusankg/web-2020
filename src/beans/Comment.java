@@ -1,10 +1,12 @@
 package beans;
 
 public class Comment {
-
-	private User guest;
 	
-	private Apartment apartment;
+	private Integer id;
+
+	private String guest;
+	
+	private Integer apartment;
 	
 	private String text;
 	
@@ -16,28 +18,37 @@ public class Comment {
 		
 	}
 
-	public Comment(User guest, Apartment apartment, String text, int grade, boolean visible) {
+	public Comment(Integer id, String guest, Integer apartment, String text, int grade, boolean visible) {
 		super();
+		this.id = id;
 		this.guest = guest;
 		this.apartment = apartment;
 		this.text = text;
 		this.grade = grade;
 		this.visible = visible;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
-	public User getGuest() {
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getGuest() {
 		return guest;
 	}
 
-	public void setGuest(User guest) {
+	public void setGuest(String guest) {
 		this.guest = guest;
 	}
 
-	public Apartment getApartment() {
+	public Integer getApartment() {
 		return apartment;
 	}
 
-	public void setApartment(Apartment apartment) {
+	public void setApartment(Integer apartment) {
 		this.apartment = apartment;
 	}
 

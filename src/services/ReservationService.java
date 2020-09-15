@@ -23,6 +23,7 @@ import beans.Reservation;
 import beans.User;
 import dao.ApartmentDAO;
 import dao.ReservationDAO;
+import dao.UserDAO;
 
 @Path("reservation")
 public class ReservationService {
@@ -38,19 +39,23 @@ public class ReservationService {
 	
 	@PostConstruct
 	public void init() {
-		this.contextPath = ctx.getRealPath("");
+		this.contextPath = ctx.getRealPath("");		
 		
 		ReservationDAO reservationDAO = new ReservationDAO(contextPath);
-		
 		if(ctx.getAttribute("reservations") == null)
 			ctx.setAttribute("reservations", reservationDAO);
+		
+		ApartmentDAO apartmentDAO = new ApartmentDAO(contextPath);
+		if(ctx.getAttribute("apartments") == null)
+			ctx.setAttribute("apartments", apartmentDAO);
+
 		
 	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Reservation getReservation(@PathParam("id") Long id) {
+	public Reservation getReservation(@PathParam("id") Integer id) {
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		
 		Reservation reservation = reservationDAO.findReservation(id);
@@ -114,11 +119,16 @@ public class ReservationService {
 		if (!user.getRole().equals("Host"))
 			return null; // forbidden
 		
-		List<Apartment> myApartments = user.getMyApartments();
+		List<Integer> myApartments = user.getMyApartments();
+		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
+		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations"); 
+		
 		List<Reservation> receivedReservations = new ArrayList<>();
 		
-		for (Apartment apartment : myApartments) {
-			for (Reservation reservation : apartment.getReservations()) {
+		for (Integer idApartment : myApartments) {
+			Apartment apartment = apartmentDAO.findApartment(idApartment);
+			for (Integer reservationId : apartment.getReservations()) {
+				Reservation reservation = reservationDAO.findReservation(reservationId);
 				receivedReservations.add(reservation);
 			}
 		}
@@ -135,15 +145,25 @@ public class ReservationService {
 	public Reservation acceptReservation(Reservation reservation, @Context HttpServletRequest request) {
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
+		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (!user.getRole().equals("Host")) 
 			return null; // forbidden
 		
 		if (reservation.getStatus().equals("Created")) {
+			System.out.println("USAO U KLOZET");
 			reservation.setStatus("Accepted");
 			Reservation retReservation = reservationDAO.updateReservation(reservation);
 			reservationDAO.saveReservations(this.contextPath);
+			
+			// Dodavanje apartmana u spisak iznajmljenih apartmana gosta NISAM BAS SIGURAN GDE BI TREBALO OVO DODAVATI
+			Apartment rentedApartment = apartmentDAO.findApartment(reservation.getApartment());
+			User guest = userDAO.findUser(reservation.getGuest());
+			guest.getRentedApartments().add(rentedApartment.getId());
+			userDAO.saveUsers(contextPath);
+			
 			return retReservation;
 		} else {
 			return null; //404
@@ -168,6 +188,7 @@ public class ReservationService {
 			reservation.setStatus("Rejected");
 			Reservation retReservation = reservationDAO.updateReservation(reservation);
 			reservationDAO.saveReservations(this.contextPath);
+			
 			return retReservation;
 		} else {
 			return null; //404
@@ -232,6 +253,7 @@ public class ReservationService {
 	public Reservation createReservation(Reservation reservation, @Context HttpServletRequest request) {
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if (!loggedUser.getRole().equals("Guest")) {
@@ -239,7 +261,7 @@ public class ReservationService {
 		}
 		
 		// Dodavanje id-ja rezervaciji
-		Long maxId = 1L;
+		Integer maxId = 1;
 		Collection<Reservation> reservations = reservationDAO.findAllReservations();
 		for (Reservation res : reservations) {
 			if (res.getId() > maxId)
@@ -259,6 +281,17 @@ public class ReservationService {
 		
 		reservationDAO.addReservation(reservation);
 		reservationDAO.saveReservations(contextPath);
+		
+		// Dodavanje rezervacije useru
+		User user = userDAO.findUser(loggedUser.getUsername());
+		user.getReservationList().add(reservation.getId());
+		userDAO.updateUser(user);
+		userDAO.saveUsers(contextPath);
+		
+		// Dodavanje rezervacije apartmanu
+		apartment.getReservations().add(reservation.getId());
+		apartmentDAO.updateApartment(apartment);
+		apartmentDAO.saveApartments(contextPath);
 		
 		return reservation;
 	}

@@ -21,7 +21,7 @@ public class Apartment {
 	
 	private String host;
 	
-	private List<Comment> comments;
+	private List<Integer> comments;
 	
 	private List<String> images;
 	
@@ -35,15 +35,15 @@ public class Apartment {
 	
 	private List<Amenity> amenities;
 	
-	private List<Reservation> reservations;
+	private List<Integer> reservations;
 	
 	public Apartment() {
 		
 	}
 
 	public Apartment(Integer id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
-			List<Date> availableDates, String host, List<Comment> comments, List<String> images, double pricePerNight,
-			int checkInTime, int checkOutTime, String status, List<Amenity> amenities, List<Reservation> reservations) {
+			List<Date> availableDates, String host, List<Integer> comments, List<String> images, double pricePerNight,
+			int checkInTime, int checkOutTime, String status, List<Amenity> amenities, List<Integer> reservations) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -127,11 +127,11 @@ public class Apartment {
 		this.host = host;
 	}
 
-	public List<Comment> getComments() {
+	public List<Integer> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<Integer> comments) {
 		this.comments = comments;
 	}
 
@@ -183,14 +183,22 @@ public class Apartment {
 		this.amenities = amenities;
 	}
 
-	public List<Reservation> getReservations() {
+	public List<Integer> getReservations() {
 		return reservations;
 	}
 
-	public void setReservations(List<Reservation> reservations) {
+	public void setReservations(List<Integer> reservations) {
 		this.reservations = reservations;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Apartment [id=" + id + ", type=" + type + ", numberOfRooms=" + numberOfRooms + ", numberOfGuests="
+				+ numberOfGuests + ", location=" + location + ", dates=" + dates + ", availableDates=" + availableDates
+				+ ", host=" + host + ", comments=" + comments + ", images=" + images + ", pricePerNight="
+				+ pricePerNight + ", checkInTime=" + checkInTime + ", checkOutTime=" + checkOutTime + ", status="
+				+ status + ", amenities=" + amenities + ", reservations=" + reservations + "]";
+	}
 	
 	
 }

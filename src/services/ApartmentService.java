@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import beans.Apartment;
 import beans.User;
 import dao.ApartmentDAO;
+import dao.UserDAO;
 
 @Path("apartment")
 public class ApartmentService {
@@ -170,10 +171,11 @@ public class ApartmentService {
 			}
 		}
 		
-		// ap je apartman pre izmene
-		Apartment ap = apartmentDAO.updateApartment(apartment);
+		// updateApartment vraca apartment pre izmene
+		apartmentDAO.updateApartment(apartment);
 		apartmentDAO.saveApartments(contextPath);
-		return ap;
+		
+		return apartment;
 		
 	}
 	
@@ -227,6 +229,13 @@ public class ApartmentService {
 
 		apartmentDAO.addApartment(apartment);
 		apartmentDAO.saveApartments(contextPath);
+		
+		// users.json 
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
+		loggedUser.getMyApartments().add(apartment.getId());
+		userDAO.updateUser(loggedUser);
+		userDAO.saveUsers(contextPath);
+		
 		
 		return apartment;
 	}

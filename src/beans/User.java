@@ -17,18 +17,18 @@ public class User {
 	
 	private String role;
 	
-	private List<Apartment> myApartments;
+	private List<Integer> myApartments;
 	
-	private List<Apartment> rentedApartments;
+	private List<Integer> rentedApartments;
 	
-	private List<Reservation> reservationList;
+	private List<Integer> reservationList;
 	
 	public User() {
 		
 	}
 
 	public User(String username, String password, String firstName, String lastName, boolean gender, String role,
-			List<Apartment> myApartments, List<Apartment> rentedApartments, List<Reservation> reservationList) {
+			List<Integer> myApartments, List<Integer> rentedApartments, List<Integer> reservationList) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -89,27 +89,27 @@ public class User {
 		this.role = role;
 	}
 
-	public List<Apartment> getMyApartments() {
+	public List<Integer> getMyApartments() {
 		return myApartments;
 	}
 
-	public void setMyApartments(List<Apartment> myApartments) {
+	public void setMyApartments(List<Integer> myApartments) {
 		this.myApartments = myApartments;
 	}
 
-	public List<Apartment> getRentedApartments() {
+	public List<Integer> getRentedApartments() {
 		return rentedApartments;
 	}
 
-	public void setRentedApartments(List<Apartment> rentedApartments) {
+	public void setRentedApartments(List<Integer> rentedApartments) {
 		this.rentedApartments = rentedApartments;
 	}
 
-	public List<Reservation> getReservationList() {
+	public List<Integer> getReservationList() {
 		return reservationList;
 	}
 
-	public void setReservationList(List<Reservation> reservationList) {
+	public void setReservationList(List<Integer> reservationList) {
 		this.reservationList = reservationList;
 	}
 

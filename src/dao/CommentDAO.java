@@ -14,24 +14,24 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-import beans.Reservation;
+import beans.Comment;
 
-public class ReservationDAO {
+public class CommentDAO {
 
-	private Map<Integer, Reservation> reservations = new HashMap<>();
+	private Map<Integer, Comment> comments = new HashMap<>();
 	
-	public ReservationDAO() {
+	public CommentDAO() {
 		
 	}
 	
-	public ReservationDAO(String contextPath) {
-		loadReservations(contextPath);
+	public CommentDAO(String contextPath) {
+		loadComments(contextPath);
 	}
 	
-	public void loadReservations(String path) {
+	public void loadComments(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(path + "/data/reservations.json");
+			File file = new File(contextPath + "/data/comments.json");
 			in = new BufferedReader(new FileReader(file));
 			String line;
 			StringBuilder sb = new StringBuilder();
@@ -39,7 +39,7 @@ public class ReservationDAO {
 				sb.append(line);
 			}
 			ObjectMapper mapper = new ObjectMapper();
-			this.reservations = mapper.readValue(sb.toString(),  new TypeReference<Map<Integer, Reservation>>(){});
+			this.comments = mapper.readValue(sb.toString(),  new TypeReference<Map<Integer, Comment>>(){});
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -49,17 +49,17 @@ public class ReservationDAO {
 				} catch (Exception e) {}
 			}
 		} 
-	
+
 	}
 	
-	public void saveReservations(String path) {
+	public void saveComments(String contextPath) {
 		BufferedWriter out = null;
 		try {
-			File file = new File(path + "/data/reservations.json");
+			File file = new File(contextPath + "/data/comments.json");
 			out = new BufferedWriter(new FileWriter(file));
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-			String content = writer.writeValueAsString(this.reservations);
+			String content = writer.writeValueAsString(this.comments);
 			out.write(content);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,19 +72,19 @@ public class ReservationDAO {
 		}
 	}
 	
-	public Reservation findReservation(Integer id) {
-		return this.reservations.get(id);
+	public Comment addComment(Comment comment) {
+		return this.comments.put(comment.getId(), comment);
 	}
 	
-	public Collection<Reservation> findAllReservations() {
-		return this.reservations.values();
+	public Collection<Comment> findAllComments() {
+		return this.comments.values();
 	}
 	
-	public Reservation updateReservation(Reservation reservation) {
-		return this.reservations.replace(reservation.getId(), reservation);
+	public Comment findComment(Integer id) {
+		return this.comments.get(id);
 	}
 	
-	public Reservation addReservation(Reservation reservation) {
-		return this.reservations.put(reservation.getId(), reservation);
+	public Comment updateComment(Comment comment) {
+		return this.comments.replace(comment.getId(), comment);
 	}
 }

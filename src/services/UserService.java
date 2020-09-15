@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -19,6 +20,8 @@ import javax.ws.rs.core.MediaType;
 import beans.Apartment;
 import beans.Reservation;
 import beans.User;
+import dao.ApartmentDAO;
+import dao.ReservationDAO;
 import dao.UserDAO;
 
 @Path("user")
@@ -37,10 +40,20 @@ public class UserService {
 		System.out.println(contextPath);
 		
 		UserDAO userDAO = new UserDAO(contextPath);
-		
 		if(ctx.getAttribute("users") == null) {
 			ctx.setAttribute("users", userDAO);
 		}
+		
+		ApartmentDAO apartmentDAO = new ApartmentDAO(contextPath);
+		if(ctx.getAttribute("apartments") == null) {
+			ctx.setAttribute("apartments", apartmentDAO);
+		}
+		
+		ReservationDAO reservationDAO = new ReservationDAO(contextPath);
+		if(ctx.getAttribute("reservations") == null) {
+			ctx.setAttribute("reservations", reservationDAO);
+		}
+		
 	}
 	
 	@GET
@@ -79,9 +92,9 @@ public class UserService {
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		
 		user.setRole("Host");
-		user.setMyApartments(new ArrayList<Apartment>());
-		user.setRentedApartments(new ArrayList<Apartment>());
-		user.setReservationList(new ArrayList<Reservation>());
+		user.setMyApartments(new ArrayList<Integer>());
+		user.setRentedApartments(new ArrayList<Integer>());
+		user.setReservationList(new ArrayList<Integer>());
 		
 		if (userDAO.findUser(user.getUsername()) != null) {
 			return user;
@@ -94,7 +107,30 @@ public class UserService {
 		return user;
 	}
 	
-	// TODO: Dodati pregled svih korisnika koji su izvrsili rezervaciju za moje apartmane
+	// Pregled svih korisnika koji su izvrsili rezervaciju za moje apartmane
+	@GET
+	@Path("/reservations-for-me")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> getUsersWithReservations(@Context HttpServletRequest request) {
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
+		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
+		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		
+		List<User> usersToShow = new ArrayList<>();
+		
+		for (Integer idApartment : loggedUser.getMyApartments()) {
+			Apartment a = apartmentDAO.findApartment(idApartment);	
+			for (Integer idReservation : a.getReservations()) {
+				Reservation r = reservationDAO.findReservation(idReservation);
+				usersToShow.add(userDAO.findUser(r.getGuest()));
+			}
+		}
+		
+		return usersToShow;
+		
+	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

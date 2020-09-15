@@ -13,8 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.Apartment;
-import beans.Reservation;
 import beans.User;
 import dao.UserDAO;
 
@@ -75,9 +73,9 @@ public class LoginService {
 		System.out.println(user);
 		// Dodavanje svih atributa da ne bi bili null
 		user.setRole("Guest");
-		user.setMyApartments(new ArrayList<Apartment>());
-		user.setRentedApartments(new ArrayList<Apartment>());
-		user.setReservationList(new ArrayList<Reservation>());
+		user.setMyApartments(new ArrayList<Integer>());
+		user.setRentedApartments(new ArrayList<Integer>());
+		user.setReservationList(new ArrayList<Integer>());
 		System.out.println(user);
 		
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");

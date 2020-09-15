@@ -2,44 +2,44 @@ package beans;
 
 public class Location {
 
-	private String latitude;
+	private double latitude;
 	
-	private String longitude;
+	private double longitude;
 	
-	private String address;
+	private Address address;
 
 	public Location() {
 		
 	}
 	
-	public Location(String latitude, String longitude, String address) {
+	public Location(double latitude, double longitude, Address address) {
 		super();
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.address = address;
 	}
 
-	public String getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(String latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
-	public String getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 	

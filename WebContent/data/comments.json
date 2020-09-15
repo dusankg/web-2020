@@ -1,0 +1,10 @@
+{
+	"1": {
+		"id": 1,
+		"guest": "user1",
+		"apartment": 1,
+		"text": "Lepo druzenje sa pacovima, plafonjera mi umalo nije pala na glavu. Ima kablovksa.",
+		"grade": 3,
+		"visible": true
+	}
+}
