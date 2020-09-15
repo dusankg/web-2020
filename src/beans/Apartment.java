@@ -27,9 +27,9 @@ public class Apartment {
 	
 	private double pricePerNight;
 	
-	private int checkInTime;
+	private String checkInTime;
 	
-	private int checkOutTime;
+	private String checkOutTime;
 	
 	private String status;
 	
@@ -42,8 +42,8 @@ public class Apartment {
 	}
 
 	public Apartment(Integer id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
-			List<Date> availableDates, String host, List<Integer> comments, List<String> images, double pricePerNight,
-			int checkInTime, int checkOutTime, String status, List<Amenity> amenities, List<Integer> reservations) {
+			List<Date> availableDates, String host, List<Comment> comments, List<String> images, double pricePerNight,
+			String checkInTime, String checkOutTime, String status, List<Amenity> amenities, List<Reservation> reservations) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -151,19 +151,19 @@ public class Apartment {
 		this.pricePerNight = pricePerNight;
 	}
 
-	public int getCheckInTime() {
+	public String getCheckInTime() {
 		return checkInTime;
 	}
 
-	public void setCheckInTime(int checkInTime) {
+	public void setCheckInTime(String checkInTime) {
 		this.checkInTime = checkInTime;
 	}
 
-	public int getCheckOutTime() {
+	public String getCheckOutTime() {
 		return checkOutTime;
 	}
 
-	public void setCheckOutTime(int checkOutTime) {
+	public void setCheckOutTime(String checkOutTime) {
 		this.checkOutTime = checkOutTime;
 	}
 

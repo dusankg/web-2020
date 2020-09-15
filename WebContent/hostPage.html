@@ -49,9 +49,8 @@
 	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
 	
 	  <!-- Custom styles for this template -->
-	  <link href="css/shop-homepage.css" rel="stylesheet">
   
-   	<script src="vendor/jquery/jquery.min.js"></script>
+   	<script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	
 	<script type="text/javascript" src="hostPage.js"></script>
@@ -61,7 +60,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Airbnb</a>
+      <a class="navbar-brand" href="#">Airbnb host</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -86,7 +85,6 @@
 <br>  
 <br> 
 <br>
-<h3>Airbnb host</h3>
  <button id="showApartmani" class="btn-add"> Apartmani </button>
  <button id="showRezervacije" class="btn-add"> Rezervacije </button>
  <button id="showKomentari" class="btn-add"> Komentari </button>
@@ -109,17 +107,7 @@
 				<td>Guests</td>
 				<td>Address</td>
 			</tr>
-			<tr align='center'>
-				<td>1</td>
-				<td>Kuca</td>
-				<td>Dusan</td>
-				<td>1000e</td>
-				<td>3</td>
-				<td>8</td>
-				<td>Ulica 1000 rupa</td>
-				<td> <button id='obrisiAp1' class="btn-delete"> Edit </button></td>
-				<td> <button id='obrisiAp1' class="btn-delete"> Delete </button></td>
-			</tr>
+
 		</table>
  	</div>
  	
@@ -158,11 +146,11 @@
 				</tr>
 				<tr>
 					<td> Leave time </td>
-					<td> <input type = 'time' id = 'editApartmentLeaveTim'> </td>
+					<td> <input type = 'time' id = 'editApartmentLeaveTime'> </td>
 				</tr>
 				<tr>
 					<td></td>
-					<td> <button id='editApartment'> Confirm </button></td>
+					<td> <button id='confirmEditApartment'> Confirm </button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -176,36 +164,32 @@
  		<table>
 			<tbody>
 				<tr>
-					<td> Host </td>
-					<td> <input disabled id = 'editApartmentHost'> </td>
-				</tr>
-				<tr>
 					<td> Type </td>
-					<td> <input id = 'editApartmentType'> </td>
+					<td> <input id = 'newApartmentType'> </td>
 				</tr>
 				<tr>
 					<td> Rooms </td>
-					<td> <input type = 'number' id = 'editApartmentRooms'>  </td>
+					<td> <input type = 'number' id = 'newApartmentRooms'>  </td>
 				</tr>
 				<tr>
 					<td>Guests</td>
-					<td> <input type = 'number' id = 'editApartmentGuests'> </td>
+					<td> <input type = 'number' id = 'newApartmentGuests'> </td>
 				</tr>
 				<tr>
 					<td>Price</td>
-					<td> <input type = 'number' id = 'editApartmentPrice'> </td>
+					<td> <input type = 'number' id = 'newApartmentPrice'> </td>
 				</tr>
 				<tr>
 					<td> Enter time </td>
-					<td><input type = 'time' id = 'editApartmentEnterTime'> </td>
+					<td><input type = 'time' id = 'newApartmentEnterTime'> </td>
 				</tr>
 				<tr>
 					<td> Leave time </td>
-					<td> <input type = 'time' id = 'editApartmentLeaveTim'> </td>
+					<td> <input type = 'time' id = 'newApartmentLeaveTim'> </td>
 				</tr>
 				<tr>
 					<td></td>
-					<td> <button id='editApartment'> Confirm </button></td>
+					<td> <button id="confirmNewApartment"> Confirm </button></td>
 				</tr>
 			</tbody>
 		</table>
