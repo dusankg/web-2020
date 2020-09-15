@@ -33,7 +33,7 @@ public class Apartment {
 	
 	private String status;
 	
-	private List<Amenity> amenities;
+	private List<Integer> amenities;
 	
 	private List<Integer> reservations;
 	
@@ -42,8 +42,8 @@ public class Apartment {
 	}
 
 	public Apartment(Integer id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
-			List<Date> availableDates, String host, List<Comment> comments, List<String> images, double pricePerNight,
-			String checkInTime, String checkOutTime, String status, List<Amenity> amenities, List<Reservation> reservations) {
+			List<Date> availableDates, String host, List<Integer> comments, List<String> images, double pricePerNight,
+			int checkInTime, int checkOutTime, String status, List<Integer> amenities, List<Integer> reservations) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -175,11 +175,11 @@ public class Apartment {
 		this.status = status;
 	}
 
-	public List<Amenity> getAmenities() {
+	public List<Integer> getAmenities() {
 		return amenities;
 	}
 
-	public void setAmenities(List<Amenity> amenities) {
+	public void setAmenities(List<Integer> amenities) {
 		this.amenities = amenities;
 	}
 

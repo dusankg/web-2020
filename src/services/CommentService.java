@@ -86,6 +86,7 @@ public class CommentService {
 			}
 			comment.setId(++maxId);
 			comment.setVisible(true);
+			comment.setGuest(loggedUser.getUsername());
 			
 			commentDAO.addComment(comment);
 			
@@ -106,13 +107,13 @@ public class CommentService {
 	
 	// Pregled svih komentara za domacine
 	@GET
-	@Path("/my-apartmants")
+	@Path("/my-apartments")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Comment> getCommentsForMyApartments(@Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		
-		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("comment");
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("comments");
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		Collection<Comment> allComments = commentDAO.findAllComments();
 		
