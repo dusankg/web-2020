@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.Apartment;
 import beans.Reservation;
@@ -72,11 +73,11 @@ public class ReservationService {
 	@GET
 	@Path("/my")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Reservation> getMyReservations(@Context HttpServletRequest request) {
+	public Response getMyReservations(@Context HttpServletRequest request) {
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (!user.getRole().equals("Guest"))
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		Collection<Reservation> reservations = reservationDAO.findAllReservations();
@@ -87,7 +88,7 @@ public class ReservationService {
 				myReservations.add(reservation);
 		}
 		
-		return myReservations;
+		return Response.status(200).entity(myReservations).build();
 		
 	}
 
@@ -113,11 +114,11 @@ public class ReservationService {
 	@GET
 	@Path("/received")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Reservation> getReceived(@Context HttpServletRequest request) {
+	public Response getReceived(@Context HttpServletRequest request) {
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (!user.getRole().equals("Host"))
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		
 		List<Integer> myApartments = user.getMyApartments();
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -133,7 +134,7 @@ public class ReservationService {
 			}
 		}
 		
-		return receivedReservations;
+		return Response.status(200).entity(receivedReservations).build();
 		
 	}
 	
@@ -142,7 +143,7 @@ public class ReservationService {
 	@Path("/accept")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Reservation acceptReservation(Reservation reservation, @Context HttpServletRequest request) {
+	public Response acceptReservation(Reservation reservation, @Context HttpServletRequest request) {
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -150,7 +151,7 @@ public class ReservationService {
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (!user.getRole().equals("Host")) 
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		
 		if (reservation.getStatus().equals("Created")) {
 			System.out.println("USAO U KLOZET");
@@ -168,9 +169,9 @@ public class ReservationService {
 			
 			//reservation.getStartDate()
 			
-			return retReservation;
+			return Response.status(200).entity(retReservation).build();
 		} else {
-			return null; //404
+			return Response.status(400).build(); //404
 		}
 		
 	}
@@ -180,22 +181,22 @@ public class ReservationService {
 	@Path("/reject")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Reservation rejectReservation(Reservation reservation, @Context HttpServletRequest request) {
+	public Response rejectReservation(Reservation reservation, @Context HttpServletRequest request) {
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (!user.getRole().equals("Host")) 
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		
 		if (reservation.getStatus().equals("Created") || reservation.getStatus().equals("Accepted")) {
 			reservation.setStatus("Rejected");
 			Reservation retReservation = reservationDAO.updateReservation(reservation);
 			reservationDAO.saveReservations(this.contextPath);
 			
-			return retReservation;
+			return Response.status(200).entity(retReservation).build();
 		} else {
-			return null; //404
+			return Response.status(400).build(); //404
 		}
 		
 	}
@@ -205,13 +206,13 @@ public class ReservationService {
 	@Path("/finish")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Reservation finishReservation(Reservation reservation, @Context HttpServletRequest request) {
+	public Response finishReservation(Reservation reservation, @Context HttpServletRequest request) {
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (!user.getRole().equals("Host")) 
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		
 		// Racunanje datuma zavrsetka rezervacije
 		Date endDate = new Date(reservation.getStartDate().getTime() + reservation.getNumberOfNights()*(24*60*60*1000));
@@ -221,9 +222,9 @@ public class ReservationService {
 			reservation.setStatus("Finished");
 			Reservation retReservation = reservationDAO.updateReservation(reservation);
 			reservationDAO.saveReservations(this.contextPath);
-			return retReservation;
+			return Response.status(200).entity(retReservation).build();
 		} else {
-			return null; //404
+			return Response.status(400).build(); //404
 		}
 		
 	}
@@ -232,11 +233,11 @@ public class ReservationService {
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Reservation> getAllReservations(@Context HttpServletRequest request) {
+	public Response getAllReservations(@Context HttpServletRequest request) {
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (!user.getRole().equals("Admin"))
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		Collection<Reservation> reservations = reservationDAO.findAllReservations();
@@ -246,7 +247,7 @@ public class ReservationService {
 			reservationsList.add(reservation);
 		}
 		
-		return reservationsList;
+		return Response.status(200).entity(reservationsList).build();
 		
 	}
 	
@@ -254,14 +255,14 @@ public class ReservationService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Reservation createReservation(Reservation reservation, @Context HttpServletRequest request) {
+	public Response createReservation(Reservation reservation, @Context HttpServletRequest request) {
 		
 		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if (!loggedUser.getRole().equals("Guest")) {
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		}
 		
 		// Dodavanje id-ja rezervaciji
@@ -297,6 +298,30 @@ public class ReservationService {
 		apartmentDAO.updateApartment(apartment);
 		apartmentDAO.saveApartments(contextPath);
 		
-		return reservation;
+		return Response.status(200).entity(reservation).build();
 	}
+	
+	// Pretraga rezervacija po korisnickom imenu gosta
+	@GET
+	@Path("/search/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response searchReservations(@PathParam("username") String username, @Context HttpServletRequest request){
+		
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		if(!(loggedUser.getRole().equals("Admin") || loggedUser.getRole().equals("Host")))
+			return Response.status(403).build();
+			
+		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
+		
+		Collection<Reservation> reservations = reservationDAO.findAllReservations();
+		List<Reservation> reservationsList = new ArrayList<>();
+		
+		for (Reservation r : reservations) {
+			if(r.getGuest().equals(username))
+				reservationsList.add(r);
+		}
+		
+		return Response.status(200).entity(reservationsList).build();
+	}
+	
 }

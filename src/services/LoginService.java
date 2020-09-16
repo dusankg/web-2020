@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.User;
 import dao.UserDAO;
@@ -62,15 +63,16 @@ public class LoginService {
 	
 	@GET
 	@Path("/logout")
-	public void logout(@Context HttpServletRequest request) {
+	public Response logout(@Context HttpServletRequest request) {
 		request.getSession().invalidate();
+		return Response.status(200).build();
 	}
 	
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public User registration(User user, @Context HttpServletRequest request) {
+	public Response registration(User user, @Context HttpServletRequest request) {
 		
 		System.out.println(user);
 		// Dodavanje svih atributa da ne bi bili null
@@ -82,10 +84,10 @@ public class LoginService {
 		
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		
-		// Ne smogu postojati 2 korisnika sa istim username
+		// Ne mogu postojati 2 korisnika sa istim username
 		if(userDAO.findUser(user.getUsername()) != null) {
 			// Ovde bi verovatno trebalo vratiti nesto drugo, ali kako?
-			return user;
+			return Response.status(400).build();
 		}
 		
 		userDAO.addUser(user);
@@ -93,7 +95,7 @@ public class LoginService {
 		String contextPath = ctx.getRealPath("");
 		userDAO.saveUsers(contextPath);
 		
-		return user;
+		return Response.status(200).entity(user).build();
 	}
 	
 	/**Vraca objekat ulogovanog korisnika.*/

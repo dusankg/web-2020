@@ -24,6 +24,7 @@ import beans.User;
 import dao.ApartmentDAO;
 import dao.ReservationDAO;
 import dao.UserDAO;
+import filters.UserFilter;
 
 @Path("user")
 public class UserService {
@@ -60,16 +61,16 @@ public class UserService {
 	@GET
 	@Path("/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User viewUser(@PathParam("username") String username) {
+	public Response viewUser(@PathParam("username") String username) {
 		
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		User requestedUser = userDAO.findUser(username);
 		
 		if(requestedUser == null) {
-			return null;
+			return Response.status(400).build();
 		}
 		
-		return requestedUser;
+		return Response.status(200).entity(requestedUser).build();
 		
 	}
 	
@@ -89,7 +90,7 @@ public class UserService {
 	@Path("/add")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public User addHost(User user) {
+	public Response addHost(User user) {
 		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
 		
 		user.setRole("Host");
@@ -99,14 +100,14 @@ public class UserService {
 		user.setBlocked(false);
 		
 		if (userDAO.findUser(user.getUsername()) != null) {
-			return user;
+			return Response.status(400).build();
 		}
 		
 		userDAO.addUser(user);
 		String contextPath = ctx.getRealPath("");
 		userDAO.saveUsers(contextPath);
 		
-		return user;
+		return Response.status(200).entity(user).build();
 	}
 	
 	// Pregled svih korisnika koji su izvrsili rezervaciju za moje apartmane
@@ -181,5 +182,48 @@ public class UserService {
 		return Response.status(200).entity(userToBlock).build();
 		
 	}
-	
+
+	// Pretraga korisnika
+	@POST
+	@Path("/search")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response seachUsers(UserFilter filter, @Context HttpServletRequest request) {
+		
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		if(!(loggedUser.getRole().equals("Admin") || loggedUser.getRole().equals("Host")))
+			return Response.status(403).build();
+			
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
+		Collection<User> users = userDAO.findAllUsers();
+		ReservationDAO reservationDAO = (ReservationDAO) ctx.getAttribute("reservations");
+		
+		List<User> filteredUsers = new ArrayList<>();
+		
+		for (User u : users) {
+			if(filter.getRole() != null) {
+				if(!filter.getRole().equals(u.getRole()))
+					break;
+			}
+			if(filter.getGender() != null) {
+				if(!filter.getGender() != u.isGender())
+					break;
+			} 
+			if(filter.getUsername() != null) {
+				if(!filter.getUsername().equals(u.getUsername()))
+					break;
+			}
+			/*
+			 * if(loggedUser.getRole().equals("Host")) { List<Integer> reservations =
+			 * u.getReservationList(); for (Integer i : reservations) { Reservation
+			 * reservation = reservationDAO.findReservation(i);
+			 * if(reservation.getGuest().equals(u.getUsername()))
+			 * 
+			 * } }
+			 */
+			filteredUsers.add(u);
+		}
+		
+		return Response.status(200).entity(filteredUsers).build();
+	}
 }

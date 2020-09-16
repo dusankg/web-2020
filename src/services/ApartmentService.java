@@ -24,6 +24,7 @@ import beans.Apartment;
 import beans.User;
 import dao.ApartmentDAO;
 import dao.UserDAO;
+import filters.ApartmentFilter;
 
 @Path("apartment")
 public class ApartmentService {
@@ -296,6 +297,52 @@ public class ApartmentService {
 		Apartment apartment = apartmentDAO.findApartment(id);
 		
 		return apartment.getAvailableDates();
+	}
+	
+	// Pretraga apartmana
+	@POST
+	@Path("/search")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Apartment> searchApartment(ApartmentFilter filter){
+		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
+		Collection<Apartment> apartments = apartmentDAO.findAllApartments();
+		
+		List<Apartment> filteredApartments = new ArrayList<>();
+		
+		for (Apartment a : apartments) {
+			/*
+			 * if (filter.getStartDate() != null) { if(filter.getStartDate()) break; } if
+			 * (filter.getEndDate() != null) { if(filter.getEndDate) break; }
+			 */
+			if (filter.getCity() != null) {
+				if(!filter.getCity().toLowerCase().equals(a.getLocation().getAddress().getCity().toLowerCase()))
+					break;
+			} 
+			if (filter.getMinPrice() != null) {
+				if(filter.getMinPrice() > a.getPricePerNight())
+					break;
+			} 
+			if (filter.getMaxPrice() != null) {
+				if(filter.getMaxPrice() < a.getPricePerNight())
+					break;
+			} 
+			if (filter.getMinRoomNumber() != null) {
+				if(filter.getMinRoomNumber() > a.getNumberOfRooms())
+					break;
+			} 
+			if (filter.getMaxRoomNumber() != null) {
+				if(filter.getMaxRoomNumber() < a.getNumberOfRooms())
+					break;
+			} 
+			if (filter.getGuestNumber() != null) {
+				if(filter.getGuestNumber() != a.getNumberOfGuests())
+					break;
+			} 
+			filteredApartments.add(a);
+		}
+		
+		return filteredApartments;
 	}
 	
 }
