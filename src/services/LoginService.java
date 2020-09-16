@@ -51,6 +51,8 @@ public class LoginService {
 			return "User with that username doesn't exist!";
 		} else if (!loggedUser.getPassword().equals(user.getPassword())){
 			return "Password that you entered is incorrect!";
+		} else if (loggedUser.isBlocked()) {
+			return "You are blocked! You don't have access to your account.";
 		}
 		else {
 			request.getSession().setAttribute("user", loggedUser);

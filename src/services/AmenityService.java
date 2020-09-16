@@ -65,7 +65,8 @@ public class AmenityService {
 		List<Amenity> amenitiesList = new ArrayList<>();
 		
 		for (Amenity amenity : amenities) {
-			amenitiesList.add(amenity);
+			if(!amenity.isDeleted())
+				amenitiesList.add(amenity);
 		}
 		
 		return amenitiesList;
@@ -76,11 +77,11 @@ public class AmenityService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Amenity addAmenity(Amenity amenity, @Context HttpServletRequest request) {
+	public Response addAmenity(Amenity amenity, @Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if(!loggedUser.getRole().equals("Admin")) {
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		}
 		
 		// Generisanje id-ja
@@ -98,7 +99,7 @@ public class AmenityService {
 		amenityDAO.addAmenity(amenity);
 		amenityDAO.saveAmenities(contextPath);
 		
-		return amenity;
+		return Response.status(201).entity(amenity).build();
 		
 	}
 	
@@ -106,11 +107,11 @@ public class AmenityService {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Amenity changeAmenity(Amenity amenity, @Context HttpServletRequest request) {
+	public Response changeAmenity(Amenity amenity, @Context HttpServletRequest request) {
 
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if(!loggedUser.getRole().equals("Admin")) {
-			return null; // forbidden
+			return Response.status(403).build(); // forbidden
 		}
 		
 		AmenityDAO amenityDAO = (AmenityDAO) ctx.getAttribute("amenities");
@@ -118,7 +119,7 @@ public class AmenityService {
 		
 		amenityDAO.saveAmenities(contextPath);
 		
-		return amenity;
+		return Response.status(200).build();
 	}
 	
 	// Brisanje amenitija (logicko)

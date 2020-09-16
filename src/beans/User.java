@@ -23,12 +23,14 @@ public class User {
 	
 	private List<Integer> reservationList;
 	
+	private boolean blocked;
+	
 	public User() {
 		
 	}
 
 	public User(String username, String password, String firstName, String lastName, boolean gender, String role,
-			List<Integer> myApartments, List<Integer> rentedApartments, List<Integer> reservationList) {
+			List<Integer> myApartments, List<Integer> rentedApartments, List<Integer> reservationList, boolean blocked) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -39,6 +41,7 @@ public class User {
 		this.myApartments = myApartments;
 		this.rentedApartments = rentedApartments;
 		this.reservationList = reservationList;
+		this.blocked = false;
 	}
 
 	public String getUsername() {
@@ -113,11 +116,20 @@ public class User {
 		this.reservationList = reservationList;
 	}
 
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", gender=" + gender + ", role=" + role + ", myApartments=" + myApartments
-				+ ", rentedApartments=" + rentedApartments + ", reservationList=" + reservationList + "]";
+				+ ", rentedApartments=" + rentedApartments + ", reservationList=" + reservationList + ", blocked="
+				+ blocked + "]";
 	}
 	
 	
