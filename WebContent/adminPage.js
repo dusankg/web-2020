@@ -144,15 +144,6 @@ function izmenaApartmana(){
 		
 	});
 }
-function dodajVrstuUser(){
-	let c = "<tr align='center'> " +
-			" <td>1</td> " +
-			" <td>ddd</td> " +
-			" <td>Dusan</td> " +
-			" <td>Blanusa</td> " +
-			" <td>male</td></tr>; ";
-	$("#tablePrikazKorisnika").append(c);
-}
 
 function newAmenity(){
 	$("#createSadrzaj").click(function(event) {
@@ -175,6 +166,7 @@ function newAmenity(){
 			success: function(data) {
 				alert('Amenity added successfull');
 				$('#tablePrikazSadrzaja tbody').empty();
+				$("#newSadrzajName").val('');
 				getAllAmenities();
 				//location.reload();
 			}
@@ -192,26 +184,199 @@ function getAllAmenities(){
 		success: function(amenities) {
 	    	for(let amenity of amenities) {
 				dodajAmenityTr(amenity);
-				 	$( "#editApartment" +apartman.id).click(function() {
+				 	$( "#editAmenity" +amenity.id).click(function() {
 						//alert(apartman.id);
-				 		getAmenityById(apartman.id);
+				 		//getAmenityById(amenity.id, amenity.name);
+				 		$('input#editSadrzajaID').val(amenity.id);
+				 		$('input#editSadrzajaName').val(amenity.name);
 					});
-				 	$( "#deleteApartment" +apartman.id).click(function() {
+				 	$( "#deleteAmenity" +amenity.id).click(function() {
 						//alert(apartman.id);
-				 		deleteAmenityById(apartman.id);
+				 		deleteAmenityById(amenity.id);
 					});
 				}
 		}
 	});	
 }
 
+function editAmenity(){
+	$("#editSadrzaja").click(function(event) {
+		
+		console.log("Pokretanje funcije za edit amenitija");
+		event.preventDefault();
+		
+		var id = $("#editSadrzajaID");
+		var name = $("#editSadrzajaName");
+		var amenity = new Object();
+		
+		amenity.id = id.val();
+		amenity.name = name.val();
+		
+		$.ajax({
+			
+			type: "PUT",
+			url: 'rest/amenity/',
+			contentType: 'application/json',
+			data : JSON.stringify(amenity),
+			success: function(data) {
+				$('#tablePrikazSadrzaja tbody').empty();
+				getAllAmenities();
+				$("#editSadrzajaID").val('');
+				$("#editSadrzajaName").val('');
+				
+				alert('Edit successfull');
+				//location.reload();
+			}
+		});	
+		
+	});
+}
+
+function deleteAmenityById(id){
+	$.ajax({
+		
+		type: "DELETE",
+		url: 'rest/amenity/' + id,
+		contentType: 'application/json',
+		success: function() {
+			alert("Amenity is deleted");
+			$('#tablePrikazSadrzaja tbody').empty();
+			$("#newSadrzajName").val('');
+			getAllAmenities();
+			//location.reload();
+		}, 
+		error: function(){
+			alert("Amenity is not deleted, something went wrong");
+		}
+	});
+}
+
 function dodajAmenityTr(amenity){
 	let c = "<tr align='center'> " +
 	" <td>" + amenity.id + "</td> " +
-	" <td>" + apartman.name + "</td> " +
-	" <td> <button id='editAmenity" + apartman.id + "' class='btn-blue'> Edit </button></td>" +
-	" <td> <button id='deleteAmenity" + apartman.id + "' class= 'btn-delete' >  Delete </button></td> </tr>; ";
+	" <td>" + amenity.name + "</td> " +
+	" <td> <button id='editAmenity" + amenity.id + "' class='btn-blue'> Edit </button></td>" +
+	" <td> <button id='deleteAmenity" + amenity.id + "' class= 'btn-delete' >  Delete </button></td> </tr>; ";
 $("#tablePrikazSadrzaja").append(c);
+}
+
+function getAllUsers(){
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/user/all',
+		contentType: 'application/json',
+		success: function(users) {
+	    	for(let user of users) {
+	    		dodajUserTr(user);
+				 	/*$( "#deleteAmenity" +amenity.id).click(function() {
+						//alert(apartman.id);
+				 		deleteAmenityById(amenity.id);
+					});*/
+				}
+		}
+	});	
+}
+
+function dodajUserTr(user){
+	var gender;
+	if(user.gender == true){
+		gender = "male";
+	} else {
+		gender = "female";
+	}
+	
+	
+	let c = "<tr align='center'> " +
+		" <td>" + user.username + "</td> " +
+		" <td>" + user.firstName + "</td> " +
+		" <td>" + user.lastName + "</td> " +
+		" <td>" + gender + "</td> "+
+		" <td>" + user.role + "</td> ";
+	
+	$("#tablePrikazKorisnika").append(c);
+}
+
+function addHost(){
+	$("#submitRegisterDomacin").click(function(event) {
+		
+		console.log("Pokretanje funcije za dodavanje domacina");
+		event.preventDefault();
+		
+		var username = $("#usernameDomacin");
+		var password = $("#passwordDomacin");
+		var confirmPassword = $("#confirm-passwordDomacin");
+		var name = $("#nameDomacin");
+		var lastName = $("#lastNameDomacin");
+		var male = $("#maleDomacin:checked").val();
+
+		var gender;
+		if(male){
+			gender = "True";
+		}else {
+			gender = "False";
+		}
+		
+		var domacin = new Object();
+		
+		domacin.username = username.val();
+		domacin.password = password.val();
+		domacin.firstName = name.val();
+		domacin.lastName = lastName.val();
+		domacin.gender = gender;
+
+		$.ajax({
+			
+			type: "POST",
+			url: 'rest/user/add',
+			contentType: 'application/json',
+			data : JSON.stringify(domacin),
+			success: function(data) {
+				alert('Host added successfull');
+				$('#tablePrikazKorisnika tbody').empty();
+				$("#usernameDomacin").val('');
+				$("#passwordDomacin").val('');
+				$("#confirm-passwordDomacin").val('');
+				$("#nameDomacin").val('');
+				$("#lastNameDomacin").val('');
+				getAllUsers();
+				//location.reload();
+			},
+			error: function(data){
+				alert('Host id not added successfull, something went wrong');
+			}
+		});	
+		
+	});
+}
+
+function dodajKomentarTR(komentar){
+
+	let c = "<tr align='center'> " +
+	" <td>" + komentar.id + "</td> " +
+	" <td>" + komentar.guest + "</td> " +
+	" <td>" + komentar.apartment + "</td> " +
+	" <td>" + komentar.text + "</td> " +
+	" <td>" + komentar.grade + "</td> " +
+	" <td>" + komentar.visible + "</td> " ;
+	$("#tablePrikazKomentara").append(c);
+}
+
+function getAllComments(){
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/comment/all',
+		contentType: 'application/json',
+		success: function(komentari) {
+	    	for(let komentar of komentari) {
+	    		dodajKomentarTR(komentar);
+				$( "#promeniVidljivostKomentara" +komentar.id).click(function() {
+					promeniVidljivostKomentara(komentar.id);
+				 });
+				}
+		}
+	});	
 }
 
 function initShowButtons(){
@@ -263,11 +428,15 @@ $(document).ready(function (){
 	initShowButtons();
 	
 	getAllApartments();
-	dodajVrstuUser();
 	
 	getAllAmenities();
 	izmenaApartmana();
 	newAmenity();
+	editAmenity();
 	
+	getAllUsers();
 	
+	addHost();
+	
+	getAllComments();
 });

@@ -12,10 +12,10 @@ $(document).ready(function(){
 		let gender;
 		if(male){
 			gender = "True";
-			alert("Musko");
+			//alert("Musko");
 		}else {
 			gender = "False";
-			alert("Zensko");
+			//alert("Zensko");
 		}
 		if (password === confirm_password){
 					$.post({

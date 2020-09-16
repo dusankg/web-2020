@@ -180,7 +180,7 @@ public class CommentService {
 	@GET
 	@Path("/admin/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Comment> getAllComments(@PathParam("id") Integer id){
+	public List<Comment> getAllCommentsForApartment(@PathParam("id") Integer id){
 		
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("comments");
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -192,6 +192,27 @@ public class CommentService {
 		
 		for (Integer idComment : comments) {
 			Comment comment = commentDAO.findComment(idComment);
+			allComments.add(comment);
+		}
+		
+		return allComments;
+				
+	}
+	
+	// Pregled svih komentara za admine
+	@GET
+	@Path("/all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Comment> getAllComments(@PathParam("id") Integer id){
+		
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("comments");
+		Collection<Comment> allApartments = commentDAO.findAllComments();
+
+		
+		List<Comment> allComments = new ArrayList<>();
+		
+		for (Comment comment : allApartments) {
+			//Comment comment = commentDAO.findComment(idComment);
 			allComments.add(comment);
 		}
 		

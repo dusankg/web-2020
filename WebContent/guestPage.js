@@ -199,9 +199,12 @@ function getApartments(){
 	    	for(let apartman of oglasi) {
 				dodajApartmanTr(apartman);
 				 	$( "#detaljiApartmana" +apartman.id).click(function() {
-						//alert(apartman.id);
 						getApartmentById(apartman.id);
 						getCommentsForApartment(apartman.id);
+						
+					});
+				 	$( "#bookApartment" +apartman.id).click(function() {
+				 		makeNewReservation(apartman);						
 					});
 				}
 		}
@@ -209,6 +212,18 @@ function getApartments(){
 }
 
 function getApartmentById(id){
+	$('#tableSadrzaj tbody').empty();
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/amenity/' + id,
+		contentType: 'application/json',
+		success: function(amenities) {
+	    	for(let amenity of amenities) {
+				dodajSadrzajTr(amenity);
+				}
+		}
+	});	
 	$.ajax({
 		
 		type: "GET",
@@ -237,6 +252,47 @@ function getApartmentById(id){
 				}*/
 		}
 	});	
+
+}
+
+function dodajSadrzajTr(amenity){
+	let c = "<tr align='center'> " +
+	" <td>" + amenity.name + "</td> "
+	$("#tableSadrzaj").append(c);
+}
+
+function makeNewReservation(apartman){
+		console.log("Pokretanje funcije za pravljenje nove rezervacije");
+		event.preventDefault();
+		
+		var apartment = apartman.id;
+		var startingDate = $("#reservationStartDate");
+		var numberOfNights = $("#reservationBrojNocenja");
+
+
+		//console.log(checkInTime.val());
+		var reservation = new Object();
+		
+		reservation.apartment = apartment;
+		reservation.startDate = startingDate.val();
+		reservation.numberOfNights = numberOfNights.val();
+		reservation.price = numberOfNights.val() * apartman.pricePerNight;
+
+		console.log(reservation);
+		$.post({
+			url : 'rest/reservation',
+			data : JSON.stringify(reservation),
+			contentType : 'application/json',
+			success : function(data) {
+				alert("Apartments booked successfully");
+				//location.reload();
+			},
+			error : function(data) {
+				alert("Apartments not booked successfully, something went wrong");
+			}
+		});
+		
+
 }
 
 function getReservations(){ // PROMENI PUTANJE; stavi odgovajuce nastavke umesto all
@@ -293,7 +349,7 @@ function getReservations(){ // PROMENI PUTANJE; stavi odgovajuce nastavke umesto
 
 		getApartments();
 		
-		getReservations();
+		//getReservations();
 		
 		
 			

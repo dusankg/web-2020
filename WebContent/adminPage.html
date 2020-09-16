@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <style>
+	table td, table td * {
+	    vertical-align: top;
+	}
   .table-main {
     border-collapse: collapse;
     width: 70%;
+    vertical-align: top
   }
   th, td {
     text-align: left;
@@ -173,25 +177,129 @@
  	</div>
 </div>
  
- <div id = "divUsers">
+ <div id = "divUsers" align="center">
  	<br>
- 	<h3>Users</h3>
- 	
-	<div id="prikazKorisnika">
- 	<table id = "tablePrikazKorisnika">
-		<tr align='center'>
-			<td>ID</td>
-			<td>Username</td>
-			<td>Name</td>
-			<td>Last name</td>
-			<td>Gender</td>
-		</tr>
-	</table>	
+ 		
+ 	<table >
+	<tbody>
+		<tr >
+			<td>
+			<h3>All users</h3>
+				<div id="prikazKorisnika">
+		 	<table id = "tablePrikazKorisnika">
+		 	<thead>
+				<tr align='center'>
+					<td>Username</td>
+					<td>Name</td>
+					<td>Last name</td>
+					<td>Gender</td>
+					<td>Role</td>
+				</tr>
+			</thead>
+			<tbody></tbody>
+			</table>	
+			</div>
+					
+			 </td>
+			<td>
+				<div id="dodavanjeDomacina">
+				<h3>Add host</h3>
+		<form id="formRegister">
+			<table>
+				<tr>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Username*
+									: </<span></span>
+							</div>
+							<input type="text" required class="form-control"
+								placeholder="e.g. username1" id="usernameDomacin"
+								aria-label="e.g. username1" aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Password*
+									: </<span></span>
+							</div>
+							<input type="password" required class="form-control"
+								placeholder="e.g. password1" id="passwordDomacin"
+								aria-label="e.g. pass1" aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+								<tr>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Confirm Password*
+									: </<span></span>
+							</div>
+							<input type="password" required class="form-control"
+								placeholder="e.g. password1" id="confirm-passwordDomacin"
+								aria-label="e.g. pass1" aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Name* :
+									</<span></span>
+							</div>
+							<input type="text" required class="form-control"
+								placeholder="e.g. name1" id="nameDomacin" aria-label="e.g. name1"
+								aria-describedby="basic-addon1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+
+					<td><div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Last
+									Name* : </<span></span>
+							</div>
+							<input type="text" required class="form-control"
+								placeholder="e.g. lastName1" id="lastNameDomacin"
+								aria-label="e.g. lastName1" aria-describedby="basic-addon1">
+						</div></td>
+				</tr>
+				
+				<tr>
+					<div class="btn-group" data-toggle="buttons">
+					  <label class="btn btn-primary active">
+					    <input type="radio" name="options" id="maleDomacin" checked> Male
+					  </label>
+					  <label class="btn btn-primary">
+					    <input type="radio" name="options" id="femaleDomacin"> Female
+					  </label>
+					</div>	
+				</tr>
+				
+				<tr>
+					<td><input type="submit" class="btn btn-secondary"
+						id="submitRegisterDomacin" value="Register" name=""></td>
+				</tr>
+			</table>
+		</form>
 	</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
  </div>
+	
+
  
  
- <div id='divSadrzaji'>
+ <div id='divSadrzaji' align="center">
  <br>
  <h3>Amenities</h3>
  	<div id="divPrikazSadrzaja" style="width: 300px; float: left;">
@@ -241,7 +349,7 @@
  
  
  
- <div id='divRezervacije'>
+ <div id='divRezervacije' align="center">
  <br>
  <h3>Rezervacije</h3>
  	<table id='tablePrikazRezervacije'>
@@ -259,17 +367,21 @@
 	</table>
  </div> 
  
- <div id='divKomentari'>
+ <div id='divKomentari' align="center">
  <br>
  <h3>Komentari</h3>
  	<table id='tablePrikazKomentara'>
-
+		<thead>
 		<tr>
-			<td>Gost</td>
-			<td>Apartman</td>
-			<td>Text</td>
-			<td>Ocena</td>
+			<td>ID</td>
+			<td>Guest</td>
+			<td>Apartment</td>
+			<td>Comment</td>
+			<td>Grade</td>
+			<td>Visible</td>
 		</tr>
+		</thead>
+		<tbody></tbody>
 
 	</table>
  </div>  

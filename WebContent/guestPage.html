@@ -120,6 +120,21 @@
 			<td>
 				<h3>Apartments</h3> 
 				<br/>
+				
+				<table>
+					<tbody>
+					<tr>
+					<td>Starting date</td>
+					<td>Number of nights</td>
+					</tr>
+					<tr>
+					<td><input type="date" id="reservationStartDate"></td>
+					<td><input type="number" id="reservationBrojNocenja" placeholder="Nights"></td>
+					</tr>
+					</tbody>
+				</table>
+
+				
 			 	<table id = "tablePrikazApartmana" width = "50%">
 			 	<thead>
 					<tr align='center'>
@@ -169,7 +184,9 @@
 				<tr>
 					<td></td>
 					<td>
-						<table id="tableSadrzaj"> </table>							
+						<table id="tableSadrzaj">
+							<tbody></tbody>
+						</table>							
 					</td>
 				</tr>
 				<tr>
@@ -210,12 +227,6 @@
 
 
 
-<div id="detalji" style="margin-left: 620px;" hidden>
-
-
-</div>
-
-
 <div id = 'divRezervacije' align='center'>
  <button id="showKreirane" class="btn-edit"> Kreirane </button>
  <button id="showPrihvacene" class="btn-add"> Prihvacene </button>
@@ -223,19 +234,19 @@
 <br>
  <div id='divKomentar' align='center'>
  <br>
- 	<h4>Komentar</h4>
+ 	<h4>Comment</h4>
  	<table>
 		<tbody>
 		<tr>
-			<td>ID</td>
+			<td>Apartment ID</td>
 			<td> <input id='idApartmanaZaKomentar' disabled></td>
 		</tr>
 		<tr>
-			<td>Ocena</td>
+			<td>Grade</td>
 			<td> <input id='idOcenaZaKomentar' type='number'></td>
 		</tr>
 		<tr>
-			<td>Komentar</td>
+			<td>Comment</td>
 			<td> <input id='textKomentara' type='text'></td>
 		</tr>
 		<tr>

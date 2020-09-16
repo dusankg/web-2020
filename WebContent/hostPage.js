@@ -304,6 +304,9 @@ function dodavanjeApartmana(){
 		var price = $("#newApartmentPrice");
 		var checkInTime= $("#newApartmentEnterTime");
 		var checkOutTime = $("#newApartmentLeaveTime");
+		
+		var amenities = $('#newApartmentAmenities').val();
+
 
 		//console.log(checkInTime.val());
 		var oglas = new Object();
@@ -321,7 +324,7 @@ function dodavanjeApartmana(){
 		oglas.pricePerNight = price.val();
 		oglas.checkInTime = checkInTime.val();
 		oglas.checkOutTime = checkOutTime.val();
-		
+		oglas.amenities = amenities;
 		// Ovako treba za type i slike
 		//oglas.imeKategorije=$("#cat").find(":selected").text();
 		//oglas.image = $("#img-upload").attr('src');
@@ -361,6 +364,8 @@ function izmenaApartmana(){
 		var checkInTime= $("#editApartmentEnterTime");
 		var checkOutTime = $("#editApartmentLeaveTime");
 
+		var amenities = $('#editApartmentAmenities').val();
+		
 		//console.log(checkInTime.val());
 		var oglas = new Object();
 		
@@ -379,7 +384,7 @@ function izmenaApartmana(){
 		oglas.pricePerNight = price.val();
 		oglas.checkInTime = checkInTime.val();
 		oglas.checkOutTime = checkOutTime.val();
-		
+		oglas.amenities = amenities;
 		// Ovako treba za type i slike
 		//oglas.imeKategorije=$("#cat").find(":selected").text();
 		//oglas.image = $("#img-upload").attr('src');
@@ -405,6 +410,9 @@ function getApartmentById(id){
 		url: 'rest/apartment/' + id,
 		contentType: 'application/json',
 		success: function(apartman) {
+			$('#newApartmentAmenities').val('');
+			$('#editApartmentAmenities').val('');
+			
 			$('input#editApartmentID').val(apartman.id);
 			$('input#editApartmentHost').val(apartman.host);
 			$('input#editApartmentStatus').val(apartman.status);
@@ -418,6 +426,7 @@ function getApartmentById(id){
 			$('input#editApartmentCity').val(apartman.location.address.city);
 			$('input#editApartmentStreetAndNumber').val(apartman.location.address.streetAndNumber);
 			
+			$('#editApartmentAmenities').val(apartman.amenities);
 	    	/*for(let apartman of oglasi) {
 				dodajApartmanTr(apartman);
 				 	$( "#detalji" +apartman.id).click(function() {
@@ -425,6 +434,33 @@ function getApartmentById(id){
 				 
 					});
 				}*/
+		}
+	});	
+}
+
+function getAllAmenities(){
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/amenity/all',
+		contentType: 'application/json',
+		success: function(amenities) {
+			var selectSize = 1;
+	    	for(let amenity of amenities) {
+				//dodajAmenityTr(amenity);
+	    	    $('#amenitiesDiv').height(selectSize*20);
+	    	    $('#newApartmentAmenities').height(selectSize*20);
+	    	    $('#editApartmentAmenities').height(selectSize*20);
+	    		selectSize ++;
+	    	    $('#newApartmentAmenities').append($('<option/>', { 
+	    	        value: amenity.id,
+	    	        text : amenity.name 
+	    	    }));
+	    	    $('#editApartmentAmenities').append($('<option/>', { 
+	    	        value: amenity.id,
+	    	        text : amenity.name 
+	    	    }));
+			}
 		}
 	});	
 }
@@ -445,7 +481,7 @@ $(document).ready(function (){
 	//izmena apartmana
 	izmenaApartmana();
 	
-	
+	getAllAmenities();
 	
 	
 	
