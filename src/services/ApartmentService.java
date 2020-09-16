@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -50,16 +51,16 @@ public class ApartmentService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment getApartment(@PathParam("id") Integer id) {
+	public Response getApartment(@PathParam("id") Integer id) {
 
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		Apartment apartment = apartmentDAO.findApartment(id);
 
 		if (apartment == null) {
-			return null;
+			return Response.status(400).build();
 		}
 
-		return apartment;
+		return Response.status(200).entity(apartment).build();
 	}
 	
 	// Pregled svih aktivnih apartmana za goste i neulogovane korisnike
@@ -105,11 +106,11 @@ public class ApartmentService {
 	@GET
 	@Path("/my-active")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Apartment> getMyActiveApartments(@Context HttpServletRequest request) {
+	public Response getMyActiveApartments(@Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if(!loggedUser.getRole().equals("Host")) {
-			return null;
+			return Response.status(403).build();
 		} 
 		
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -123,7 +124,7 @@ public class ApartmentService {
 			}
 		}
 		
-		return activeApartments;
+		return Response.status(200).entity(activeApartments).build();
 		
 	}
 	
@@ -131,11 +132,11 @@ public class ApartmentService {
 	@GET
 	@Path("/my-inactive")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Apartment> getMyInactiveApartments(@Context HttpServletRequest request) {
+	public Response getMyInactiveApartments(@Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if(!loggedUser.getRole().equals("Host")) {
-			return null;
+			return Response.status(403).build();
 		} 
 		
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -149,7 +150,8 @@ public class ApartmentService {
 			}
 		}
 		
-		return inactiveApartments;
+		return Response.status(200).entity(inactiveApartments).build();
+		
 		
 	}
 	
@@ -157,18 +159,18 @@ public class ApartmentService {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment changeApartment(Apartment apartment, @Context HttpServletRequest request) {
+	public Response changeApartment(Apartment apartment, @Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if(!(loggedUser.getRole().equals("Host") || loggedUser.getRole().equals("Admin"))) {
-			return null;
+			return Response.status(403).build();
 		} 
 		
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		
 		if(loggedUser.getRole().equals("Host")) {
 			if (!apartment.getHost().equals(loggedUser.getUsername())) {
-				return null;
+				return Response.status(403).build();
 			}
 		}
 		
@@ -176,7 +178,7 @@ public class ApartmentService {
 		apartmentDAO.updateApartment(apartment);
 		apartmentDAO.saveApartments(contextPath);
 		
-		return apartment;
+		return Response.status(200).entity(apartment).build();
 		
 	}
 	
@@ -184,7 +186,12 @@ public class ApartmentService {
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Apartment> getAllApartments() {
+	public Response getAllApartments(@Context HttpServletRequest request) {
+		
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		if (!loggedUser.getRole().equals("Admin")) {
+			return Response.status(403).build();
+		}
 		
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		Collection<Apartment> allApartments = apartmentDAO.findAllApartments();
@@ -194,25 +201,25 @@ public class ApartmentService {
 			apartmentsList.add(apartment);
 		}
 		
-		return apartmentsList;
+		return Response.status(200).entity(apartmentsList).build();
 	}
 	
 	// Dodavanje novog apartmana
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment addApartment(Apartment apartment, @Context HttpServletRequest request) {
+	public Response addApartment(Apartment apartment, @Context HttpServletRequest request) {
 
 		// Bad request
 		if (apartment == null) {
-			return null;
+			return Response.status(400).build();
 		}
 
 		User loggedUser = (User) request.getSession().getAttribute("user");
 	
 		 // Samo domacini mogu dodavati apartmane 
 		if (!loggedUser.getRole().equals("Host")){ 
-			return null; 
+			return Response.status(403).build(); 
 		}
 
 		// Id koji dodajemo generisemo na backendu, inkrementujemo za 1 u odnosu na maksimalni od svih postojecih id-jeva
@@ -227,6 +234,7 @@ public class ApartmentService {
 		
 		apartment.setHost(loggedUser.getUsername());
 		apartment.setStatus("neaktivan");
+		apartment.setComments(new ArrayList<Integer>());
 		apartment.setDeleted(false);
 		
 		apartmentDAO.addApartment(apartment);
@@ -239,7 +247,7 @@ public class ApartmentService {
 		userDAO.saveUsers(contextPath);
 		
 		
-		return apartment;
+		return Response.status(200).entity(apartment).build();
 	}
 	
 	// Brisanje apartmana (logicko, ako ga zelimo potpuno obrisati mora rucno u json fajlu)
@@ -274,5 +282,14 @@ public class ApartmentService {
 	}
 	
 	// TODO: Pregled datuma za koje je izabrani apartman dostupan
+	@GET
+	@Path("/{id}/dates")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Date> getAvailableDates(@PathParam("id") Integer id) {
+		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
+		Apartment apartment = apartmentDAO.findApartment(id);
+		
+		return apartment.getAvailableDates();
+	}
 	
 }

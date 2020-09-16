@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.Apartment;
 import beans.Comment;
@@ -60,7 +61,7 @@ public class CommentService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comment addComment(Comment comment, @Context HttpServletRequest request) {
+	public Response addComment(Comment comment, @Context HttpServletRequest request) {
 		
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("comments");
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -96,10 +97,10 @@ public class CommentService {
 			apartmentDAO.updateApartment(apartment);
 			apartmentDAO.saveApartments(contextPath);
 			
-			return comment;
+			return Response.status(201).entity(comment).build();
 
 		} else {
-			return null; // nesto ne valja
+			return Response.status(400).build(); // nesto ne valja
 		} 
 		
 		
@@ -109,9 +110,11 @@ public class CommentService {
 	@GET
 	@Path("/my-apartments")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Comment> getCommentsForMyApartments(@Context HttpServletRequest request) {
+	public Response getCommentsForMyApartments(@Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
+		if (!loggedUser.getRole().equals("Host"))
+			return Response.status(403).build();
 		
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("comments");
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -126,7 +129,7 @@ public class CommentService {
 				retComments.add(comment);
 		}
 		
-		return retComments;
+		return Response.status(200).entity(retComments).build();
 		
 	}
 	
@@ -180,7 +183,11 @@ public class CommentService {
 	@GET
 	@Path("/admin/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Comment> getAllComments(@PathParam("id") Integer id){
+	public Response getAllComments(@PathParam("id") Integer id, @Context HttpServletRequest request){
+		
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		if(!loggedUser.getRole().equals("Admin"))
+			return Response.status(403).build();
 		
 		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("comments");
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
@@ -195,7 +202,7 @@ public class CommentService {
 			allComments.add(comment);
 		}
 		
-		return allComments;
+		return Response.status(200).entity(allComments).build();
 				
 	}
 	

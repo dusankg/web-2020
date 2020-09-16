@@ -16,7 +16,7 @@
     "dates" : [ ],
     "availableDates" : [ ],
     "host" : "domacin",
-    "comments" : [ ],
+    "comments" : [1],
     "images" : [ ],
     "pricePerNight" : 50.0,
     "checkInTime" : 2,

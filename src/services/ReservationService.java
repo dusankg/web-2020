@@ -164,6 +164,10 @@ public class ReservationService {
 			guest.getRentedApartments().add(rentedApartment.getId());
 			userDAO.saveUsers(contextPath);
 			
+			// Ovde bismo mogli i azurirati slobodne datume
+			
+			//reservation.getStartDate()
+			
 			return retReservation;
 		} else {
 			return null; //404

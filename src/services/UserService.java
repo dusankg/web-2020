@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.Apartment;
 import beans.Reservation;
@@ -95,6 +96,7 @@ public class UserService {
 		user.setMyApartments(new ArrayList<Integer>());
 		user.setRentedApartments(new ArrayList<Integer>());
 		user.setReservationList(new ArrayList<Integer>());
+		user.setBlocked(false);
 		
 		if (userDAO.findUser(user.getUsername()) != null) {
 			return user;
@@ -151,6 +153,33 @@ public class UserService {
 		userDAO.saveUsers(contextPath);
 		
 		return userForUpdate;
+	}
+	
+	@PUT
+	@Path("/block/{username}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response blockUser(@PathParam("username") String username, @Context HttpServletRequest request) {
+		
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		if (!loggedUser.getRole().equals("Admin")) {
+			return Response.status(403).build();
+		}
+		
+		UserDAO userDAO = (UserDAO) ctx.getAttribute("users");
+		User userToBlock = userDAO.findUser(username);
+		
+		// Ne mogu se admini blokirati
+		if(userToBlock.getRole().equals("Admin"))
+			return Response.status(400).build();
+		
+		userToBlock.setBlocked(true);
+		userDAO.updateUser(userToBlock);
+		String contextPath = ctx.getRealPath("");
+		userDAO.saveUsers(contextPath);
+		
+		return Response.status(200).entity(userToBlock).build();
+		
 	}
 	
 }
