@@ -45,7 +45,7 @@ public class Apartment {
 
 	public Apartment(Integer id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
 			List<Date> availableDates, String host, List<Integer> comments, List<String> images, double pricePerNight,
-			String checkInTime, String checkOutTime, String status, List<Integer> amenities, List<Integer> reservations, boolean deleted) {
+			String checkInTime, String checkOutTime, String status, List<Integer> amenities, List<Integer> reservations) {
 		super();
 		this.id = id;
 		this.type = type;

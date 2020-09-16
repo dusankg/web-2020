@@ -77,6 +77,7 @@ public class ApartmentService {
 			
 			List<Apartment> activeApartments = new ArrayList<>();
 			for (Apartment apartment : allApartments) {
+				if(apartment.getStatus() == null) continue;
 				if (apartment.getStatus().equals("aktivan"))
 					activeApartments.add(apartment);
 			}
@@ -90,6 +91,7 @@ public class ApartmentService {
 			
 			List<Apartment> activeApartments = new ArrayList<>();
 			for (Apartment apartment : allApartments) {
+				if(apartment.getStatus() == null) continue;
 				if (apartment.getStatus().equals("aktivan"))
 					activeApartments.add(apartment);
 			}
@@ -118,6 +120,7 @@ public class ApartmentService {
 		List<Apartment> activeApartments = new ArrayList<>();
 		for (Apartment apartment : allApartments) {
 			if (apartment.getHost().equals(loggedUser.getUsername())) {
+				if(apartment.getStatus() == null) continue;
 				if (apartment.getStatus().equals("aktivan"))
 					activeApartments.add(apartment);
 			}
@@ -144,6 +147,9 @@ public class ApartmentService {
 		List<Apartment> inactiveApartments = new ArrayList<>();
 		for (Apartment apartment : allApartments) {
 			if (apartment.getHost().equals(loggedUser.getUsername())) {
+				if(apartment.getStatus() == null) {
+					continue;
+				}
 				if (!apartment.getStatus().equals("aktivan"))
 					inactiveApartments.add(apartment);
 			}

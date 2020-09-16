@@ -10,7 +10,7 @@
     padding: 8px;
   }
   .btn-delete{
-    background: white;
+    background: none;
     color: red;
     border: none;
   }
@@ -18,9 +18,18 @@
     background-color: red;
     color: white;
   }
+  .btn-blue{
+    background: none;
+    color: #33B8FF;
+    border: none;
+  }
+  .btn-blue:hover {
+    background-color: #33B8FF;
+    color: white;
+  }
 
   .btn-edit{
-    background: white;
+    background: none;
     color: orange;
     border: none;
   }
@@ -30,7 +39,7 @@
   }
 
   .btn-add{
-    background: white;
+    background: none;
     color: #4CAF50;
     border: none;
     border-radius: 5px;
@@ -101,11 +110,10 @@
 			<tr align='center'>
 				<td>id</td>
 				<td>Type</td>
-				<td>Owner</td>
+				<td>Address</td>
 				<td>Price</td>
 				<td>Rooms</td>
-				<td>Guests</td>
-				<td>Address</td>
+
 			</tr>
 
 		</table>
@@ -125,8 +133,20 @@
 					<td> <input disabled id = 'editApartmentHost'> </td>
 				</tr>
 				<tr>
+					<td> Status </td>
+					<td> <input disabled id = 'editApartmentStatus'> </td>
+				</tr>
+				<tr>
 					<td> Type </td>
 					<td> <input id = 'editApartmentType'> </td>
+				</tr>
+				<tr>
+					<td> City </td>
+					<td> <input id = 'editApartmentCity'> </td>
+				</tr>
+				<tr>
+					<td> Street </td>
+					<td> <input id = 'editApartmentStreetAndNumber'> </td>
 				</tr>
 				<tr>
 					<td> Rooms </td>
@@ -149,7 +169,6 @@
 					<td> <input type = 'time' id = 'editApartmentLeaveTime'> </td>
 				</tr>
 				<tr>
-					<td></td>
 					<td> <button id='confirmEditApartment'> Confirm </button></td>
 				</tr>
 			</tbody>
@@ -166,6 +185,14 @@
 				<tr>
 					<td> Type </td>
 					<td> <input id = 'newApartmentType'> </td>
+				</tr>
+				<tr>
+					<td> City </td>
+					<td> <input id = 'newApartmentCity'> </td>
+				</tr>
+				<tr>
+					<td> Street and number </td>
+					<td> <input id = 'newApartmentStreetAndNumber'> </td>
 				</tr>
 				<tr>
 					<td> Rooms </td>
@@ -185,7 +212,7 @@
 				</tr>
 				<tr>
 					<td> Leave time </td>
-					<td> <input type = 'time' id = 'newApartmentLeaveTim'> </td>
+					<td> <input type = 'time' id = 'newApartmentLeaveTime'> </td>
 				</tr>
 				<tr>
 					<td></td>
@@ -252,13 +279,20 @@
  <br>
  <h3>Komentari</h3>
  	<table id='tablePrikazKomentara'>
-
-		<tr>
+ 	
+ 	<thead>
+ 			<tr>
+			<td>ID</td>
 			<td>Gost</td>
-			<td>Apartman</td>
+			<td>Apartment ID</td>
 			<td>Text</td>
 			<td>Ocena</td>
+			<td>Visibility</td>
 		</tr>
+ 	</thead>
+
+	<tbody></tbody>
+		
 
 	</table>
  </div>  

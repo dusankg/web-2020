@@ -121,15 +121,17 @@
 				<h3>Apartments</h3> 
 				<br/>
 			 	<table id = "tablePrikazApartmana" width = "50%">
+			 	<thead>
 					<tr align='center'>
 						<td>id</td>
 						<td>Type</td>
-						<td>Host</td>
 						<td>Price</td>
 						<td>Rooms</td>
 						<td>Guests</td>
-						<td>Address</td>
+						<td>City</td>
 					</tr>
+				</thead>
+				<tbody></tbody>
 				</table>
 			</td>
 			<td>
@@ -141,12 +143,20 @@
 					<td><input type="text" disabled id="txtIdApartmana"> </td>
 				</tr>
 				<tr>
+					<td>City:</td>
+					<td><input type="text" disabled id="txtCityApartmana"> </td>
+				</tr>				
+				<tr>
+					<td>Street:</td>
+					<td><input type="text" disabled id="txtStreetApartmana"> </td>
+				</tr>		
+				<tr>
 					<td>Entering time:</td>
-					<td><input type="text" disabled id="txtVremePrijave"> </td>
+					<td><input type="time" disabled id="txtVremePrijave"> </td>
 				</tr>
 				<tr>
 					<td>Exit time: </td>
-					<td><input type="text" disabled id="txtVremeOdjave"></td>
+					<td><input type="time" disabled id="txtVremeOdjave"></td>
 				</tr>
 				<tr>
 					<td>Host: </td>
@@ -179,7 +189,15 @@
 				<tr>
 					<td></td>
 					<td>
-						<table id="tableKomentari"> </table>							
+						<table id="tableKomentari">
+						
+						<thead>
+							<td>User</td>
+							<td>Comment</td>
+							<td>Grade</td>
+						</thead>
+						<tbody></tbody>
+						</table>							
 					</td>
 				</tr>					
 			</table>

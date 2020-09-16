@@ -2,16 +2,37 @@ function dodajApartmanTr(apartman){
 	let c = "<tr align='center'> " +
 			" <td>" + apartman.id + "</td> " +
 			" <td>" + apartman.type + "</td> " +
-			" <td>" + apartman.host + "</td> " +
 			" <td>" + apartman.pricePerNight + "</td> " +
 			" <td>" + apartman.numberOfRooms + "</td> " +
 			" <td>" + apartman.numberOfGuests + "</td> " +
- 			" <td>" + apartman.location + "</td> " +
-			" <td> <button id='showComments" + apartman.id + "' class='btn-edit'> Details </button></td>" +
+ 			" <td>" + apartman.location.address.city + "</td> " +
+			" <td> <button id='detaljiApartmana" + apartman.id + "' class='btn-edit'> Details </button></td>" +
 			" <td> <button id='bookApartment" + apartman.id + "' class= 'btn-add' >  Book </button></td> </tr>; ";
 	$("#tablePrikazApartmana").append(c);
 }
 
+function dodajKomentarTr(komentar){
+	let c = "<tr align='center'> " +
+	" <td>" + komentar.guest + "</td> " +
+	" <td>" + komentar.text + "</td> " +
+	" <td>" + komentar.grade + "</td> ";
+	$("#tableKomentari").append(c);
+}
+
+function getCommentsForApartment(id){
+	$('#tableKomentari tbody').empty();
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/comment/' + id,
+		contentType: 'application/json',
+		success: function(komentari) {
+	    	for(let komentar of komentari) {
+	    		dodajKomentarTr(komentar);
+				}
+		}
+	});	
+}
 function dodajKreiraneTr(rezervacija){
 	let c = "<tr align='center'> " +
 			" <td> "+ rezervacija.id +" </td> " +
@@ -172,16 +193,48 @@ function getApartments(){
 	$.ajax({
 		
 		type: "GET",
-		url: 'rest/apartment/all',
+		url: 'rest/apartment/active',
 		contentType: 'application/json',
 		success: function(oglasi) {
 	    	for(let apartman of oglasi) {
+				dodajApartmanTr(apartman);
+				 	$( "#detaljiApartmana" +apartman.id).click(function() {
+						//alert(apartman.id);
+						getApartmentById(apartman.id);
+						getCommentsForApartment(apartman.id);
+					});
+				}
+		}
+	});	
+}
+
+function getApartmentById(id){
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/apartment/' + id,
+		contentType: 'application/json',
+		success: function(apartman) {
+			$('input#txtIdApartmana').val(apartman.id);
+			$('input#txtDomacin').val(apartman.host);
+			$('input#editApartmentStatus').val(apartman.status);
+			$('input#editApartmentType').val(apartman.type);
+			$('input#editApartmentRooms').val(apartman.numberOfRooms);
+			$('input#editApartmentGuests').val(apartman.numberOfGuests);
+			$('input#editApartmentPrice').val(apartman.pricePerNight);
+			$('input#txtVremePrijave').val(apartman.checkInTime);
+			$('input#txtVremeOdjave').val(apartman.checkOutTime);
+			
+			$('input#txtCityApartmana').val(apartman.location.address.city);
+			$('input#txtStreetApartmana').val(apartman.location.address.streetAndNumber);
+			
+	    	/*for(let apartman of oglasi) {
 				dodajApartmanTr(apartman);
 				 	$( "#detalji" +apartman.id).click(function() {
 						alert(oglas.uuid);
 				 
 					});
-				}
+				}*/
 		}
 	});	
 }
