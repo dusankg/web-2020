@@ -183,7 +183,7 @@ public class CommentService {
 	@GET
 	@Path("/admin/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Comment> getAllCommentsForApartment(@PathParam("id") Integer id){
+	public Response getAllCommentsForApartment(@PathParam("id") Integer id, @Context HttpServletRequest request){
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
 		if(!loggedUser.getRole().equals("Admin"))
