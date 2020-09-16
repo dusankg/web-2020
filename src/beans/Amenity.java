@@ -6,14 +6,17 @@ public class Amenity {
 	
 	private String name;
 	
+	private boolean deleted;
+	
 	public Amenity() {
 		
 	}
 
-	public Amenity(Integer id, String name) {
+	public Amenity(Integer id, String name, boolean deleted) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.deleted = deleted;
 	}
 
 	public Integer getId() {
@@ -31,5 +34,20 @@ public class Amenity {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	@Override
+	public String toString() {
+		return "Amenity [id=" + id + ", name=" + name + ", deleted=" + deleted + "]";
+	}
+	
+	
 	
 }

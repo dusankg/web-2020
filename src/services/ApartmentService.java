@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.Apartment;
 import beans.User;
@@ -226,7 +227,8 @@ public class ApartmentService {
 		
 		apartment.setHost(loggedUser.getUsername());
 		apartment.setStatus("neaktivan");
-
+		apartment.setDeleted(false);
+		
 		apartmentDAO.addApartment(apartment);
 		apartmentDAO.saveApartments(contextPath);
 		
@@ -240,12 +242,11 @@ public class ApartmentService {
 		return apartment;
 	}
 	
-	// TODO: BRISANJE TREBA DA BUDE LOGICKO 
-	// Brisanje apartmana
+	// Brisanje apartmana (logicko, ako ga zelimo potpuno obrisati mora rucno u json fajlu)
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment deleteApartment(@PathParam("id") Integer id, @Context HttpServletRequest request) {
+	public Response deleteApartment(@PathParam("id") Integer id, @Context HttpServletRequest request) {
 		
 		ApartmentDAO apartmentDAO = (ApartmentDAO) ctx.getAttribute("apartments");
 		Apartment apartment = apartmentDAO.findApartment(id);
@@ -254,16 +255,20 @@ public class ApartmentService {
 		
 		if(user.getRole().equals("Host")) {
 			if (!apartment.getHost().equals(user.getUsername())) {
-				return null;
+				// Nema privilegije za brisanje
+				return Response.status(403).build(); 
 			} else {
-				return apartmentDAO.removeApartment(apartment);
+				apartment.setDeleted(true);
+				apartmentDAO.updateApartment(apartment);
+				apartmentDAO.saveApartments(contextPath);
+				return Response.status(200).build();
 			}
 		}
 		
 		if(!user.getRole().equals("Admin")) {
-			return null;
+			return Response.status(403).build();
 		} else {
-			return apartmentDAO.removeApartment(apartment);
+			return Response.status(200).build();
 		}
 			
 	}

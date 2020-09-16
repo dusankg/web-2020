@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -36,6 +37,7 @@ public class AmenityService {
 		
 	}
 	
+	@PostConstruct
 	public void init() {
 		this.contextPath = ctx.getRealPath("");
 		
@@ -77,7 +79,7 @@ public class AmenityService {
 	public Amenity addAmenity(Amenity amenity, @Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
-		if(loggedUser.getRole().equals("Admin")) {
+		if(!loggedUser.getRole().equals("Admin")) {
 			return null; // forbidden
 		}
 		
@@ -90,6 +92,8 @@ public class AmenityService {
 				maxId = a.getId();
 		}
 		amenity.setId(++maxId);
+		
+		amenity.setDeleted(false);
 		
 		amenityDAO.addAmenity(amenity);
 		amenityDAO.saveAmenities(contextPath);
@@ -105,7 +109,7 @@ public class AmenityService {
 	public Amenity changeAmenity(Amenity amenity, @Context HttpServletRequest request) {
 
 		User loggedUser = (User) request.getSession().getAttribute("user");
-		if(loggedUser.getRole().equals("Admin")) {
+		if(!loggedUser.getRole().equals("Admin")) {
 			return null; // forbidden
 		}
 		
@@ -117,14 +121,14 @@ public class AmenityService {
 		return amenity;
 	}
 	
-	// Brisanje amenitija
+	// Brisanje amenitija (logicko)
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteAmenity(@PathParam("id") Integer id, @Context HttpServletRequest request) {
 		
 		User loggedUser = (User) request.getSession().getAttribute("user");
-		if(loggedUser.getRole().equals("Admin")) {
+		if(!loggedUser.getRole().equals("Admin")) {
 			return Response.status(403).build();
 		}
 		
@@ -140,7 +144,9 @@ public class AmenityService {
 		apartmentDAO.saveApartments(contextPath);
 		
 		AmenityDAO amenityDAO = (AmenityDAO) ctx.getAttribute("amenities");
-		amenityDAO.removeAmenity(id);
+		Amenity amenity = amenityDAO.findAmenity(id);
+		amenity.setDeleted(true);
+		amenityDAO.updateAmenity(amenity);
 		
 		amenityDAO.saveAmenities(contextPath);
 		

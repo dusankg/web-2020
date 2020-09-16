@@ -37,13 +37,15 @@ public class Apartment {
 	
 	private List<Integer> reservations;
 	
+	private boolean deleted;
+	
 	public Apartment() {
 		
 	}
 
 	public Apartment(Integer id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
 			List<Date> availableDates, String host, List<Integer> comments, List<String> images, double pricePerNight,
-			int checkInTime, int checkOutTime, String status, List<Integer> amenities, List<Integer> reservations) {
+			String checkInTime, String checkOutTime, String status, List<Integer> amenities, List<Integer> reservations, boolean deleted) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -61,6 +63,7 @@ public class Apartment {
 		this.status = status;
 		this.amenities = amenities;
 		this.reservations = reservations;
+		this.deleted = deleted;
 	}
 	
 	public Integer getId() {
@@ -190,6 +193,14 @@ public class Apartment {
 	public void setReservations(List<Integer> reservations) {
 		this.reservations = reservations;
 	}
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	@Override
 	public String toString() {
@@ -197,8 +208,9 @@ public class Apartment {
 				+ numberOfGuests + ", location=" + location + ", dates=" + dates + ", availableDates=" + availableDates
 				+ ", host=" + host + ", comments=" + comments + ", images=" + images + ", pricePerNight="
 				+ pricePerNight + ", checkInTime=" + checkInTime + ", checkOutTime=" + checkOutTime + ", status="
-				+ status + ", amenities=" + amenities + ", reservations=" + reservations + "]";
+				+ status + ", amenities=" + amenities + ", reservations=" + reservations + ", deleted=" + deleted + "]";
 	}
+
 	
 	
 }

@@ -89,6 +89,7 @@ public class AmenityDAO {
 		return this.amenities.replace(amenity.getId(), amenity);
 	}
 	
+	// ne koristimo; za fizicko brisanje
 	public Amenity removeAmenity(Integer id) {
 		return this.amenities.remove(id);
 	}
