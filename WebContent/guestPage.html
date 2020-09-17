@@ -20,7 +20,11 @@
     background-color: red;
     color: white;
   }
-
+  .btn-sort{
+    background: none;
+    color: black;
+    border: none;
+  }
   .btn-edit{
     background: none;
     color: orange;
@@ -144,8 +148,8 @@
 					<tr align='center'>
 						<td>id</td>
 						<td>Type</td>
-						<td>Price</td>
-						<td>Rooms</td>
+						<td> <button id='sortApartmentsByPrice' class="btn-sort">Price</button> </td>
+						<td> <button id='sortApartmentsByRooms' class="btn-sort">Rooms</button> </td>
 						<td>Guests</td>
 						<td>City</td>
 					</tr>
@@ -235,6 +239,7 @@
  <button id="showKreirane" class="btn-edit"> Created </button>
  <button id="showPrihvacene" class="btn-add"> Accepted/Finished </button>
  <button id="showOdbijene" class="btn-delete"> Rejected </button>
+ <button id='sortReservationsByPrice' class="btn-sort">Sort by price</button>
 <br>
  <div id='divKomentar' align='center'>
  <br>
@@ -263,7 +268,8 @@
  <div id='divKreirane'>
   <h4>Created</h4>
  	 	<table id = "tablePrikazKreirane">
-			<tr align='center'>
+ 	 	<thead>
+ 	 		<tr align='center'>
 				<td>id</td>
 				<td>Apartman</td>
 				<td>Pocetni datum</td>
@@ -272,13 +278,16 @@
 				<td>Poruka</td>
 				<td>Status</td>
 			</tr>
+ 	 	</thead>
+		<tbody></tbody>
 		</table>
 	</div>
 	
  <div id='divPrihvacene'>
   		<h4>Accepted/Finished</h4>
  	 	<table id = "tablePrikazPrihvacene">
-			<tr align='center'>
+ 	 	<thead>
+ 	 		<tr align='center'>
 				<td>id</td>
 				<td>Apartman</td>
 				<td>Pocetni datum</td>
@@ -287,12 +296,15 @@
 				<td>Poruka</td>
 				<td>Status</td>
 			</tr>
+ 	 	</thead>
+		<tbody></tbody>
 		</table>
 	</div>
 	
  <div id='divOdbijene'>
   		<h4>Rejected</h4>
  	 	<table id = "tablePrikazOdbijene">
+ 	 	<thead>
 			<tr align='center'>
 				<td>id</td>
 				<td>Apartman</td>
@@ -301,7 +313,9 @@
 				<td>Ukupna cena</td>
 				<td>Poruka</td>
 				<td>Status</td>
-			</tr>
+			</tr> 	 	
+ 	 	</thead>
+		<tbody></tbody>
 		</table>
 </div>
 </div>

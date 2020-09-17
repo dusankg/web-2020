@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,15 +16,15 @@ public class Apartment {
 	
 	private Location location;
 	
-	private List<Date> dates;
+	private List<Date> dates = new ArrayList<Date>();
 	
-	private List<Date> availableDates;
+	private List<Date> availableDates= new ArrayList<Date>();
 	
 	private String host;
 	
-	private List<Integer> comments;
+	private List<Integer> comments = new ArrayList<Integer>();;
 	
-	private List<String> images;
+	private List<String> images = new ArrayList<String>();;
 	
 	private double pricePerNight;
 	
@@ -33,9 +34,9 @@ public class Apartment {
 	
 	private String status;
 	
-	private List<Integer> amenities;
+	private List<Integer> amenities = new ArrayList<Integer>();;
 	
-	private List<Integer> reservations;
+	private List<Integer> reservations = new ArrayList<Integer>();
 	
 	private boolean deleted;
 	

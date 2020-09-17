@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -17,11 +18,11 @@ public class User {
 	
 	private String role;
 	
-	private List<Integer> myApartments;
+	private List<Integer> myApartments = new ArrayList<Integer>();;
 	
-	private List<Integer> rentedApartments;
+	private List<Integer> rentedApartments = new ArrayList<Integer>();;
 	
-	private List<Integer> reservationList;
+	private List<Integer> reservationList = new ArrayList<Integer>();;
 	
 	private boolean blocked;
 	

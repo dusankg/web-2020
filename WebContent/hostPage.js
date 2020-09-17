@@ -106,7 +106,7 @@ function getInactiveApartments(){
 					});
 				 	$( "#activateApartment" +apartman.id).click(function() {
 						//alert(apartman.id);
-				 		activateApartmentById(apartman.id);
+				 		activateApartment(apartman);
 					});
 				}
 		}
@@ -183,43 +183,39 @@ function getActiveApartments(){
 					});
 				 	$( "#deactivateApartment" +apartman.id).click(function() {
 						//alert(apartman.id);
-				 		deactivateApartmentById(apartman.id);
+				 		deactivateApartment(apartman);
 					});
 				}
 		}
 	});	
 }
 
-function activateApartmentById(id){
+function activateApartment(apartman){
+	apartman.status = "aktivan";
 	$.ajax({
 		
 		type: "PUT",
-		url: 'rest/apartment/activate/' + id,
+		url: 'rest/apartment/',
 		contentType: 'application/json',
-		success: function() {
-			alert("Apartment is activated");
+		data : JSON.stringify(apartman),
+		success: function(data) {
 			location.reload();
-		}, 
-		error: function(){
-			alert("Apartment is not activated, something went wrong");
 		}
-	});
+	});	
 }
 
-function deactivateApartmentById(id){
+function deactivateApartment(apartman){
+	apartman.status = "neaktivan";
 	$.ajax({
 		
 		type: "PUT",
-		url: 'rest/apartment/deactivate/' + id,
+		url: 'rest/apartment/',
 		contentType: 'application/json',
-		success: function() {
-			alert("Apartment is deactivated");
+		data : JSON.stringify(apartman),
+		success: function(data) {
 			location.reload();
-		}, 
-		error: function(){
-			alert("Apartment is not deactivated, something went wrong");
 		}
-	});
+	});	
 }
 
 function deleteApartmentById(id){
@@ -248,7 +244,7 @@ function dodajApartmanInactiveTr(apartman){
 			" <td> <button id='activateApartment" + apartman.id + "' class='btn-add'> Activate </button></td>" +
 			" <td> <button id='editApartment" + apartman.id + "' class='btn-blue'> Edit </button></td>" +
 			" <td> <button id='deleteApartment" + apartman.id + "' class= 'btn-delete' >  Delete </button></td> </tr>; ";
-	$("#tablePrikazApartmana").append(c);
+	$("#tablePrikazApartmanaInactive").append(c);
 }
 
 function dodajApartmanActiveTr(apartman){
@@ -261,7 +257,7 @@ function dodajApartmanActiveTr(apartman){
 			" <td> <button id='deactivateApartment" + apartman.id + "' class='btn-edit'> Deactivate </button></td>" +
 			" <td> <button id='editApartment" + apartman.id + "' class='btn-blue'> Edit </button></td>" +
 			" <td> <button id='deleteApartment" + apartman.id + "' class= 'btn-delete' >  Delete </button></td> </tr>; ";
-	$("#tablePrikazApartmana").append(c);
+	$("#tablePrikazApartmanaActive").append(c);
 }
 
 function dodavanjeApartmana(){
@@ -581,6 +577,180 @@ function getReservations(){
 	});
 }
 
+function sortReservationsByPrice(){
+ 	$( "#sortReservationsByPrice").click(function() {
+ 		
+ 		if($( "#sortReservationsByPrice").val() != 1){
+ 			$( "#sortReservationsByPrice").val(1);
+ 		} else {
+ 			$( "#sortReservationsByPrice").val(2);
+ 		}
+ 		
+ 		$("#tablePrikazKreirane tbody").empty();
+ 		$("#tablePrikazPrihvacene tbody").empty();
+ 		$("#tablePrikazOdbijene tbody").empty();
+ 		
+ 		$.ajax({
+ 			
+ 			type: "GET",
+ 			url: 'rest/reservation/received',
+ 			contentType: 'application/json',
+ 			success: function(reservations) {
+ 				
+ 				//console.log($( "#sortReservationsByPrice").val());
+ 				for(let i=0; i<reservations.length;i++){
+ 					for(let j = i+1; j < reservations.length; j++){
+ 	 					if(reservations[i].price > reservations[j].price){
+ 	 						temp = reservations[i];
+ 	 						reservations[i] = reservations[j];
+ 	 						reservations[j] = temp;
+ 	 					}
+ 					}
+ 				}
+ 				
+ 				if($( "#sortReservationsByPrice").val() != 2){
+ 					reservations.reverse();
+ 				}
+ 				
+ 		    	for(let reservation of reservations) {
+ 		    		if(reservation.status === "Created"){
+ 		    			dodajKreiraneTr(reservation);
+ 					 	$( "#acceptReservation" +reservation.id).click(function() {
+ 					 		acceptReservation(reservation);
+ 						});
+ 					 	$( "#rejectReservation" +reservation.id).click(function() {
+ 					 		rejectReservation(reservation);
+ 						});
+ 					 	
+ 		    		} else if(reservation.status === "Accepted" || reservation.status === "Finished"){
+ 		    			dodajPrihvaceneTr(reservation);
+ 					 	$( "#finishReservation" +reservation.id).click(function() {
+ 					 		finishReservation(reservation);
+ 						});
+ 		    		} else if (reservation.status === "Rejected" ){ 
+ 		    			dodajOdbijeneTr(reservation);
+ 		    		}
+ 		    		
+ 					}
+ 			}
+ 		});
+ 		
+
+	});
+}
+
+function sortActiveByPrice(){
+	$( "#sortActiveByPrice").click(function() {
+		if($( "#sortActiveByPrice").val() != 1){
+			$( "#sortActiveByPrice").val(1);
+		} else {
+			$( "#sortActiveByPrice").val(2);
+		}
+		
+		$("#tablePrikazApartmanaActive tbody").empty();
+	
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/apartment/my-active',
+		contentType: 'application/json',
+		success: function(oglasi) {
+			
+				for(let i=0; i<oglasi.length;i++){
+ 					for(let j = i+1; j < oglasi.length; j++){
+ 	 					if(oglasi[i].pricePerNight > oglasi[j].pricePerNight){
+ 	 						temp = oglasi[i];
+ 	 						oglasi[i] = oglasi[j];
+ 	 						oglasi[j] = temp;
+ 	 					}
+ 					}
+ 				}
+ 				
+ 				if($( "#sortActiveByPrice").val() != 2){
+ 					oglasi.reverse();
+ 				}
+ 				
+	    	for(let apartman of oglasi) {
+	    		dodajApartmanActiveTr(apartman);
+				 	$( "#detalji" +apartman.id).click(function() {
+						alert(oglas.uuid);
+				 
+					});
+				 	$( "#editApartment" +apartman.id).click(function() {
+						//alert(apartman.id);
+				 		getApartmentById(apartman.id);
+					});
+				 	$( "#deleteApartment" +apartman.id).click(function() {
+						//alert(apartman.id);
+				 		deleteApartmentById(apartman.id);
+					});
+				 	$( "#deactivateApartment" +apartman.id).click(function() {
+						//alert(apartman.id);
+				 		deactivateApartment(apartman);
+					});
+				}
+		}
+	});	 		
+	});
+	
+	
+}
+
+function sortInactiveByPrice(){
+	$( "#sortInactiveByPrice").click(function() {
+		if($( "#sortInactiveByPrice").val() != 1){
+			$( "#sortInactiveByPrice").val(1);
+		} else {
+			$( "#sortInactiveByPrice").val(2);
+		}
+		
+		$("#tablePrikazApartmanaInactive tbody").empty();
+	
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/apartment/my-inactive',
+		contentType: 'application/json',
+		success: function(oglasi) {
+			
+				for(let i=0; i<oglasi.length;i++){
+ 					for(let j = i+1; j < oglasi.length; j++){
+ 	 					if(oglasi[i].pricePerNight > oglasi[j].pricePerNight){
+ 	 						temp = oglasi[i];
+ 	 						oglasi[i] = oglasi[j];
+ 	 						oglasi[j] = temp;
+ 	 					}
+ 					}
+ 				}
+ 				
+ 				if($( "#sortInactiveByPrice").val() != 2){
+ 					oglasi.reverse();
+ 				}
+ 				
+ 		    	for(let apartman of oglasi) {
+ 					dodajApartmanInactiveTr(apartman);
+ 					 	$( "#detalji" +apartman.id).click(function() {
+ 							//alert(oglas.id);
+ 					 
+ 						});
+ 					 	$( "#editApartment" +apartman.id).click(function() {
+ 							//alert(apartman.id);
+ 					 		getApartmentById(apartman.id);
+ 						});
+ 					 	$( "#deleteApartment" +apartman.id).click(function() {
+ 							//alert(apartman.id);
+ 					 		deleteApartmentById(apartman.id);
+ 						});
+ 					 	$( "#activateApartment" +apartman.id).click(function() {
+ 							//alert(apartman.id);
+ 					 		activateApartment(apartman);
+ 						});
+ 					}
+		}
+	});	 		
+	});
+}
+
 $(document).ready(function (){
 	initShowButtons();
 	
@@ -599,6 +769,11 @@ $(document).ready(function (){
 	getAllAmenities();
 	
 	getReservations();
+	
+	sortReservationsByPrice();
+	sortActiveByPrice();
+	sortInactiveByPrice();
+	
 	
  	$( "#logout").click(function() {
  		$.ajax({

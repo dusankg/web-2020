@@ -21,6 +21,11 @@
     text-align: left;
     padding: 8px;
   }
+    .btn-sort{
+    background: none;
+    color: black;
+    border: none;
+  }
   .btn-delete{
     background: none;
     color: red;
@@ -124,15 +129,35 @@
  	
  	<div id="prikazApartmana" style="width: 700px; float: left;"  align='center'>
  	<h3>Apartments</h3> 
-	 	<table id = "tablePrikazApartmana">
+ 		<h4>Active</h4>
+	 	<table id = "tablePrikazApartmanaActive">
+	 	<thead>
 			<tr align='center'>
 				<td>id</td>
 				<td>Type</td>
 				<td>Address</td>
-				<td>Price</td>
+				<td><button id='sortActiveByPrice' class="btn-sort">Price</button></td>
 				<td>Rooms</td>
 
-			</tr>
+			</tr>	 	
+	 	</thead>
+		<tbody></tbody>
+
+		</table>
+		
+		<h4>Inactive</h4>
+	 	<table id = "tablePrikazApartmanaInactive">
+	 	<thead>
+			<tr align='center'>
+				<td>id</td>
+				<td>Type</td>
+				<td>Address</td>
+				<td><button id='sortInactiveByPrice' class="btn-sort">Price</button></td>
+				<td>Rooms</td>
+
+			</tr>	 	
+	 	</thead>
+		<tbody></tbody>
 
 		</table>
  	</div>
@@ -274,12 +299,14 @@
  <button id="showKreirane" class="btn-add"> Created </button>
  <button id="showPrihvacene" class="btn-edit"> Accepted </button>
  <button id="showOdbijene" class="btn-delete"> Rejected </button>
+ <button id='sortReservationsByPrice' class="btn-sort">Sort by price</button>
 <br>
 
  <div id='divKreirane'>
   <h4>Created</h4>
  	 	<table id = "tablePrikazKreirane">
-			<tr align='center'>
+ 	 	<thead>
+ 	 		<tr align='center'>
 				<td>id</td>
 				<td>Apartman</td>
 				<td>Pocetni datum</td>
@@ -288,13 +315,16 @@
 				<td>Poruka</td>
 				<td>Status</td>
 			</tr>
+ 	 	</thead>
+		<tbody></tbody>
 		</table>
 	</div>
 	
  <div id='divPrihvacene'>
   		<h4>Accepted</h4>
  	 	<table id = "tablePrikazPrihvacene">
-			<tr align='center'>
+ 	 	<thead>
+ 	 		<tr align='center'>
 				<td>id</td>
 				<td>Apartman</td>
 				<td>Pocetni datum</td>
@@ -303,13 +333,17 @@
 				<td>Poruka</td>
 				<td>Status</td>
 			</tr>
+ 	 	</thead>
+		<tbody></tbody>
+
 		</table>
 	</div>
 	
  <div id='divOdbijene'>
   		<h4>Rejected</h4>
  	 	<table id = "tablePrikazOdbijene">
-			<tr align='center'>
+ 	 	<thead>
+ 	 		<tr align='center'>
 				<td>id</td>
 				<td>Apartman</td>
 				<td>Pocetni datum</td>
@@ -318,6 +352,9 @@
 				<td>Poruka</td>
 				<td>Status</td>
 			</tr>
+ 	 	</thead>
+		<tbody></tbody>
+
 		</table>
 	</div>
 

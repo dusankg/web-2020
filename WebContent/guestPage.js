@@ -399,6 +399,185 @@ function getReservations(){
 	});
 }
 
+function logout(){
+ 	$( "#logout").click(function() {
+ 		$.ajax({
+ 			type: "GET",
+ 			url: 'rest/logout',
+ 			contentType: 'application/json',
+ 			success: function() {
+ 				window.location.href = "http://localhost:8080/Airbnb/";
+ 			}
+ 		});
+ 		
+	});
+}
+
+function SortByPrice(a, b){
+	  var aName = a.pricePerNight;
+	  var bName = b.pricePerNight; 
+	  return ((bName < bName) ? -1 : ((bName > aName) ? 1 : 0));
+}
+
+function sortApartmentsByPrice(){
+ 	$( "#sortApartmentsByPrice").click(function() {
+ 		
+ 		if($( "#sortApartmentsByPrice").val() != 1){
+ 			$( "#sortApartmentsByPrice").val(1);
+ 		} else {
+ 			$( "#sortApartmentsByPrice").val(2);
+ 		}
+ 		
+ 		
+ 		//alert("Sortiranje po ceni");
+ 		$("#tablePrikazApartmana tbody").empty();
+ 		$.ajax({
+ 			
+ 			type: "GET",
+ 			url: 'rest/apartment/active',
+ 			contentType: 'application/json',
+ 			success: function(oglasi) { // treba da sortiram listu oglasi 	
+ 				
+ 				for(let i = 0; i < oglasi.length - 1; i++){
+ 					for(let j = i+1; j < oglasi.length; j++){
+ 	 					if(oglasi[i].pricePerNight > oglasi[j].pricePerNight){
+ 	 						temp = oglasi[i];
+ 	 						oglasi[i] = oglasi[j];
+ 	 						oglasi[j] = temp;
+ 	 					}
+ 					}
+ 				}
+ 				
+ 				if($( "#sortApartmentsByPrice").val() != 1){
+ 					oglasi.reverse();
+ 				}
+
+ 		    	for(let apartman of oglasi) {
+ 					dodajApartmanTr(apartman);
+ 					 	$( "#detaljiApartmana" +apartman.id).click(function() {
+ 							getApartmentById(apartman.id);
+ 							getCommentsForApartment(apartman.id);
+ 							
+ 						});
+ 					 	$( "#bookApartment" +apartman.id).click(function() {
+ 					 		makeNewReservation(apartman);						
+ 						});
+ 					}
+ 			}
+ 		});	
+	});
+}
+
+function sortApartmentsByRooms(){
+ 	$( "#sortApartmentsByRooms").click(function() {
+ 		
+ 		if($( "#sortApartmentsByRooms").val() != 1){
+ 			$( "#sortApartmentsByRooms").val(1);
+ 		} else {
+ 			$( "#sortApartmentsByRooms").val(2);
+ 		}
+ 		
+ 		$("#tablePrikazApartmana tbody").empty();
+ 		$.ajax({
+ 			
+ 			type: "GET",
+ 			url: 'rest/apartment/active',
+ 			contentType: 'application/json',
+ 			success: function(oglasi) { // treba da sortiram listu oglasi 	
+ 				for(let i=0; i<oglasi.length - 1;i++){
+ 					for(let j = i+1; j < oglasi.length; j++ ){
+ 	 					if(oglasi[i].numberOfRooms > oglasi[j].numberOfRooms){
+ 	 						temp = oglasi[i];
+ 	 						oglasi[i] = oglasi[j];
+ 	 						oglasi[j] = temp;
+ 	 					}
+ 					}
+
+ 				}
+ 				
+ 				if($( "#sortApartmentsByRooms").val() != 2){
+ 					oglasi.reverse();
+ 				}
+ 				
+ 		    	for(let apartman of oglasi) {
+ 					dodajApartmanTr(apartman);
+ 					 	$( "#detaljiApartmana" +apartman.id).click(function() {
+ 							getApartmentById(apartman.id);
+ 							getCommentsForApartment(apartman.id);
+ 							
+ 						});
+ 					 	$( "#bookApartment" +apartman.id).click(function() {
+ 					 		makeNewReservation(apartman);						
+ 						});
+ 					}
+ 			}
+ 		});	
+	});
+}
+
+function sortReservationByPrice(){
+
+ 	$( "#sortReservationsByPrice").click(function() {
+ 		
+ 		if($( "#sortReservationsByPrice").val() != 1){
+ 			$( "#sortReservationsByPrice").val(1);
+ 		} else {
+ 			$( "#sortReservationsByPrice").val(2);
+ 		}
+ 		
+ 		$("#tablePrikazKreirane tbody").empty();
+ 		$("#tablePrikazPrihvacene tbody").empty();
+ 		$("#tablePrikazOdbijene tbody").empty();
+ 		$.ajax({
+ 			
+ 			type: "GET",
+ 			url: 'rest/reservation/my',
+ 			contentType: 'application/json',
+ 			success: function(reservations) {
+ 				
+ 				console.log($( "#sortReservationsByPrice").val());
+ 				for(let i=0; i<reservations.length;i++){
+ 					for(let j = i+1; j < reservations.length; j++){
+ 	 					if(reservations[i].price > reservations[j].price){
+ 	 						temp = reservations[i];
+ 	 						reservations[i] = reservations[j];
+ 	 						reservations[j] = temp;
+ 	 					}
+ 					}
+ 				}
+ 				
+ 				if($( "#sortReservationsByPrice").val() != 2){
+ 					reservations.reverse();
+ 				}
+ 				
+ 				
+ 				
+ 		    	for(let reservation of reservations) {
+ 		    		if(reservation.status === "Created"){
+ 		    			dodajKreiraneTr(reservation);
+ 		    			
+ 					 	$( "#cancelReservation" +reservation.id).click(function() {
+ 					 		cancelReservation(reservation);
+ 						});
+ 					 	
+ 		    		} else if(reservation.status === "Accepted" || reservation.status === "Finished"){
+ 		    			dodajPrihvaceneTr(reservation);
+ 					 	$( "#cancelReservation" +reservation.id).click(function() {
+ 					 		cancelReservation(reservation);
+ 						});
+ 					 	$( "#openCommentBox" +reservation.id).click(function() {
+ 					 		openCommentBox(reservation);
+ 						});
+ 		    		} else if (reservation.status === "Rejected" ){ 
+ 		    			dodajOdbijeneTr(reservation);
+ 		    		}
+ 		    		
+ 					}
+ 			}
+ 		});
+	});
+}
+
 // dobavljanje svih aktivnih oglasa za prikaz
 	$(document).ready(function (){
 		initShowButtons();
@@ -407,19 +586,11 @@ function getReservations(){
 		getReservations();
 		
 		sendComment();
-		//getReservations();
 		
-	 	$( "#logout").click(function() {
-	 		$.ajax({
-	 			type: "GET",
-	 			url: 'rest/logout',
-	 			contentType: 'application/json',
-	 			success: function() {
-	 				window.location.href = "http://localhost:8080/Airbnb/";
-	 			}
-	 		});
-	 		
-		});
-			
+		logout();
+		
+		sortApartmentsByPrice();
+		sortApartmentsByRooms();
+		sortReservationByPrice();
 	});
 	

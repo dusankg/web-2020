@@ -128,6 +128,9 @@ public class ReservationService {
 		
 		for (Integer idApartment : myApartments) {
 			Apartment apartment = apartmentDAO.findApartment(idApartment);
+			if(apartment.getReservations() == null) {
+				continue;
+			}
 			for (Integer reservationId : apartment.getReservations()) {
 				Reservation reservation = reservationDAO.findReservation(reservationId);
 				receivedReservations.add(reservation);
