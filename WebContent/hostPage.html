@@ -89,15 +89,25 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a id = "aHrefHome" class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
+           <button id="showApartmani" class="btn-edit"> Apartmani </button>
           </li>
           <li class="nav-item">
-            <a id = "aHrefOffer" class="nav-link" href="sviApartmani.html">Offer</a>
+             <button id="showRezervacije" class="btn-edit"> Rezervacije </button>
           </li>
           <li class="nav-item">
-            <a id = "aHrefAdminPage" class="nav-link" href="adminPage.html">Admin page</a>
+             <button id="showKomentari" class="btn-edit"> Komentari </button>
+          </li>
+          <li class="nav-item active">
+             <button id="showGosti" class="btn-edit"> Gosti </button>
+          </li>
+          <li class="nav-item">
+             <button id="showDodajApartman" class="btn-edit"> Dodaj apartman </button>
+          </li>
+          <li class="nav-item">
+             <button id="showMyAccount" class="btn-edit"> My account </button>
+          </li>
+          <li class="nav-item">
+             <button id="logout" class="btn-delete"> Logout </button>
           </li>
         </ul>
       </div>
@@ -107,12 +117,7 @@
 <br>  
 <br> 
 <br>
- <button id="showApartmani" class="btn-add"> Apartmani </button>
- <button id="showRezervacije" class="btn-add"> Rezervacije </button>
- <button id="showKomentari" class="btn-add"> Komentari </button>
- <button id="showGosti" class="btn-add"> Gosti </button>
- <button id="showDodajApartman" class="btn-add"> Dodaj apartman </button>
- <button id="showMyAccount" class="btn-add"> My account </button>
+ 
 
 <div id='divApartmani'>
 <br>
@@ -265,14 +270,14 @@
 
 </div>
 
-<div id = 'divRezervacije'>
- <button id="showKreirane" class="btn-edit"> Kreirane </button>
- <button id="showPrihvacene" class="btn-edit"> Prihvacene </button>
- <button id="showOdbijene" class="btn-edit"> Odbijene </button>
+<div id = 'divRezervacije' align="center">
+ <button id="showKreirane" class="btn-add"> Created </button>
+ <button id="showPrihvacene" class="btn-edit"> Accepted </button>
+ <button id="showOdbijene" class="btn-delete"> Rejected </button>
 <br>
 
  <div id='divKreirane'>
-  <h4>Kreirane</h4>
+  <h4>Created</h4>
  	 	<table id = "tablePrikazKreirane">
 			<tr align='center'>
 				<td>id</td>
@@ -287,7 +292,7 @@
 	</div>
 	
  <div id='divPrihvacene'>
-  		<h4>Prihvacene</h4>
+  		<h4>Accepted</h4>
  	 	<table id = "tablePrikazPrihvacene">
 			<tr align='center'>
 				<td>id</td>
@@ -302,7 +307,7 @@
 	</div>
 	
  <div id='divOdbijene'>
-  		<h4>Odbijene</h4>
+  		<h4>Rejected</h4>
  	 	<table id = "tablePrikazOdbijene">
 			<tr align='center'>
 				<td>id</td>

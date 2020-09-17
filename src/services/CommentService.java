@@ -78,7 +78,7 @@ public class CommentService {
 				break;
 		}
 		
-		if(apartments.contains(apartment.getId()) && (reservation.getStatus().equals("Rejected") || reservation.getStatus().equals("Finished"))) {
+		if( (reservation.getStatus().equals("Rejected") || reservation.getStatus().equals("Finished"))) {
 			Integer maxId = 1;
 			Collection<Comment> comments = commentDAO.findAllComments();
 			for (Comment c : comments) {

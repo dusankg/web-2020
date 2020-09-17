@@ -33,6 +33,7 @@ function getCommentsForApartment(id){
 		}
 	});	
 }
+
 function dodajKreiraneTr(rezervacija){
 	let c = "<tr align='center'> " +
 			" <td> "+ rezervacija.id +" </td> " +
@@ -42,22 +43,27 @@ function dodajKreiraneTr(rezervacija){
 			" <td> "+ rezervacija.price +" </td> " +
 			" <td> "+ rezervacija.reservationMessage +" </td> " +
  			" <td> "+ rezervacija.status +" </td> " +
-			" <td> <button id='obrisiAp"+ rezervacija.id +"' class='btn-delete'> Cancel </button></td> </tr>; ";
+			" <td> <button id='cancelReservation"+ rezervacija.id +"' class='btn-delete'> Cancel </button></td> </tr>; ";
 	$("#tablePrikazKreirane").append(c);
 }
 
 function dodajPrihvaceneTr(rezervacija){
+	
 	let c = "<tr align='center'> " +
-			" <td> "+ rezervacija.id +" </td> " +
-			" <td> "+ rezervacija.apartment +"</td> " +
-			" <td> "+ rezervacija.startDate +" </td> " +
-			" <td> "+ rezervacija.numberOfNights +" </td> " +
-			" <td> "+ rezervacija.price +" </td> " +
-			" <td> "+ rezervacija.reservationMessage +" </td> " +
- 			" <td> "+ rezervacija.status +" </td> " +
-			" <td> <button id='openCommentBox"+ rezervacija.id +"' class='btn-edit'> Comment </button></td> </tr>; " + 
-			" <td> <button id='cancelReservation"+ rezervacija.id +"' class='btn-delete'> Cancel </button></td> </tr>;";
-	$("#tablePrikazPrihvacene").append(c);
+	" <td> "+ rezervacija.id +" </td> " +
+	" <td> "+ rezervacija.apartment +"</td> " +
+	" <td> "+ rezervacija.startDate +" </td> " +
+	" <td> "+ rezervacija.numberOfNights +" </td> " +
+	" <td> "+ rezervacija.price +" </td> " +
+	" <td> "+ rezervacija.reservationMessage +" </td> " +
+	" <td> "+ rezervacija.status +" </td> " +
+	" <td> <button id='openCommentBox"+ rezervacija.id +"' class='btn-edit'> Comment </button></td> </tr>; " ;
+	
+	if(rezervacija.status === "Accepted"){
+		$("#tablePrikazPrihvacene").append(c + " <td> <button id='cancelReservation"+ rezervacija.id +"' class='btn-delete'> Cancel </button></td> </tr>;");
+	} else {
+		$("#tablePrikazPrihvacene").append(c);
+	}
 }
 
 function dodajOdbijeneTr(rezervacija){
@@ -81,6 +87,7 @@ function initHide(){
 	$("#divPrihvacene").hide();
 	$("#divOdbijene").hide();
 }
+
 function initShowButtons(){
 	initHide();
 	// glavni
@@ -262,13 +269,14 @@ function dodajSadrzajTr(amenity){
 }
 
 function makeNewReservation(apartman){
+		
 		console.log("Pokretanje funcije za pravljenje nove rezervacije");
 		event.preventDefault();
 		
 		var apartment = apartman.id;
 		var startingDate = $("#reservationStartDate");
 		var numberOfNights = $("#reservationBrojNocenja");
-
+		var reservationMessage = $("#reservationMessage");
 
 		//console.log(checkInTime.val());
 		var reservation = new Object();
@@ -276,6 +284,7 @@ function makeNewReservation(apartman){
 		reservation.apartment = apartment;
 		reservation.startDate = startingDate.val();
 		reservation.numberOfNights = numberOfNights.val();
+		reservation.reservationMessage = reservationMessage.val();
 		reservation.price = numberOfNights.val() * apartman.pricePerNight;
 
 		console.log(reservation);
@@ -285,7 +294,8 @@ function makeNewReservation(apartman){
 			contentType : 'application/json',
 			success : function(data) {
 				alert("Apartments booked successfully");
-				//location.reload();
+				$("#tablePrikazKreirane").empty();
+				location.reload();
 			},
 			error : function(data) {
 				alert("Apartments not booked successfully, something went wrong");
@@ -295,52 +305,98 @@ function makeNewReservation(apartman){
 
 }
 
-function getReservations(){ // PROMENI PUTANJE; stavi odgovajuce nastavke umesto all
+function cancelReservation(reservation){
+		//alert("Canceling");
+ 		$.ajax({
+ 			
+ 			type: "PUT",
+ 			url: 'rest/reservation/withdraw',
+ 			data : JSON.stringify(reservation),
+ 			contentType: 'application/json',
+ 			success: function() {
+ 				alert("Reservation canceled successfully");
+		 		$("#tablePrikazPrihvacene tbody").empty();
+		 		$("#tablePrikazKreirane tbody").empty();
+ 				getReservations();
+ 			}, 
+ 			error: function(){
+ 				alert("Reservation not canceled, something went wrong");
+ 			}
+ 		});	
+}
+
+function openCommentBox(reservation){
+	console.log("Otvaranje boxa za komentar");
+	$("#idApartmanaZaKomentar").val(reservation.id);
+}
+
+function sendComment(){
+ 	$( "#btnPosaljiKomentar").click(function() {
+ 		
+		console.log("Pokretanje funcije za slanje komentara");
+		event.preventDefault();
+		
+		var apartment = $("#idApartmanaZaKomentar");
+		var grade = $("#idOcenaZaKomentar");
+		var text = $("#textKomentara");
+
+		//console.log(checkInTime.val());
+		var comment = new Object();
+		
+		comment.apartment = apartment.val();
+		comment.grade = grade.val();
+		comment.text = text.val();
+
+		console.log(comment);
+		$.post({
+			url : 'rest/comment',
+			data : JSON.stringify(comment),
+			contentType : 'application/json',
+			success : function() {
+				alert("Comment sent successfully");
+				$("#idApartmanaZaKomentar").val('');
+				$("#idOcenaZaKomentar").val('');
+				 $("#textKomentara").val('');
+
+			},
+			error : function() {
+				alert("Apartments not booked successfully, something went wrong");
+			}
+		});
+	});
+}
+
+function getReservations(){ 
+	
 	$.ajax({
 		
 		type: "GET",
-		url: 'rest/reservation/all',
+		url: 'rest/reservation/my',
 		contentType: 'application/json',
-		success: function(oglasi) {
-	    	for(let apartman of oglasi) {
-	    		dodajKreiraneTr(apartman);
-				 	$( "#detalji" +apartman.id).click(function() {
-						alert(oglas.uuid);
-				 
+		success: function(reservations) {
+	    	for(let reservation of reservations) {
+	    		if(reservation.status === "Created"){
+	    			dodajKreiraneTr(reservation);
+	    			
+				 	$( "#cancelReservation" +reservation.id).click(function() {
+				 		cancelReservation(reservation);
 					});
+				 	
+	    		} else if(reservation.status === "Accepted" || reservation.status === "Finished"){
+	    			dodajPrihvaceneTr(reservation);
+				 	$( "#cancelReservation" +reservation.id).click(function() {
+				 		cancelReservation(reservation);
+					});
+				 	$( "#openCommentBox" +reservation.id).click(function() {
+				 		openCommentBox(reservation);
+					});
+	    		} else if (reservation.status === "Rejected" ){ 
+	    			dodajOdbijeneTr(reservation);
+	    		}
+	    		
 				}
 		}
-	});	
-	$.ajax({
-		
-		type: "GET",
-		url: 'rest/reservation/all',
-		contentType: 'application/json',
-		success: function(oglasi) {
-	    	for(let apartman of oglasi) {
-	    		dodajPrihvaceneTr(apartman);
-				 	$( "#detalji" +apartman.id).click(function() {
-						alert(oglas.uuid);
-				 
-					});
-				}
-		}
-	});	
-	$.ajax({
-		
-		type: "GET",
-		url: 'rest/reservation/all',
-		contentType: 'application/json',
-		success: function(oglasi) {
-	    	for(let apartman of oglasi) {
-	    		dodajOdbijeneTr(apartman);
-				 	$( "#detalji" +apartman.id).click(function() {
-						alert(oglas.uuid);
-				 
-					});
-				}
-		}
-	});	
+	});
 }
 
 // dobavljanje svih aktivnih oglasa za prikaz
@@ -348,10 +404,22 @@ function getReservations(){ // PROMENI PUTANJE; stavi odgovajuce nastavke umesto
 		initShowButtons();
 
 		getApartments();
+		getReservations();
 		
+		sendComment();
 		//getReservations();
 		
-		
+	 	$( "#logout").click(function() {
+	 		$.ajax({
+	 			type: "GET",
+	 			url: 'rest/logout',
+	 			contentType: 'application/json',
+	 			success: function() {
+	 				window.location.href = "http://localhost:8080/Airbnb/";
+	 			}
+	 		});
+	 		
+		});
 			
 	});
 	

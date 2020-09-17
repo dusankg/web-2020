@@ -12,7 +12,7 @@
     padding: 8px;
   }
   .btn-delete{
-    background: white;
+    background: none;
     color: red;
     border: none;
   }
@@ -22,7 +22,7 @@
   }
 
   .btn-edit{
-    background: white;
+    background: none;
     color: orange;
     border: none;
   }
@@ -131,6 +131,10 @@
 					<td><input type="date" id="reservationStartDate"></td>
 					<td><input type="number" id="reservationBrojNocenja" placeholder="Nights"></td>
 					</tr>
+					<tr>
+						<td>Reservation message: </td>
+						<td> <textarea id="reservationMessage"></textarea> </td>
+					</tr>
 					</tbody>
 				</table>
 
@@ -228,9 +232,9 @@
 
 
 <div id = 'divRezervacije' align='center'>
- <button id="showKreirane" class="btn-edit"> Kreirane </button>
- <button id="showPrihvacene" class="btn-add"> Prihvacene </button>
- <button id="showOdbijene" class="btn-delete"> Odbijene </button>
+ <button id="showKreirane" class="btn-edit"> Created </button>
+ <button id="showPrihvacene" class="btn-add"> Accepted/Finished </button>
+ <button id="showOdbijene" class="btn-delete"> Rejected </button>
 <br>
  <div id='divKomentar' align='center'>
  <br>
@@ -247,7 +251,7 @@
 		</tr>
 		<tr>
 			<td>Comment</td>
-			<td> <input id='textKomentara' type='text'></td>
+			<td><textarea id='textKomentara'></textarea></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -257,7 +261,7 @@
 </table>
  </div>
  <div id='divKreirane'>
-  <h4>Kreirane</h4>
+  <h4>Created</h4>
  	 	<table id = "tablePrikazKreirane">
 			<tr align='center'>
 				<td>id</td>
@@ -272,7 +276,7 @@
 	</div>
 	
  <div id='divPrihvacene'>
-  		<h4>Prihvacene</h4>
+  		<h4>Accepted/Finished</h4>
  	 	<table id = "tablePrikazPrihvacene">
 			<tr align='center'>
 				<td>id</td>
@@ -287,7 +291,7 @@
 	</div>
 	
  <div id='divOdbijene'>
-  		<h4>Odbijene</h4>
+  		<h4>Rejected</h4>
  	 	<table id = "tablePrikazOdbijene">
 			<tr align='center'>
 				<td>id</td>

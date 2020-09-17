@@ -424,6 +424,41 @@ function initShowButtons(){
 	}
 }
 
+function getReservations(){ 
+	
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/reservation/my',
+		contentType: 'application/json',
+		success: function(reservations) {
+	    	for(let reservation of reservations) {
+	    		if(reservation.status === "Created"){
+	    			dodajKreiraneTr(reservation);
+	    			
+				 	$( "#cancelReservation" +reservation.id).click(function() {
+				 		cancelReservation(reservation);
+					});
+				 	
+	    		} else if(reservation.status === "Accepted" || reservation.status === "Finished"){
+	    			dodajPrihvaceneTr(reservation);
+				 	$( "#cancelReservation" +reservation.id).click(function() {
+				 		cancelReservation(reservation);
+					});
+				 	$( "#openCommentBox" +reservation.id).click(function() {
+				 		openCommentBox(reservation);
+					});
+	    		} else if (reservation.status === "Rejected" ){ 
+	    			dodajOdbijeneTr(reservation);
+	    		}
+	    		
+				}
+		}
+	});
+}
+
+
+
 $(document).ready(function (){
 	initShowButtons();
 	
@@ -439,4 +474,18 @@ $(document).ready(function (){
 	addHost();
 	
 	getAllComments();
+	
+
+	
+ 	$( "#logout").click(function() {
+ 		$.ajax({
+ 			type: "GET",
+ 			url: 'rest/logout',
+ 			contentType: 'application/json',
+ 			success: function() {
+ 				window.location.href = "http://localhost:8080/Airbnb/";
+ 			}
+ 		});
+ 		
+	});
 });

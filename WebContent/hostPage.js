@@ -264,32 +264,6 @@ function dodajApartmanActiveTr(apartman){
 	$("#tablePrikazApartmana").append(c);
 }
 
-function dodajVrstuKreirane(){
-	let c = "<tr align='center'> " +
-			" <td>2</td> " +
-			" <td> App1 </td> " +
-			" <td> 12.12.2012. </td> " +
-			" <td> 5 </td> " +
-			" <td> 2000e </td> " +
-			" <td> Zelim da mi za te pare peru noge </td> " +
- 			" <td> Kreirana </td> " +
-			" <td> <button id='obrisiAp1' class='btn-delete'> Odustani </button></td> </tr>; ";
-	$("#tablePrikazKreirane").append(c);
-}
-
-function dodajVrstuPrihvacene(){
-	let c = "<tr align='center'> " +
-			" <td>2</td> " +
-			" <td> App1 </td> " +
-			" <td> 12.12.2012. </td> " +
-			" <td> 5 </td> " +
-			" <td> 2000e </td> " +
-			" <td> Zelim da mi za te pare peru patofne </td> " +
- 			" <td> Prihvacena </td> " +
-			" <td> <button id='obrisiAp1' class='btn-delete'> Dodaj komentar </button></td> </tr>; ";
-	$("#tablePrikazPrihvacene").append(c);
-}
-
 function dodavanjeApartmana(){
 	$("#confirmNewApartment").click(function(event) {
 		
@@ -465,11 +439,152 @@ function getAllAmenities(){
 	});	
 }
 
+function dodajKreiraneTr(rezervacija){
+	let c = "<tr align='center'> " +
+			" <td> "+ rezervacija.id +" </td> " +
+			" <td> "+ rezervacija.apartment +"</td> " +
+			" <td> "+ new Date(rezervacija.startDate).getDate() +"."+
+				new Date(rezervacija.startDate).getMonth() + ".2020"+" </td> " +
+			" <td> "+ rezervacija.numberOfNights +" </td> " +
+			" <td> "+ rezervacija.price +" </td> " +
+			" <td> <textarea disabled>"+ rezervacija.reservationMessage +"</textarea> </td> " +
+ 			" <td> "+ rezervacija.status +" </td> " +
+ 			"<td> <table>"+
+ 			" <tr> <button id='acceptReservation"+ rezervacija.id +"' class='btn-add'> Accept </button></tr> </tr>"+
+			" <tr> <button id='rejectReservation"+ rezervacija.id +"' class='btn-delete'> Reject </button></tr>  "
+ 			+"</table></td></tr>";
+	$("#tablePrikazKreirane").append(c);
+}
+
+function dodajPrihvaceneTr(rezervacija){
+	
+	let c = "<tr align='center'> " +
+	" <td> "+ rezervacija.id +" </td> " +
+	" <td> "+ rezervacija.apartment +"</td> " +
+	" <td> "+ rezervacija.startDate +" </td> " +
+	" <td> "+ rezervacija.numberOfNights +" </td> " +
+	" <td> "+ rezervacija.price +" </td> " +
+	" <td> "+ rezervacija.reservationMessage +" </td> " +
+	" <td> "+ rezervacija.status +" </td> " ;
+	
+	if(rezervacija.status === "Accepted"){
+		$("#tablePrikazPrihvacene").append(c + " <td> <button id='finishReservation"+ rezervacija.id +"' class='btn-delete'> Finish </button></td> </tr>;");
+	} else {
+		$("#tablePrikazPrihvacene").append(c);
+	}
+}
+
+function dodajOdbijeneTr(rezervacija){
+	let c = "<tr align='center'> " +
+			" <td> "+ rezervacija.id +" </td> " +
+			" <td> "+ rezervacija.apartment +"</td> " +
+			" <td> "+ rezervacija.startDate +" </td> " +
+			" <td> "+ rezervacija.numberOfNights +" </td> " +
+			" <td> "+ rezervacija.price +" </td> " +
+			" <td> "+ rezervacija.reservationMessage +" </td> " +
+ 			" <td> "+ rezervacija.status +" </td> ";
+ 			$("#tablePrikazOdbijene").append(c);
+}
+
+function acceptReservation(reservation){
+ 		$.ajax({
+ 			
+ 			type: "PUT",
+ 			url: 'rest/reservation/accept',
+ 			data : JSON.stringify(reservation),
+ 			contentType: 'application/json',
+ 			success: function() {
+ 				alert("Reservation accepted successfully");
+		 		$("#tablePrikazPrihvacene tbody").empty();
+		 		$("#tablePrikazKreirane tbody").empty();
+		 		$("#tablePrikazOdbijene tbody").empty();
+
+ 				getReservations();
+ 			}, 
+ 			error: function(){
+ 				alert("Reservation not accepted, something went wrong");
+ 			}
+ 		});	
+}
+
+
+function rejectReservation(reservation){
+		$.ajax({
+			
+			type: "PUT",
+			url: 'rest/reservation/reject',
+			data : JSON.stringify(reservation),
+			contentType: 'application/json',
+			success: function() {
+				alert("Reservation rejected successfully");
+	 		$("#tablePrikazPrihvacene tbody").empty();
+	 		$("#tablePrikazKreirane tbody").empty();
+	 		$("#tablePrikazOdbijene tbody").empty();
+
+			getReservations();
+			}, 
+			error: function(){
+				alert("Reservation not rejected, something went wrong");
+			}
+		});	
+}
+
+function finishReservation(reservation){
+	$.ajax({
+		
+		type: "PUT",
+		url: 'rest/reservation/finish',
+		data : JSON.stringify(reservation),
+		contentType: 'application/json',
+		success: function() {
+			alert("Reservation finished successfully");
+ 		$("#tablePrikazPrihvacene tbody").empty();
+ 		$("#tablePrikazKreirane tbody").empty();
+ 		$("#tablePrikazOdbijene tbody").empty();
+			getReservations();
+		}, 
+		error: function(){
+			alert("Reservation not finished, something went wrong");
+		}
+	});	
+}
+
+function getReservations(){ 
+	
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/reservation/received',
+		contentType: 'application/json',
+		success: function(reservations) {
+	    	for(let reservation of reservations) {
+	    		if(reservation.status === "Created"){
+	    			dodajKreiraneTr(reservation);
+				 	$( "#acceptReservation" +reservation.id).click(function() {
+				 		acceptReservation(reservation);
+					});
+				 	$( "#rejectReservation" +reservation.id).click(function() {
+				 		rejectReservation(reservation);
+					});
+				 	
+	    		} else if(reservation.status === "Accepted" || reservation.status === "Finished"){
+	    			dodajPrihvaceneTr(reservation);
+				 	$( "#finishReservation" +reservation.id).click(function() {
+				 		finishReservation(reservation);
+					});
+	    		} else if (reservation.status === "Rejected" ){ 
+	    			dodajOdbijeneTr(reservation);
+	    		}
+	    		
+				}
+		}
+	});
+}
+
 $(document).ready(function (){
 	initShowButtons();
 	
 	//dodajVrstuKreirane();
-	dodajVrstuPrihvacene();
 	console.log("Blaaaaa");
 	
 	getActiveApartments();	
@@ -483,6 +598,19 @@ $(document).ready(function (){
 	
 	getAllAmenities();
 	
+	getReservations();
 	
-	
+ 	$( "#logout").click(function() {
+ 		$.ajax({
+ 			type: "GET",
+ 			url: 'rest/logout',
+ 			contentType: 'application/json',
+ 			success: function() {
+ 				window.location.href = "http://localhost:8080/Airbnb/";
+ 			}
+ 		});
+ 		
+	});
+ 	
+
 });
