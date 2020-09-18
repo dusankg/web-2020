@@ -18,6 +18,7 @@ function initShowButtons(){
 			$("#divMyAccount").hide();
 			$("#divSviGosti").hide();
 			$("#divSearchInfo").hide();
+			$("#divInfoForReservation").hide();
 			getApartments();
 		});	
 		$("#showRezervacije").click( function(){
@@ -64,6 +65,7 @@ function initShowButtons(){
 			$("#searchMaxPrice").val('');
 			$("#searchMinRooms").val('');
 			$("#searchMaxRooms").val('');
+			$("#divInfoForReservation").show();
 			
 		});	
 	}	
@@ -292,7 +294,12 @@ function getApartmentById(id){
 			
 			$('input#txtCityApartmana').val(apartman.location.address.city);
 			$('input#txtStreetApartmana').val(apartman.location.address.streetAndNumber);
-			$("#base64image").attr("src",apartman.images[0]);
+			if(apartman.images[0] != ''){
+				$("#base64image").attr("src",apartman.images[0]);
+			} else {
+				$("#base64image").attr("src",null);
+			}
+			
 
 		}
 	});	

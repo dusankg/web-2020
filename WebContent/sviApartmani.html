@@ -1,8 +1,78 @@
 <!DOCTYPE html>
 <html>
+<style>
+  .table-main {
+    border-collapse: collapse;
+    width: 70%;
+    vertical-align: top;
+    align: top;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  .btn-delete{
+    background: none;
+    color: red;
+    border: none;
+  }
+  .btn-delete:hover {
+    background-color: red;
+    color: white;
+  }
+  .btn-sort{
+    background: none;
+    color: black;
+    border: none;
+  }
+  .btn-edit{
+    background: none;
+    color: orange;
+    border: none;
+  }
+  .btn-edit:hover {
+    background-color: orange;
+    color: white;
+  }
+  
+  .btn-nav{
+    background: none;
+    color: white;
+    border: none;
+  }
+  .btn-nav:hover {
+    background-color: orange;
+    color: white;
+  }
+  .btn-logout{
+    background: none;
+    color: white;
+    border: none;
+  }
+  .btn-logout:hover {
+    background-color: red;
+    color: white;
+  }
+  
+  .btn-add{
+    background: white;
+    color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+  }
+  .btn-add:hover {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .vl {
+  border-left: 2px solid orange;
+  height: 30px;
+  }
+  tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
 <head>
 <meta charset="ISO-8859-1">
-<title>Svi apartmani</title>
+<title>Airbnb offer</title>
 
 	  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
@@ -12,7 +82,7 @@
   
    	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript" src="sviApartmani.js"></script>
+	<script type="text/javascript" src="guestPage.js"></script>
 
 </head>
 
@@ -25,22 +95,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a id = "aHrefHome" class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
           <li class="nav-item">
-            <a id = "aHrefPrijava" class="nav-link" href="#">Login</a>
-          </li>
-          <li class="nav-item">
-            <a id = "aHrefRegister" class="nav-link" href="register.html">Register</a>
+            <a id = "aHrefPrijava" class="nav-link" href="index.html#">Home</a>
           </li>
           <li class="nav-item">
             <a id = "aHrefOffer" class="nav-link" href="sviApartmani.html">Offer</a>
-          </li>
-          <li class="nav-item">
-            <a id = "aHrefAdminPage" class="nav-link" href="adminPage.html">Admin page</a>
           </li>
         </ul>
       </div>
@@ -48,38 +107,72 @@
   </nav>
   <br>
   <br>
-<h1> All active apartments </h1>
+<div id='divOffer' align="center">
+  <br>
+  <br>
 
-			<div id="offer" style="width: 700px; float: left;">
-	
+<table style="float:top">
+	<tbody>
+		<tr valign="top">
+			<td>
+				<h3>Apartments</h3> 
+				
+				<br/>
+				
+				<div id='divSearchInfo' align="left">
+				<h4>Search</h4>
+				<table>
+					<tbody>
+					<tr>
+						<td>Start date</td>
+						<td>End date</td>
+						<td>City</td>
+						<td>Guests</td>
+					</tr>
+					<tr>
+						<td> <input type="date" id='searchStartDate'> </td>
+						<td> <input type="date" id='searchEndDate'> </td>
+						<td> <input type="text" id='searchCity'> </td>
+						<td> <input type="number" id='searchGuests'> </td>
+					</tr>
+					<tr>
+						<td>Min price</td>
+						<td>Max price</td>
+						<td>Min rooms</td>
+						<td>Max rooms</td>
+					</tr>
+					<tr>
+						<td> <input type="number" id='searchMinPrice'> </td>
+						<td> <input type="number" id='searchMaxPrice'> </td>
+						<td> <input type="number" id='searchMinRooms'> </td>
+						<td> <input type="number" id='searchMaxRooms'> </td>
+					</tr>
+					</tbody>
+				</table>
+				<button id='search' class="btn-edit">Search</button>
+				</div>
+				<div id='divInfoForReservation'>
+				<br/>
 
-			 	<div id="prikazApartmana">
-				 	<table id = "tablePrikazApartmana">
-						<tr align='center'>
-							<td>id</td>
-							<td>Type</td>
-							<td>Owner</td>
-							<td>Price</td>
-							<td>Rooms</td>
-							<td>Guests</td>
-							<td>Address</td>
-						</tr>
-						<tr align='center'>
-							<td>1</td>
-							<td>Kuca</td>
-							<td>Dusan</td>
-							<td>1000e</td>
-							<td>3</td>
-							<td>8</td>
-							<td>Ulica 1000 rupa</td>
-							<td> <button id='obrisiAp1'> Details </button></td>
-						</tr>
-					</table>
-			 	</div>
-			</div>
-			
-			<div id="detalji" style="margin-left: 620px;">
-			Details and comments </br></br>
+				</div>
+				
+				
+			 	<table id = "tablePrikazApartmana" width = "50%">
+			 	<thead>
+					<tr align='center'>
+						<td>id</td>
+						<td> <input id="typeZaFiltraciju" placeholder="Type"></td>
+						<td> <button id='sortApartmentsByPrice' class="btn-sort">Price</button> </td>
+						<td> <button id='sortApartmentsByRooms' class="btn-sort">Rooms</button> </td>
+						<td>Guests</td>
+						<td>City</td>
+					</tr>
+				</thead>
+				<tbody></tbody>
+				</table>
+			</td>
+			<td>
+			<h5>Details and comments </h5></br>
 
 			<table id="tableDetails">
 				<tr>
@@ -87,12 +180,20 @@
 					<td><input type="text" disabled id="txtIdApartmana"> </td>
 				</tr>
 				<tr>
+					<td>City:</td>
+					<td><input type="text" disabled id="txtCityApartmana"> </td>
+				</tr>				
+				<tr>
+					<td>Street:</td>
+					<td><input type="text" disabled id="txtStreetApartmana"> </td>
+				</tr>		
+				<tr>
 					<td>Entering time:</td>
-					<td><input type="text" disabled id="txtVremePrijave"> </td>
+					<td><input type="time" disabled id="txtVremePrijave"> </td>
 				</tr>
 				<tr>
 					<td>Exit time: </td>
-					<td><input type="text" disabled id="txtVremeOdjave"></td>
+					<td><input type="time" disabled id="txtVremeOdjave"></td>
 				</tr>
 				<tr>
 					<td>Host: </td>
@@ -105,12 +206,20 @@
 				<tr>
 					<td></td>
 					<td>
-						<table id="tableSadrzaj"> </table>							
+						<table id="tableSadrzaj">
+							<tbody></tbody>
+						</table>							
 					</td>
 				</tr>
 				<tr>
-					<td>Slike: </td>
-					<td></td>
+				<thead>
+					
+				 </thead>
+					<td>Photo: </td>
+					<td>
+					<img style='display:block; width:300px;' id='base64image'                 
+       src='       ' />
+					</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -125,13 +234,23 @@
 				<tr>
 					<td></td>
 					<td>
-						<table id="tableKomentari"> </table>							
+						<table id="tableKomentari">
+						
+						<thead>
+							<td>User</td>
+							<td>Comment</td>
+							<td>Grade</td>
+						</thead>
+						<tbody></tbody>
+						</table>							
 					</td>
 				</tr>					
 			</table>
-
-
-			</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
 				
 </body>
 </html>
