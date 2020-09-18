@@ -1,5 +1,6 @@
 
 function getAllApartments(){
+	$("#tablePrikazApartmana tbody").empty();
 	$.ajax({
 		
 		type: "GET",
@@ -36,9 +37,60 @@ function dodajApartmanTr(apartman){
 			" <td>" + apartman.location.address.city + "|"+ apartman.location.address.streetAndNumber + "</td> " +
 			" <td>" + apartman.pricePerNight + "</td> " +
 			" <td>" + apartman.numberOfRooms + "</td> " +
-			" <td> <button id='editApartment" + apartman.id + "' class='btn-blue'> Edit </button></td>" +
-			" <td> <button id='deleteApartment" + apartman.id + "' class= 'btn-delete' >  Delete </button></td> </tr>; ";
+			" <td>" + apartman.status + "</td> " +
+			" <td> <button id='editApartment" + apartman.id + "' class='btn-blue'> Edit </button></td> </tr>; ";
 	$("#tablePrikazApartmana").append(c);
+}
+
+function filterGuests(){
+ 	$( "#filterKorisnika").click(function() {
+ 		$("#tablePrikazKorisnika tbody").empty();
+ 		event.preventDefault();
+ 		console.log("Pokrenuto filtriranje korisnika");
+ 		var role = $("#filterKorisnikaRole");
+ 		var gender = $("#filterKorisnikaGender");
+ 		var username = $("#filterKorisnikaUsername");
+
+ 		//console.log(checkInTime.val());
+ 		var filter = new Object();
+ 		
+ 		if(role.val() == ""){
+ 			filter.role = null;
+ 		} else filter.role = role.val();
+ 		
+ 		if(gender.val() == "null"){
+ 			filter.gender = null;
+ 		} else if(gender.val() == "true"){
+ 			filter.gender = true;
+ 		} else {
+ 			filter.gender = false;
+ 		}
+
+
+ 		if(username.val() == ""){
+ 			filter.username = null;
+ 		} else filter.username = username.val();
+
+ 		console.log(filter);
+ 		
+ 		$.ajax({
+ 			type: "POST",
+ 			url: 'rest/user/search',
+			data : JSON.stringify(filter),
+ 			contentType: 'application/json',
+ 			success: function(users) {
+ 				//console.log(dobijeniOglasi);
+ 		    	for(let user of users) {
+ 		    		dodajUserTr(user);
+ 					 	/*$( "#deleteAmenity" +amenity.id).click(function() {
+ 							//alert(apartman.id);
+ 					 		deleteAmenityById(amenity.id);
+ 						});*/
+ 					}
+ 			}
+ 		});
+ 		
+	});
 }
 
 function getApartmentById(id){
@@ -261,6 +313,7 @@ $("#tablePrikazSadrzaja").append(c);
 }
 
 function getAllUsers(){
+	$("#tablePrikazKorisnika tbody").empty();
 	$.ajax({
 		
 		type: "GET",
@@ -392,6 +445,7 @@ function initShowButtons(){
 		$("#divSadrzaji").hide();
 		$("#divRezervacije").hide();
 		$("#divKomentari").hide();
+		getAllUsers();
 	});
 	$("#showApartments").click( function(){
 		$("#divUsers").hide();
@@ -424,39 +478,96 @@ function initShowButtons(){
 	}
 }
 
+
+function dodajRezervacijeTr(rezervacija){
+	let c = "<tr align='center'> " +
+	" <td> "+ rezervacija.id +" </td> " +
+	" <td> "+ rezervacija.apartment +"</td> " +
+	" <td> "+ new Date(rezervacija.startDate).getDate() +"."+
+		new Date(rezervacija.startDate).getMonth() + ".2020"+" </td> " +
+	" <td> "+ rezervacija.numberOfNights +" </td> " +
+	" <td> "+ rezervacija.price +" </td> " +
+	" <td> <textarea disabled>"+ rezervacija.reservationMessage +"</textarea> </td> " +
+	" <td> "+ rezervacija.guest +" </td> " +	
+	" <td> "+ rezervacija.status +" </td></tr>";
+$("#tablePrikazRezervacije").append(c);
+}
 function getReservations(){ 
-	
+	$("#tablePrikazRezervacije tbody").empty();
 	$.ajax({
 		
 		type: "GET",
-		url: 'rest/reservation/my',
+		url: 'rest/reservation/all',
 		contentType: 'application/json',
 		success: function(reservations) {
-	    	for(let reservation of reservations) {
-	    		if(reservation.status === "Created"){
-	    			dodajKreiraneTr(reservation);
-	    			
-				 	$( "#cancelReservation" +reservation.id).click(function() {
-				 		cancelReservation(reservation);
-					});
-				 	
-	    		} else if(reservation.status === "Accepted" || reservation.status === "Finished"){
-	    			dodajPrihvaceneTr(reservation);
-				 	$( "#cancelReservation" +reservation.id).click(function() {
-				 		cancelReservation(reservation);
-					});
-				 	$( "#openCommentBox" +reservation.id).click(function() {
-				 		openCommentBox(reservation);
-					});
-	    		} else if (reservation.status === "Rejected" ){ 
-	    			dodajOdbijeneTr(reservation);
-	    		}
-	    		
+	    	for(let rezervacija of reservations) {
+	    			dodajRezervacijeTr(rezervacija);
 				}
 		}
 	});
 }
 
+function searchReservationByGuest(){
+	 $("#guestNameForReservations").change(function(){
+	 		$("#tablePrikazRezervacije tbody").empty();
+	 		var name = $("#guestNameForReservations").val();
+
+	 		$.ajax({
+	 			
+	 			type: "GET",
+	 			url: 'rest/reservation/all',
+	 			contentType: 'application/json',
+	 			success: function(reservations) {
+	 		    	for(let rezervacija of reservations) {
+	 		    		
+	 		    		if(name === ''){
+	 		    			dodajRezervacijeTr(rezervacija);
+	 		    		} else if(rezervacija.guest.includes(name)){
+	 		    			dodajRezervacijeTr(rezervacija);
+	 		    		}
+	 		    			
+	 					}
+	 			}
+	 		}); 
+	 });
+}
+
+function searchApartments(){
+	 $("#filtritajApartmane").click(function(){
+		 $("#tablePrikazApartmana tbody").empty();
+	 		var type = $("#typeZaFiltriranjeApartmana").val();
+	 		var status = $("#statusZaFiltriranjeApartmana").val();
+
+	 		$.ajax({
+	 			
+	 			type: "GET",
+	 			url: 'rest/apartment/all',
+	 			contentType: 'application/json',
+	 			success: function(oglasi) {
+	 		    	for(let apartman of oglasi) {
+	 		    		
+	 		    		
+	 		    		if(type == '' || apartman.type.toLowerCase().includes( type.toLowerCase() )){
+	 		    			
+	 		    			if(status == '' || apartman.status.toLowerCase().includes( status.toLowerCase() )){
+	 		 					dodajApartmanTr(apartman);
+		 					 	$( "#detalji" +apartman.id).click(function() {
+		 					 
+		 						});
+		 					 	$( "#editApartment" +apartman.id).click(function() {
+		 					 		getApartmentById(apartman.id);
+		 						});
+		 					 	$( "#deleteApartment" +apartman.id).click(function() {
+		 					 		deleteApartmentById(apartman.id);
+		 						});
+	 		    			}
+	 		    		}
+	 		    		
+	 					}
+	 			}
+	 		});
+	 });
+}
 
 
 $(document).ready(function (){
@@ -475,7 +586,12 @@ $(document).ready(function (){
 	
 	getAllComments();
 	
-
+	filterGuests();
+	
+	getReservations();
+	searchReservationByGuest();
+	
+	searchApartments();
 	
  	$( "#logout").click(function() {
  		$.ajax({

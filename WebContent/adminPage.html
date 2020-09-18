@@ -120,19 +120,25 @@
  	<div id="prikazApartmana" style="width: 700px; float: left;"  align='center'>
  	<h3>Apartments</h3> 
 	 	<table id = "tablePrikazApartmana">
+	 	
+	 	<thead>
 			<tr align='center'>
 				<td>id</td>
-				<td>Type</td>
+				<td><input id='typeZaFiltriranjeApartmana' placeholder="Type"></td>
 				<td>Address</td>
 				<td>Price</td>
 				<td>Rooms</td>
-
-			</tr>
+				<td><input id='statusZaFiltriranjeApartmana' placeholder="Status"></td>
+				<td> <button id='filtritajApartmane' class="btn-blue">Filter</button> </td>
+			</tr>	 	
+	 	</thead
+	 	>
+		<tbody></tbody>
 
 		</table>
  	</div>
  	
- 	<div id = 'izmenaApartmana' style="margin-left: 620px;">
+ 	<div id = 'izmenaApartmana' style="margin-left: 620px;" align='center'>
  		Edit apartment
  		<br>
  		<table>
@@ -196,20 +202,47 @@
 	<tbody>
 		<tr >
 			<td>
-			<h3>All users</h3>
+			<h3>Users</h3>
+			 	<div id="divFilterKorisnika">
+			 		<table>
+						<tbody>
+							<tr>
+								<td>Role</td>
+								<td> <input id='filterKorisnikaRole'> </td>
+							</tr>
+							<tr>
+								<td>Gender</td>
+								<td> 
+									<select id='filterKorisnikaGender'>
+										  <option value="null">Both</option>
+										  <option value="true">Male</option>
+										  <option value="false">Female</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>Username</td>
+								<td> <input id='filterKorisnikaUsername'> </td>
+							</tr>
+							<tr>
+								<td> <button id='filterKorisnika'> Search </button> </td>
+						</tr>
+						</tbody>
+					</table>
+			 	</div>
 				<div id="prikazKorisnika">
-		 	<table id = "tablePrikazKorisnika">
-		 	<thead>
-				<tr align='center'>
-					<td>Username</td>
-					<td>Name</td>
-					<td>Last name</td>
-					<td>Gender</td>
-					<td>Role</td>
-				</tr>
-			</thead>
-			<tbody></tbody>
-			</table>	
+			 	<table id = "tablePrikazKorisnika">
+				 	<thead>
+						<tr align='center'>
+							<td>Username</td>
+							<td>Name</td>
+							<td>Last name</td>
+							<td>Gender</td>
+							<td>Role</td>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>	
 			</div>
 					
 			 </td>
@@ -364,9 +397,13 @@
  <div id='divRezervacije' align="center">
  <br>
  <h3>Rezervacije</h3>
+ Guest<br/>
+ <input id='guestNameForReservations' placeholder="Guest username">
+ 	<br/><br/>
  	<table id='tablePrikazRezervacije'>
-
+	<thead>
 		<tr>
+			<td> ID </td>
 			<td>Apartman</td>
 			<td>Pocetni datum</td>
 			<td>Broj nocenja</td>
@@ -374,7 +411,9 @@
 			<td>Poruka</td>
 			<td>Gost</td>
 			<td>Status</td>
-		</tr>
+		</tr>	
+	</thead>
+	<tbody></tbody>
 
 	</table>
  </div> 

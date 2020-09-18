@@ -98,6 +98,10 @@
           	<button id = "showOffer" class='btn-nav'> Offer </button>
           </li>
           <li><div class="vl"></div></li>
+		  <li class="nav-item">
+          	<button id = "opetSearchBox" class='btn-nav'> Search </button>
+          </li>
+          <li><div class="vl"></div></li>
           <li class="nav-item">
           	<button id = "showRezervacije" class='btn-nav'> My reservations</button>
           </li>
@@ -109,6 +113,7 @@
 		  <li class="nav-item">
           	<button id = "logout" class='btn-logout'> Logout</button>
           </li>
+
         </ul>
       </div>
     </div>
@@ -118,36 +123,75 @@
 <br>
 
 <div id='divOffer' align="center">
+
+
 <table style="float:top">
 	<tbody>
 		<tr valign="top">
 			<td>
 				<h3>Apartments</h3> 
+				
 				<br/>
 				
+				<div id='divSearchInfo' align="left">
+				<h4>Search</h4>
 				<table>
 					<tbody>
 					<tr>
-					<td>Starting date</td>
-					<td>Number of nights</td>
+						<td>Start date</td>
+						<td>End date</td>
+						<td>City</td>
+						<td>Guests</td>
 					</tr>
 					<tr>
-					<td><input type="date" id="reservationStartDate"></td>
-					<td><input type="number" id="reservationBrojNocenja" placeholder="Nights"></td>
+						<td> <input type="date" id='searchStartDate'> </td>
+						<td> <input type="date" id='searchEndDate'> </td>
+						<td> <input type="text" id='searchCity'> </td>
+						<td> <input type="number" id='searchGuests'> </td>
 					</tr>
 					<tr>
-						<td>Reservation message: </td>
-						<td> <textarea id="reservationMessage"></textarea> </td>
+						<td>Min price</td>
+						<td>Max price</td>
+						<td>Min rooms</td>
+						<td>Max rooms</td>
+					</tr>
+					<tr>
+						<td> <input type="number" id='searchMinPrice'> </td>
+						<td> <input type="number" id='searchMaxPrice'> </td>
+						<td> <input type="number" id='searchMinRooms'> </td>
+						<td> <input type="number" id='searchMaxRooms'> </td>
 					</tr>
 					</tbody>
 				</table>
-
+				<button id='search' class="btn-edit">Search</button>
+				</div>
+				<div id='divInfoForReservation'>
+				<br/>
+				<h4>Reservation data</h4>
+					<table>
+						<tbody>
+						<tr>
+						<td>Starting date</td>
+						<td>Number of nights</td>
+						</tr>
+						<tr>
+						<td><input type="date" id="reservationStartDate"></td>
+						<td><input type="number" id="reservationBrojNocenja" placeholder="Nights"></td>
+						</tr>
+						<tr>
+							<td>Reservation message: </td>
+							<td> <textarea id="reservationMessage"></textarea> </td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				
 				
 			 	<table id = "tablePrikazApartmana" width = "50%">
 			 	<thead>
 					<tr align='center'>
 						<td>id</td>
-						<td>Type</td>
+						<td> <input id="typeZaFiltraciju" placeholder="Type"></td>
 						<td> <button id='sortApartmentsByPrice' class="btn-sort">Price</button> </td>
 						<td> <button id='sortApartmentsByRooms' class="btn-sort">Rooms</button> </td>
 						<td>Guests</td>
@@ -198,8 +242,14 @@
 					</td>
 				</tr>
 				<tr>
+				<thead>
 					<td>Slike: </td>
-					<td></td>
+				 </thead>
+					
+					<td>
+					<img style='display:block; width:100px;height:100px;' id='base64image'                 
+       src='       ' />
+					</td>
 				</tr>
 				<tr>
 					<td></td>

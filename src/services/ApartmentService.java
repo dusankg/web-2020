@@ -79,8 +79,8 @@ public class ApartmentService {
 			
 			List<Apartment> activeApartments = new ArrayList<>();
 			for (Apartment apartment : allApartments) {
-				if(apartment.getStatus() == null) continue;
-				if (apartment.getStatus().equals("aktivan"))
+				if(apartment.getStatus() == null ) continue;
+				if (apartment.getStatus().equals("aktivan") && !apartment.isDeleted())
 					activeApartments.add(apartment);
 			}
 			
@@ -94,7 +94,7 @@ public class ApartmentService {
 			List<Apartment> activeApartments = new ArrayList<>();
 			for (Apartment apartment : allApartments) {
 				if(apartment.getStatus() == null) continue;
-				if (apartment.getStatus().equals("aktivan"))
+				if (apartment.getStatus().equals("aktivan") && !apartment.isDeleted())
 					activeApartments.add(apartment);
 			}
 			
@@ -123,7 +123,7 @@ public class ApartmentService {
 		for (Apartment apartment : allApartments) {
 			if (apartment.getHost().equals(loggedUser.getUsername())) {
 				if(apartment.getStatus() == null) continue;
-				if (apartment.getStatus().equals("aktivan"))
+				if (apartment.getStatus().equals("aktivan") && !apartment.isDeleted())
 					activeApartments.add(apartment);
 			}
 		}
@@ -152,7 +152,7 @@ public class ApartmentService {
 				if(apartment.getStatus() == null) {
 					continue;
 				}
-				if (!apartment.getStatus().equals("aktivan"))
+				if (!apartment.getStatus().equals("aktivan") && !apartment.isDeleted())
 					inactiveApartments.add(apartment);
 			}
 		}
@@ -205,7 +205,7 @@ public class ApartmentService {
 		
 		List<Apartment> apartmentsList = new ArrayList<>();
 		for (Apartment apartment : allApartments) {
-			apartmentsList.add(apartment);
+			if( !apartment.isDeleted()) apartmentsList.add(apartment);
 		}
 		
 		return Response.status(200).entity(apartmentsList).build();
@@ -268,6 +268,11 @@ public class ApartmentService {
 		
 		User user = (User) request.getSession().getAttribute("user");
 		
+		apartment.setDeleted(true);
+		apartmentDAO.updateApartment(apartment);
+		apartmentDAO.saveApartments(contextPath);
+		return Response.status(200).build();
+		/*
 		if(user.getRole().equals("Host")) {
 			if (!apartment.getHost().equals(user.getUsername())) {
 				// Nema privilegije za brisanje
@@ -284,7 +289,7 @@ public class ApartmentService {
 			return Response.status(403).build();
 		} else {
 			return Response.status(200).build();
-		}
+		}*/
 			
 	}
 	

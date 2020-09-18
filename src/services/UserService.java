@@ -203,15 +203,15 @@ public class UserService {
 		for (User u : users) {
 			if(filter.getRole() != null) {
 				if(!filter.getRole().equals(u.getRole()))
-					break;
+					continue;
 			}
 			if(filter.getGender() != null) {
-				if(!filter.getGender() != u.isGender())
-					break;
+				if(filter.getGender() != u.isGender())
+					continue;
 			} 
 			if(filter.getUsername() != null) {
 				if(!filter.getUsername().equals(u.getUsername()))
-					break;
+					continue;
 			}
 			/*
 			 * if(loggedUser.getRole().equals("Host")) { List<Integer> reservations =

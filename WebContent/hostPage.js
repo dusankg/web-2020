@@ -20,6 +20,7 @@ function initShowButtons(){
 			$("#divGosti").hide();
 			$("#divKomentari").hide();
 			$("#divDodavanjeApartmana").hide();
+			$("#divSearchInfo").hide();
 		});	
 		$("#showRezervacije").click( function(){
 			$("#divApartmani").hide();
@@ -28,6 +29,7 @@ function initShowButtons(){
 			$("#divGosti").hide();
 			$("#divKomentari").hide();
 			$("#divDodavanjeApartmana").hide();
+			$("#divSearchInfo").hide();
 		});	
 		$("#showMyAccount").click( function(){
 			$("#divApartmani").hide();
@@ -36,6 +38,7 @@ function initShowButtons(){
 			$("#divGosti").hide();
 			$("#divKomentari").hide();
 			$("#divDodavanjeApartmana").hide();
+			$("#divSearchInfo").hide();
 		});	
 		$("#showGosti").click( function(){
 			$("#divApartmani").hide();
@@ -44,6 +47,7 @@ function initShowButtons(){
 			$("#divGosti").show();
 			$("#divKomentari").hide();
 			$("#divDodavanjeApartmana").hide();
+			$("#divSearchInfo").hide();
 		});	
 		$("#showKomentari").click( function(){
 			$("#divApartmani").hide();
@@ -52,6 +56,7 @@ function initShowButtons(){
 			$("#divGosti").hide();
 			$("#divKomentari").show();
 			$("#divDodavanjeApartmana").hide();
+			$("#divSearchInfo").hide();
 		});	
 		$("#showDodajApartman").click( function(){
 			$("#divApartmani").hide();
@@ -60,6 +65,7 @@ function initShowButtons(){
 			$("#divGosti").hide();
 			$("#divKomentari").hide();
 			$("#divDodavanjeApartmana").show();
+			$("#divSearchInfo").hide();
 		});	
 
 	}
@@ -79,8 +85,198 @@ function initShowButtons(){
 			$("#divKreirane").hide();
 			$("#divPrihvacene").hide();
 			$("#divOdbijene").show();
-		});	
+		});
 	}
+}
+
+function editAccount(){
+	$("#submitEdit").click(function(){
+		let username = $('input#username').val();
+		let password = $('input#password').val();
+		let firstName = $('input#name').val();
+		let lastName = $('input#lastName').val();
+		let confirmPassword = $('input#confirm-password').val();
+		
+		if(password == '' || firstName== '' || lastName == ''){
+			alert('Please fill all mandatory fields');
+			return;
+		}
+		
+		if(password != confirmPassword){
+			alert('Passwords do not match');
+			return;
+		}
+		
+		
+		let gender;
+		if ($('input#male:checked').val()){
+			gender = true;
+		} else {
+			gender = false;
+		}
+		let data = {
+			username: username,
+			password: password,
+			firstName: firstName,
+			lastName: lastName,
+			gender: gender
+		};
+		$.ajax({
+			type: "PUT",
+			url: 'rest/user',
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			success: function() {
+				initHide();
+			}
+		})
+	});
+}
+
+function getLoggedUserData(){
+	$.get({
+		type: "GET",
+		url: 'rest/loggedIn',
+		success: function(user) {
+			console.log(user);
+			$('input#username').val(user.username);
+			$('input#password').val(user.password);
+			$('input#name').val(user.firstName);
+			$('input#lastName').val(user.lastName);
+			if(user.gender == true){
+				$('input#male').prop("checked", true);
+			} else {
+				$('input#female').prop("checked", true);
+			}
+		}
+	})
+}
+
+function dodajGuestTr(guest){
+	var gender;
+	if(guest.gender === true){
+		gender = "Male"
+	} else {
+		gender = "Female";
+	}
+	
+	let c = "<tr align='center'> " +
+			" <td>" + guest.username + "</td> " +
+			" <td>" + guest.firstName + "</td> " +
+			" <td>" + guest.lastName + "</td> " +
+			" <td>" + gender + "</td> " ;
+	$("#tablePrikazKorisnika").append(c);
+}
+
+function filterGuests(){
+ 	$( "#filterKorisnika").click(function() {
+ 		$("#tablePrikazKorisnika tbody").empty();
+ 		event.preventDefault();
+ 		console.log("Pokrenuto filtriranje korisnika");
+ 		var role = $("#filterKorisnikaRole");
+ 		var gender = $("#filterKorisnikaGender");
+ 		var username = $("#filterKorisnikaUsername");
+
+ 		//console.log(checkInTime.val());
+ 		var filter = new Object();
+ 		
+ 		if(role.val() == ""){
+ 			filter.role = null;
+ 		} else filter.role = role.val();
+ 		
+ 		if(gender.val() == "null"){
+ 			filter.gender = null;
+ 		} else if(gender.val() == "true"){
+ 			filter.gender = true;
+ 		} else {
+ 			filter.gender = false;
+ 		}
+
+
+ 		if(username.val() == ""){
+ 			filter.username = null;
+ 		} else filter.username = username.val();
+
+ 		console.log(filter);
+ 		
+ 		$("#tablePrikazKorisnika tbody").empty();
+ 		$.ajax({
+ 			
+ 			type: "GET",
+ 			url: 'rest/user/reservations-for-me',
+ 			contentType: 'application/json',
+ 			success: function(dobijeniOglasi) {
+ 				var oglasi = []; //oglasi.push
+ 				
+ 				// prvo izdvajam jedinstvene
+ 				for(let dobijenOglas of dobijeniOglasi){
+ 					var nema = true;
+ 					for(let oglas of oglasi){
+ 						if (oglas.username == dobijenOglas.username){
+ 							nema = false;
+ 						}
+ 					}
+ 					if(nema){
+ 						oglasi.push(dobijenOglas);
+ 					}
+ 				}
+ 				
+ 				// gledam koji ispunjava kriterijume
+ 				for(korisnik of oglasi){
+ 					
+ 					if(filter.role == null || korisnik.role.toLowerCase().includes(filter.role.toLowerCase())){
+ 						
+ 						if(filter.gender == null || korisnik.gender === filter.gender){
+ 							
+ 							if(filter.username == null || korisnik.username.toLowerCase().includes(filter.username.toLowerCase()) ){
+ 								dodajGuestTr(korisnik);
+ 							} 							
+ 							
+ 						}
+ 						
+ 					}
+ 					
+ 				}
+ 			}
+ 		});	
+ 		
+	});
+}
+
+function stampajKorisnike(dobijeniOglasi){
+	var oglasi = []; //oglasi.push
+	
+	for(let dobijenOglas of dobijeniOglasi){
+		var nema = true;
+		for(let oglas of oglasi){
+			if (oglas.username == dobijenOglas.username){
+				nema = false;
+			}
+		}
+		if(nema){
+			oglasi.push(dobijenOglas);
+		}
+	}
+	
+	for(let apartman of oglasi) {
+		dodajGuestTr(apartman);
+	}
+}
+
+function getAllGuests(){
+	$("#tablePrikazKorisnika tbody").empty();
+	$.ajax({
+		
+		type: "GET",
+		url: 'rest/user/reservations-for-me',
+		contentType: 'application/json',
+		success: function(dobijeniOglasi) {
+			//oglasi = jQuery.unique( oglasi );
+			
+			stampajKorisnike(dobijeniOglasi);
+		}
+	});	
+
 }
 
 function getInactiveApartments(){
@@ -263,7 +459,9 @@ function dodajApartmanActiveTr(apartman){
 function dodavanjeApartmana(){
 	$("#confirmNewApartment").click(function(event) {
 		
-		console.log("Pokretanje funcije za dodavanje apartmana");
+
+		//"imgInput"
+		console.log($("#imgInput").val());
 		event.preventDefault();
 		
 		var type = $("#newApartmentType");
@@ -278,8 +476,20 @@ function dodavanjeApartmana(){
 		var amenities = $('#newApartmentAmenities').val();
 
 
+		if(type.val() == '' || city.val() == '' || street.val() == '' || rooms.val() == '' || guests.val() == '' || price.val() == ''){
+			alert("Please fill all mandatory fields");
+			return;
+		}
+		
 		//console.log(checkInTime.val());
+		
+
 		var oglas = new Object();
+		
+
+			var images = [];
+ 			images.push(image);
+ 			oglas.images = images;
 		oglas.id = 1;
 		oglas.type = type.val();
 		oglas.numberOfRooms = rooms.val();
@@ -335,6 +545,11 @@ function izmenaApartmana(){
 		var checkOutTime = $("#editApartmentLeaveTime");
 
 		var amenities = $('#editApartmentAmenities').val();
+		
+		if(type.val() == '' || city.val() == '' || street.val() == '' || rooms.val() == '' || guests.val() == '' || price.val() == ''){
+			alert("Please fill all mandatory fields");
+			return;
+		}
 		
 		//console.log(checkInTime.val());
 		var oglas = new Object();
@@ -751,19 +966,25 @@ function sortInactiveByPrice(){
 	});
 }
 
+
+
 $(document).ready(function (){
 	initShowButtons();
 	
-	//dodajVrstuKreirane();
-	console.log("Blaaaaa");
-	
+	document.getElementById("adImage").onchange = function(event) {
+	    var reader = new FileReader();
+	    reader.readAsDataURL(event.srcElement.files[0]);
+	    var me = this;
+	    reader.onload = function () {
+	      image = reader.result;
+		  
+	    }
+	}
 	getActiveApartments();	
 	getInactiveApartments();
 	getAllComments();
-	// potrebne funkcije za dodavanje apartmana
 	dodavanjeApartmana();
 	
-	//izmena apartmana
 	izmenaApartmana();
 	
 	getAllAmenities();
@@ -774,6 +995,12 @@ $(document).ready(function (){
 	sortActiveByPrice();
 	sortInactiveByPrice();
 	
+	editAccount();
+	getLoggedUserData();
+	
+	getAllGuests();
+	
+	filterGuests();
 	
  	$( "#logout").click(function() {
  		$.ajax({

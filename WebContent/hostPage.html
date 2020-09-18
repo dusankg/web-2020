@@ -238,28 +238,31 @@
 			<td>
 				 		<table>
 			<tbody>
+			<tr>
+			<input required type="file" accept="image/*" id = "adImage">
+			</tr>
 				<tr>
-					<td> Type </td>
+					<td> Type* </td>
 					<td> <input id = 'newApartmentType'> </td>
 				</tr>
 				<tr>
-					<td> City </td>
+					<td> City* </td>
 					<td> <input id = 'newApartmentCity'> </td>
 				</tr>
 				<tr>
-					<td> Street and number </td>
+					<td> Street and number* </td>
 					<td> <input id = 'newApartmentStreetAndNumber'> </td>
 				</tr>
 				<tr>
-					<td> Rooms </td>
+					<td> Rooms* </td>
 					<td> <input type = 'number' id = 'newApartmentRooms'>  </td>
 				</tr>
 				<tr>
-					<td>Guests</td>
+					<td>Guests*</td>
 					<td> <input type = 'number' id = 'newApartmentGuests'> </td>
 				</tr>
 				<tr>
-					<td>Price</td>
+					<td>Price*</td>
 					<td> <input type = 'number' id = 'newApartmentPrice'> </td>
 				</tr>
 				<tr>
@@ -385,16 +388,44 @@
 <div id='divGosti'>
  	<br>
  	<h3>All users</h3>
- 	
+ 	<div id="divFilterKorisnika">
+ 		<table>
+			<tbody>
+				<tr>
+					<td>Role</td>
+					<td> <input id='filterKorisnikaRole'> </td>
+				</tr>
+				<tr>
+					<td>Gender</td>
+					<td> 
+						<select id='filterKorisnikaGender'>
+							<option value="null">Both</option>
+							<option value="true">Male</option>
+							 <option value="false">Female</option>
+						</select>
+					 </td>
+				</tr>
+				<tr>
+					<td>Username</td>
+					<td> <input id='filterKorisnikaUsername'> </td>
+				</tr>
+				<tr>
+					<td> <button id='filterKorisnika'> Search </button> </td>
+			</tr>
+			</tbody>
+		</table>
+ 	</div>
 	<div id="prikazKorisnika">
  	<table id = "tablePrikazKorisnika">
-		<tr align='center'>
-			<td>ID</td>
-			<td>Username</td>
-			<td>Name</td>
-			<td>Last name</td>
-			<td>Gender</td>
-		</tr>
+ 		<thead>
+ 			<tr align='center'>
+				<td>Username</td>
+				<td>Name</td>
+				<td>Last name</td>
+				<td>Gender</td>
+			</tr>
+ 		</thead>
+		<tbody></tbody>
 	</table>	
 	</div>
 </div>

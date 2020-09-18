@@ -34,14 +34,14 @@ public class Apartment {
 	
 	private String status;
 	
-	private List<Integer> amenities = new ArrayList<Integer>();;
+	private List<Integer> amenities = new ArrayList<Integer>();
 	
 	private List<Integer> reservations = new ArrayList<Integer>();
 	
 	private boolean deleted;
 	
 	public Apartment() {
-		
+		reservations = new ArrayList<Integer>();
 	}
 
 	public Apartment(Integer id, String type, int numberOfRooms, int numberOfGuests, Location location, List<Date> dates,
