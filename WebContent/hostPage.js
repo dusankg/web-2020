@@ -472,14 +472,12 @@ function dodavanjeApartmana(){
 		var price = $("#newApartmentPrice");
 		var checkInTime= $("#newApartmentEnterTime");
 		var checkOutTime = $("#newApartmentLeaveTime");
+		var availableDates = [];
+		var startingDate = $("#newApartmentStartingDate").val();
+		var endingDate = $("#newApartmentEndingDate").val();
 		
 		var amenities = $('#newApartmentAmenities').val();
 
-
-		if(type.val() == '' || city.val() == '' || street.val() == '' || rooms.val() == '' || guests.val() == '' || price.val() == ''){
-			alert("Please fill all mandatory fields");
-			return;
-		}
 		
 		//console.log(checkInTime.val());
 		
@@ -490,11 +488,33 @@ function dodavanjeApartmana(){
 			var images = [];
  			images.push(image);
  			oglas.images = images;
+ 			
+ 			console.log(startingDate);
+ 			console.log(endingDate);
+ 			
+ 			var start = new Date(startingDate);
+ 			var end = new Date(endingDate);
+ 			
+ 			var loop = new Date(startingDate);
+ 			while(loop <= end){
+ 			   //alert(loop);           
+ 				console.log(loop);
+ 				availableDates.push(loop);
+ 			   var newDate = loop.setDate(loop.getDate() + 1);
+ 			   loop = new Date(newDate);
+ 			}
+
+ 			if(type.val() == '' || city.val() == '' || street.val() == '' || rooms.val() == '' || guests.val() == '' || price.val() == ''){
+ 				alert("Please fill all mandatory fields");
+ 				return;
+ 			}
+ 			
 		oglas.id = 1;
 		oglas.type = type.val();
 		oglas.numberOfRooms = rooms.val();
 		oglas.numberOfGuests = guests.val();
 		oglas.host = "biloKojiSvakakoSeMenja";
+		oglas.availableDates = availableDates;
 		
 		oglas.location = new Object();
 		oglas.location.address = new Object();

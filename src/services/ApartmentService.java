@@ -237,6 +237,8 @@ public class ApartmentService {
 			if (a.getId() > maxId)
 				maxId = a.getId();
 		}
+		
+		
 		apartment.setId(++maxId);
 		
 		apartment.setHost(loggedUser.getUsername());
@@ -320,6 +322,10 @@ public class ApartmentService {
 			 * if (filter.getStartDate() != null) { if(filter.getStartDate()) break; } if
 			 * (filter.getEndDate() != null) { if(filter.getEndDate) break; }
 			 */
+			
+			if (!a.getStatus().equals("aktivan") || a.isDeleted())
+				break;
+				
 			if (filter.getCity() != null) {
 				if(!filter.getCity().toLowerCase().equals(a.getLocation().getAddress().getCity().toLowerCase()))
 					break;

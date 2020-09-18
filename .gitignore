@@ -1,2 +1,13 @@
 
 *.class
+/.metadata/
+
+*.xml
+
+Servers/.project
+
+Servers/.settings/org.eclipse.wst.server.core.prefs
+
+Servers/Tomcat v8.0 Server at localhost-config/catalina.policy
+
+Servers/Tomcat v8.0 Server at localhost-config/catalina.properties

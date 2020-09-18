@@ -94,19 +94,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-           <button id="showApartmani" class="btn-edit"> Apartmani </button>
+           <button id="showApartmani" class="btn-edit"> Apartments </button>
           </li>
           <li class="nav-item">
-             <button id="showRezervacije" class="btn-edit"> Rezervacije </button>
+             <button id="showRezervacije" class="btn-edit"> Reservations </button>
           </li>
           <li class="nav-item">
-             <button id="showKomentari" class="btn-edit"> Komentari </button>
+             <button id="showKomentari" class="btn-edit"> Comments </button>
           </li>
           <li class="nav-item active">
-             <button id="showGosti" class="btn-edit"> Gosti </button>
+             <button id="showGosti" class="btn-edit"> Guests </button>
           </li>
           <li class="nav-item">
-             <button id="showDodajApartman" class="btn-edit"> Dodaj apartman </button>
+             <button id="showDodajApartman" class="btn-edit"> Add apartment </button>
           </li>
           <li class="nav-item">
              <button id="showMyAccount" class="btn-edit"> My account </button>
@@ -274,6 +274,14 @@
 					<td> <input type = 'time' id = 'newApartmentLeaveTime'> </td>
 				</tr>
 				<tr>
+					<td> Starting date</td>
+					<td><input type = 'date' id = 'newApartmentStartingDate'> </td>
+				</tr>
+				<tr>
+					<td> Ending date</td>
+					<td> <input type = 'date' id = 'newApartmentEndingDate'> </td>
+				</tr>
+				<tr>
 					<td></td>
 					<td> <button id="confirmNewApartment"> Confirm </button></td>
 				</tr>
@@ -311,11 +319,11 @@
  	 	<thead>
  	 		<tr align='center'>
 				<td>id</td>
-				<td>Apartman</td>
-				<td>Pocetni datum</td>
-				<td>Broj nocenja</td>
-				<td>Ukupna cena</td>
-				<td>Poruka</td>
+				<td>Apartment</td>
+				<td>Starting date</td>
+				<td>Nights</td>
+				<td>Price</td>
+				<td>Message</td>
 				<td>Status</td>
 			</tr>
  	 	</thead>
@@ -329,11 +337,11 @@
  	 	<thead>
  	 		<tr align='center'>
 				<td>id</td>
-				<td>Apartman</td>
-				<td>Pocetni datum</td>
-				<td>Broj nocenja</td>
-				<td>Ukupna cena</td>
-				<td>Poruka</td>
+				<td>Apartment</td>
+				<td>Starting date</td>
+				<td>Nights</td>
+				<td>Price</td>
+				<td>Message</td>
 				<td>Status</td>
 			</tr>
  	 	</thead>
@@ -348,11 +356,11 @@
  	 	<thead>
  	 		<tr align='center'>
 				<td>id</td>
-				<td>Apartman</td>
-				<td>Pocetni datum</td>
-				<td>Broj nocenja</td>
-				<td>Ukupna cena</td>
-				<td>Poruka</td>
+				<td>Apartment</td>
+				<td>Starting date</td>
+				<td>Nights</td>
+				<td>Price</td>
+				<td>Message</td>
 				<td>Status</td>
 			</tr>
  	 	</thead>
@@ -365,16 +373,16 @@
 
 <div id='divKomentari'>
  <br>
- <h3>Komentari</h3>
+ <h3>Comments</h3>
  	<table id='tablePrikazKomentara'>
  	
  	<thead>
  			<tr>
 			<td>ID</td>
-			<td>Gost</td>
+			<td>Guest</td>
 			<td>Apartment ID</td>
-			<td>Text</td>
-			<td>Ocena</td>
+			<td>Comment</td>
+			<td>Grade</td>
 			<td>Visibility</td>
 		</tr>
  	</thead>
